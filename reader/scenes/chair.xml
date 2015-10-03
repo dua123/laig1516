@@ -3,18 +3,40 @@
 
 <SCENE>
 	<INITIALS>
+		<!--TODO-->
 	</INITIALS>
 
 	<ILLUMINATION>
+		<ambient r="0.2" g="0.4" b="0.8" a="1" />            <!-- global ambient -->
+	    <doubleside value="tt" />                          <!-- double or single side illum. -->
+	    <background r="0.1" g="0.75" b="0.25" a="1" />         <!-- background color -->
 	</ILLUMINATION>
 
 	<LIGHTS>
+		<LIGHT id="1">                                    <!-- light identifier -->
+        <enable value ="1" />                         <!-- enable/disable -->
+        <position x="2" y="2" z="2" w="2" />       <!-- light position -->
+        <ambient r="4" g="6" b="8" a="1" />        <!-- ambient component -->
+        <diffuse r="6" g="6" b="6" a="1" />        <!-- diffuse component -->
+        <specular r="8" g="4" b="5" a="1" />       <!-- specular component -->
+   		</LIGHT>
 	</LIGHTS>
 
 	<TEXTURES>
+		<Texture id="1">
+			<file path="../../resources/images/wood.jpg"/>
+			<amplif_factor s="1" t="1"/>  <!--ask someone, dunno -->
+		</TEXTURE>
 	</TEXTURES>
 
 	<MATERIALS>
+		<MATERIAL id="1">
+			<shininess value="1"/>
+			<ambient r="4" g="6" b="8" a="1" />        <!-- ambient component -->
+        	<diffuse r="6" g="6" b="6" a="1" />        <!-- diffuse component -->
+       		<specular r="8" g="4" b="5" a="1" />       <!-- specular component -->
+       		<emission r="8" g="4" b="5" a="1" />       <!-- emission component CHANGE VALUES -->
+		</MATERIAL>
 	</MATERIALS>
 
 	<LEAVES>
