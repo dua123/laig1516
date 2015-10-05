@@ -180,26 +180,27 @@ MySceneGraph.prototype.parseIllumination = function(rootElement) {
 		return "either zero or more than one 'illumination' element found.";
 
 	var ambient = tempIl[0].children[0];
-	this.ilu_ambient= [];
-	this.ilu_ambient['r'] = this.reader.getFloat(ambient, 'r', true);
-	this.ilu_ambient['g'] = this.reader.getFloat(ambient, 'g', true);
-	this.ilu_ambient['b'] = this.reader.getFloat(ambient, 'b', true);
-	this.ilu_ambient['a'] = this.reader.getFloat(ambient, 'a', true);
+	this.Illumination = [];
+	this.Illumination['ambient']=[];
+	this.Illumination['ambient']['r'] = this.reader.getFloat(ambient, 'r', true);
+	this.Illumination['ambient']['g'] = this.reader.getFloat(ambient, 'g', true);
+	this.Illumination['ambient']['b'] = this.reader.getFloat(ambient, 'b', true);
+	this.Illumination['ambient']['a'] = this.reader.getFloat(ambient, 'a', true);
 	console.log(this.ilu_ambient);
-	console.log("Ilumination read from file: {ambient: r=" + this.ilu_ambient['r'] + ", g=" + this.ilu_ambient['g'] + ", b=" + this.ilu_ambient['b'] + ", a=" + this.ilu_ambient['a'] + " }");
+	console.log("Ilumination read from file: {ambient: r=" + this.Illumination['ambient']['r'] + ", g=" + this.Illumination['ambient']['g'] + ", b=" + this.Illumination['ambient']['b'] + ", a=" + this.Illumination['ambient']['a'] + " }");
 
 	var doubleslide = tempIl[0].children[1];
+	this.Illumination['doubleslide']=[];
 	this.doubleslide_value = this.reader.getFloat(doubleslide, 'value', true);
 	console.log("Ilumination read from file: {doubleslide: value=" + this.doubleslide_value + " }");
 
 	var background = tempIl[0].children[2];
-	this.background=[];
-	this.background['r'] = this.reader.getFloat(background, 'r', true);
-	this.background['g']= this.reader.getFloat(background, 'g', true);
-	this.background['b'] = this.reader.getFloat(background, 'b', true);
-	this.background['a'] = this.reader.getFloat(background, 'a', true);
-	console.log("Ilumination read from file: {ambient: r=" + this.background['r'] + ", g=" + this.background['g'] + ", b=" + this.background['b'] + ", a=" + this.background['a'] + " }");
-
+	this.Illumination['background']=[];
+	this.Illumination['background']['r'] = this.reader.getFloat(background, 'r', true);
+	this.Illumination['background']['g']= this.reader.getFloat(background, 'g', true);
+	this.Illumination['background']['b'] = this.reader.getFloat(background, 'b', true);
+	this.Illumination['background']['a'] = this.reader.getFloat(background, 'a', true);
+	console.log("Ilumination read from file: {ambient: r=" + this.Illumination['background']['r'] + ", g=" + this.Illumination['background']['g'] + ", b=" + this.Illumination['background']['b'] + ", a=" + this.Illumination['background']['a'] + " }");
 };
 
 
