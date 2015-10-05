@@ -121,43 +121,54 @@ MySceneGraph.prototype.parseInitials = function(rootElement) {
 		return "either zero or more than one 'initials' element found.";
 	}
 
+	this.initials=[];
 	//this.list=[];
 	var frustum = tempIni[0].children[0];
-	this.frustum_near = this.reader.getFloat(frustum, 'near', true);
-	this.frustum_far = this.reader.getFloat(frustum, 'far', true);
-	console.log("Initials read from file: {Frustum: near=" + this.frustum_near + ", far=" + this.frustum_far + "}");
+	this.initials=[];
+	this.initials['frustum']=[];
+	this.initials['frustum']['near'] = this.reader.getFloat(frustum, 'near', true);
+	this.initials['frustum']['far'] = this.reader.getFloat(frustum, 'far', true);
+	console.log("Initials read from file: {Frustum: near=" + this.initials['frustum']['near'] + ", far=" + this.initials['frustum']['far'] + "}");
 
 	var translate = tempIni[0].children[1];
-	this.translate_x = this.reader.getFloat(translate, 'x', true);
-	this.translate_y = this.reader.getFloat(translate, 'y', true);
-	this.translate_z = this.reader.getFloat(translate, 'z', true);
-	console.log("Initials read from file: {translate: x=" + this.translate_x + ", y=" + this.translate_y + ", z=" + this.translate_z + " }");
+	this.initials['translate']=[];
+	this.initials['translate']['x'] = this.reader.getFloat(translate, 'x', true);
+	this.initials['translate']['y'] = this.reader.getFloat(translate, 'y', true);
+	this.initials['translate']['z'] = this.reader.getFloat(translate, 'z', true);
+	console.log("Initials read from file: {translate: x=" + this.initials['translate']['x'] + ", y=" + this.initials['translate']['y'] + ", z=" + this.initials['translate']['z'] + " }");
 
 	//TODO: axis can only accpet x y or z
 	var rotation1 = tempIni[0].children[2];
-	this.rot1_axis = this.reader.getString(rotation1, 'axis', true);
-	this.rot1_angle = this.reader.getFloat(rotation1, 'angle', true);
-	console.log("Initials read from file: {rotation1: axis=" + this.rot1_axis + ", angle=" + this.rot1_angle + " }");
+	console.log(rotation1);
+
+	//verificar mais tarde 
+	this.initials['rot1']=[];
+	this.initials['rot1']['axis'] = this.reader.getString(rotation1, 'axis', true);
+	this.initials['rot1']['angle'] = this.reader.getFloat(rotation1, 'angle', true);
+	console.log("Initials read from file: {rotation1: axis=" + this.initials['rot1']['axis'] + ", angle=" + this.initials['rot1']['angle'] + " }");
 
 	var rotation2 = tempIni[0].children[3];
-	this.rot2_axis = this.reader.getString(rotation2, 'axis', true);
-	this.rot2_angle = this.reader.getFloat(rotation2, 'angle', true);
-	console.log("Initials read from file: {rotation2: axis=" + this.rot2_axis + ", angle=" + this.rot2_angle + " }");
+	this.initials['rot2'] =[];
+	this.initials['rot2']['axis'] = this.reader.getString(rotation2, 'axis', true);
+	this.initials['rot2']['angle'] = this.reader.getFloat(rotation2, 'angle', true);
+	console.log("Initials read from file: {rotation2: axis=" + this.initials['rot2']['axis'] + ", angle=" + this.initials['rot2']['angle'] + " }");
 
 	var rotation3 = tempIni[0].children[4];
-	this.rot3_axis = this.reader.getString(rotation3, 'axis', true);
-	this.rot3_angle = this.reader.getFloat(rotation3, 'angle', true);
-	console.log("Initials read from file: {rotation3: axis=" + this.rot3_axis + ", angle=" + this.rot3_angle + " }");
+	this.initials['rot3']=[];
+	this.initials['rot3']['axis'] = this.reader.getString(rotation3, 'axis', true);
+	this.initials['rot3']['angle'] = this.reader.getFloat(rotation3, 'angle', true);
+	console.log("Initials read from file: {rotation3: axis=" + this.initials['rot3']['axis'] + ", angle=" + this.initials['rot3']['angle'] + " }");
 
 	var scale = tempIni[0].children[5];
-	this.scale_sx = this.reader.getFloat(scale, 'sx', true);
-	this.scale_sy = this.reader.getFloat(scale, 'sy', true);
-	this.scale_sz = this.reader.getFloat(scale, 'sz', true);
-	console.log("Initials read from file: {scale: sx=" + this.scale_sx + ", sy=" + this.scale_sy + ", sz=" + this.scale_sz + " }");
+	this.initials['scale']=[]
+	this.initials['scale']['sx'] = this.reader.getFloat(scale, 'sx', true);
+	this.initials['scale']['sy'] = this.reader.getFloat(scale, 'sy', true);
+	this.initials['scale']['sz'] = this.reader.getFloat(scale, 'sz', true);
+	console.log("Initials read from file: {scale: sx=" + this.initials['scale']['sx'] + ", sy=" + this.initials['scale']['sy'] + ", sz=" + this.initials['scale']['sz'] + " }");
 
 	var reference = tempIni[0].children[6];
-	this.ref_length = this.reader.getFloat(reference, 'length', true);
-	console.log("Initials read from file: {reference: length=" + this.ref_length + "}");
+	this.initials['scale']['ref_length'] = this.reader.getFloat(reference, 'length', true);
+	console.log("Initials read from file: {reference: length=" + this.initials['scale']['ref_length'] + "}");
 
 };
 
@@ -169,22 +180,25 @@ MySceneGraph.prototype.parseIllumination = function(rootElement) {
 		return "either zero or more than one 'illumination' element found.";
 
 	var ambient = tempIl[0].children[0];
-	this.ilu_ambient_r = this.reader.getFloat(ambient, 'r', true);
-	this.ilu_ambient_g = this.reader.getFloat(ambient, 'g', true);
-	this.ilu_ambient_b = this.reader.getFloat(ambient, 'b', true);
-	this.ilu_ambient_a = this.reader.getFloat(ambient, 'a', true);
-	console.log("Ilumination read from file: {ambient: r=" + this.ambient_r + ", g=" + this.ambient_g + ", b=" + this.ambient_b + ", a=" + this.ambient_a + " }");
+	this.ilu_ambient= [];
+	this.ilu_ambient['r'] = this.reader.getFloat(ambient, 'r', true);
+	this.ilu_ambient['g'] = this.reader.getFloat(ambient, 'g', true);
+	this.ilu_ambient['b'] = this.reader.getFloat(ambient, 'b', true);
+	this.ilu_ambient['a'] = this.reader.getFloat(ambient, 'a', true);
+	console.log(this.ilu_ambient);
+	console.log("Ilumination read from file: {ambient: r=" + this.ilu_ambient['r'] + ", g=" + this.ilu_ambient['g'] + ", b=" + this.ilu_ambient['b'] + ", a=" + this.ilu_ambient['a'] + " }");
 
 	var doubleslide = tempIl[0].children[1];
 	this.doubleslide_value = this.reader.getFloat(doubleslide, 'value', true);
 	console.log("Ilumination read from file: {doubleslide: value=" + this.doubleslide_value + " }");
 
 	var background = tempIl[0].children[2];
-	this.background_r = this.reader.getFloat(background, 'r', true);
-	this.background_g = this.reader.getFloat(background, 'g', true);
-	this.background_b = this.reader.getFloat(background, 'b', true);
-	this.background_a = this.reader.getFloat(background, 'a', true);
-	console.log("Ilumination read from file: {ambient: r=" + this.ambient_r + ", g=" + this.ambient_g + ", b=" + this.ambient_b + ", a=" + this.ambient_a + " }");
+	this.background=[];
+	this.background['r'] = this.reader.getFloat(background, 'r', true);
+	this.background['g']= this.reader.getFloat(background, 'g', true);
+	this.background['b'] = this.reader.getFloat(background, 'b', true);
+	this.background['a'] = this.reader.getFloat(background, 'a', true);
+	console.log("Ilumination read from file: {ambient: r=" + this.background['r'] + ", g=" + this.background['g'] + ", b=" + this.background['b'] + ", a=" + this.background['a'] + " }");
 
 };
 
