@@ -23,11 +23,11 @@
 		</ILLUMINATION>
 		<LIGHTS>
 			<LIGHT id="1">                                    <!-- light identifier -->
-        			<enable value ="1" />                         <!-- enable/disable -->
-        			<position x="2" y="2" z="2" w="2" />       <!-- light position -->
-        			<ambient r="4" g="6" b="8" a="1" />        <!-- ambient component -->
-        			<diffuse r="6" g="6" b="6" a="1" />        <!-- diffuse component -->
-        			<specular r="8" g="4" b="5" a="1" />       <!-- specular component -->
+    			<enable value ="1" />                         <!-- enable/disable -->
+    			<position x="2" y="2" z="2" w="2" />       <!-- light position -->
+    			<ambient r="4" g="6" b="8" a="1" />        <!-- ambient component -->
+    			<diffuse r="6" g="6" b="6" a="1" />        <!-- diffuse component -->
+    			<specular r="8" g="4" b="5" a="1" />       <!-- specular component -->
    			</LIGHT>
 		</LIGHTS>
 		<TEXTURES>

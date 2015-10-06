@@ -40,7 +40,7 @@ var MyLights = function() {
 	this.spec = new MyRGB();
 };
 
-var MyTexture = function() {
+var MyTexture = function(){
 	this.path;
 	this.x;
 	this.y;
@@ -52,34 +52,14 @@ var MyTexture = function() {
 MySceneGraph.prototype.onXMLReady = function() {
 	console.log("XML Loading finished.");
 	var rootElement = this.reader.xmlDoc.documentElement;
-	console.log(this.reader.xmlDoc.documentElement);
 
 	// Here should go the calls for different functions to parse the various blocks
 	var error = this.parseGlobalsExample(rootElement);
-	if (error != null) {
-		this.onXMLError(error);
-		return;
-	}
-
 	error = this.parseInitials(rootElement);
-	if (error != null) {
-		this.onXMLError(error);
-		return;
-	}
-
 	error = this.parseIllumination(rootElement);
-	if (error != null) {
-		this.onXMLError(error);
-		return;
-	}
-
 	error = this.parseLights(rootElement);
-	if (error != null) {
-		this.onXMLError(error);
-		return;
-	}
+	//error = this.perserTextures(rootElement);
 
-	error = this.parseTextures(rootElement);
 	if (error != null) {
 		this.onXMLError(error);
 		return;
@@ -92,84 +72,92 @@ MySceneGraph.prototype.onXMLReady = function() {
 };
 
 
+// TODO: FINISH THIS FUNCTION FOR LESS DUPLICATED CODE
+/*
+MySceneGraph.prototype.parseGetElements = function(rootElement, tagName, nrChildren, nrElements_perChild){
+	var elems=rootElement.getElementsByTagName(tagName);
+	if(elems==null){
+		return tagName+"element is missing.";
+	}
+
+	if(elems.length!=nrChildren){
+		return "Unusual number of "+tagName+" children received. Should only receveive "+nrChildren+" .";
+	}
+
+	this.tagContent=[];
+
+	for(var i=0;i<ele;ms.length;i++){ //i=nr tags ex: ILLUMINATION
+		child=elems[i].children;
+		for(var j=0;j<child.length;j++){ // j=nr sub tags ex: ambient
+			this.tagContent[j]=[];
+			this.nrElements=nrElements_perChild[j]
+			for(var k=0;k<nrElements;k++){ // k= content in the subtags ex: r/g/b/a ...
+				this.tagContent[j][k]=
+			}
+		}
+	}
+};
+*/
 
 /*
  * Example of method that parses elements of one block and stores information in a specific data structure
  */
 MySceneGraph.prototype.parseGlobalsExample = function(rootElement) {
-	/*
-		var elems = rootElement.getElementsByTagName('globals');
-		if (elems == null) {
-			return "globals element is missing.";
-		}
 
-		if (elems.length != 1) {
-			return "either zero or more than one 'globals' element found.";
-		}
-
-		// various examples of different types of access
-		//var globals = elems[0];
-		//this.background = this.reader.getRGBA(globals, 'background');
-		//this.drawmode = this.reader.getItem(globals, 'drawmode', ["fill", "line", "point"]);
-		//this.cullface = this.reader.getItem(globals, 'cullface', ["back", "front", "none", "frontandback"]);
-		//this.cullorder = this.reader.getItem(globals, 'cullorder', ["ccw", "cw"]);
-
-		console.log("Globals read from file: {background=" + this.background + ", drawmode=" + this.drawmode + ", cullface=" + this.cullface + ", cullorder=" + this.cullorder + "}");
-
-		var tempList = rootElement.getElementsByTagName('list');
-
-		if (tempList == null || tempList.length == 0) {
-			return "list element is missing.";
-		}
-
-		this.list = [];
-		// iterate over every element
-		var nnodes = tempList[0].children.length;
-		for (var i = 0; i < nnodes; i++) {
-			var e = tempList[0].children[i];
-
-			// process each element and store its information
-			this.list[e.id] = e.attributes.getNamedItem("coords").value;
-			console.log("Read list item id " + e.id + " with value " + this.list[e.id]);
-		};
-		*/
-
-};
-
-MySceneGraph.prototype.idExists = function(IDs, id) {
-	var exists = false;
-	for (var i = 0; i < IDs.length; i++) {
-		if (IDs[i] == id)
-			exists = true;
+	var elems = rootElement.getElementsByTagName('globals');
+	if (elems == null) {
+		return "globals element is missing.";
 	}
-	if (exists)
-		return true;
-	else false;
-}
+
+	if (elems.length != 1) {
+		return "either zero or more than one 'globals' element found.";
+	}
+
+	// various examples of different types of access
+	var globals = elems[0];
+	this.background = this.reader.getRGBA(globals, 'background');
+	this.drawmode = this.reader.getItem(globals, 'drawmode', ["fill", "line", "point"]);
+	this.cullface = this.reader.getItem(globals, 'cullface', ["back", "front", "none", "frontandback"]);
+	this.cullorder = this.reader.getItem(globals, 'cullorder', ["ccw", "cw"]);
+
+	console.log("Globals read from file: {background=" + this.background + ", drawmode=" + this.drawmode + ", cullface=" + this.cullface + ", cullorder=" + this.cullorder + "}");
+
+	var tempList = rootElement.getElementsByTagName('list');
+
+	if (tempList == null || tempList.length == 0) {
+		return "list element is missing.";
+	}
+
+	this.list = [];
+	// iterate over every element
+	var nnodes = tempList[0].children.length;
+	for (var i = 0; i < nnodes; i++) {
+		var e = tempList[0].children[i];
+
+		// process each element and store its information
+		this.list[e.id] = e.attributes.getNamedItem("coords").value;
+		console.log("Read list item id " + e.id + " with value " + this.list[e.id]);
+	};
+};
 
 MySceneGraph.prototype.parseInitials = function(rootElement) {
 	var tempIni = rootElement.getElementsByTagName('INITIALS');
-
-	if (tempIni == null) {
-		return "initials element is missing.";
-	}
-
 
 	if (tempIni.length != 1) {
 		return "either zero or more than one 'initials' element found.";
 	}
 
-	this.initials = [];
+	this.initials=[];
 	//this.list=[];
 	var frustum = tempIni[0].children[0];
-	this.initials = [];
-	this.initials['frustum'] = [];
+	this.initials=[];
+	this.initials['frustum']=[];
 	this.initials['frustum']['near'] = this.reader.getFloat(frustum, 'near', true);
 	this.initials['frustum']['far'] = this.reader.getFloat(frustum, 'far', true);
 	console.log("Initials read from file: {Frustum: near=" + this.initials['frustum']['near'] + ", far=" + this.initials['frustum']['far'] + "}");
 
 	var translate = tempIni[0].children[1];
-	this.initials['translate'] = [];
+	this.initials['translate']=[];
 	this.initials['translate']['x'] = this.reader.getFloat(translate, 'x', true);
 	this.initials['translate']['y'] = this.reader.getFloat(translate, 'y', true);
 	this.initials['translate']['z'] = this.reader.getFloat(translate, 'z', true);
@@ -180,25 +168,25 @@ MySceneGraph.prototype.parseInitials = function(rootElement) {
 	console.log(rotation1);
 
 	//verificar mais tarde 
-	this.initials['rot1'] = [];
+	this.initials['rot1']=[];
 	this.initials['rot1']['axis'] = this.reader.getString(rotation1, 'axis', true);
 	this.initials['rot1']['angle'] = this.reader.getFloat(rotation1, 'angle', true);
 	console.log("Initials read from file: {rotation1: axis=" + this.initials['rot1']['axis'] + ", angle=" + this.initials['rot1']['angle'] + " }");
 
 	var rotation2 = tempIni[0].children[3];
-	this.initials['rot2'] = [];
+	this.initials['rot2'] =[];
 	this.initials['rot2']['axis'] = this.reader.getString(rotation2, 'axis', true);
 	this.initials['rot2']['angle'] = this.reader.getFloat(rotation2, 'angle', true);
 	console.log("Initials read from file: {rotation2: axis=" + this.initials['rot2']['axis'] + ", angle=" + this.initials['rot2']['angle'] + " }");
 
 	var rotation3 = tempIni[0].children[4];
-	this.initials['rot3'] = [];
+	this.initials['rot3']=[];
 	this.initials['rot3']['axis'] = this.reader.getString(rotation3, 'axis', true);
 	this.initials['rot3']['angle'] = this.reader.getFloat(rotation3, 'angle', true);
 	console.log("Initials read from file: {rotation3: axis=" + this.initials['rot3']['axis'] + ", angle=" + this.initials['rot3']['angle'] + " }");
 
 	var scale = tempIni[0].children[5];
-	this.initials['scale'] = []
+	this.initials['scale']=[]
 	this.initials['scale']['sx'] = this.reader.getFloat(scale, 'sx', true);
 	this.initials['scale']['sy'] = this.reader.getFloat(scale, 'sy', true);
 	this.initials['scale']['sz'] = this.reader.getFloat(scale, 'sz', true);
@@ -213,17 +201,13 @@ MySceneGraph.prototype.parseInitials = function(rootElement) {
 MySceneGraph.prototype.parseIllumination = function(rootElement) {
 	var tempIl = rootElement.getElementsByTagName('ILLUMINATION');
 
-	if (tempIl == null) {
-		return "ILLUMINATION element is missing.";
-	}
-
 
 	if (tempIl.length != 1)
 		return "either zero or more than one 'illumination' element found.";
 
 	var ambient = tempIl[0].children[0];
 	this.Illumination = [];
-	this.Illumination['ambient'] = [];
+	this.Illumination['ambient']=[];
 	this.Illumination['ambient']['r'] = this.reader.getFloat(ambient, 'r', true);
 	this.Illumination['ambient']['g'] = this.reader.getFloat(ambient, 'g', true);
 	this.Illumination['ambient']['b'] = this.reader.getFloat(ambient, 'b', true);
@@ -232,14 +216,14 @@ MySceneGraph.prototype.parseIllumination = function(rootElement) {
 	console.log("Ilumination read from file: {ambient: r=" + this.Illumination['ambient']['r'] + ", g=" + this.Illumination['ambient']['g'] + ", b=" + this.Illumination['ambient']['b'] + ", a=" + this.Illumination['ambient']['a'] + " }");
 
 	var doubleslide = tempIl[0].children[1];
-	this.Illumination['doubleslide'] = [];
+	this.Illumination['doubleslide']=[];
 	this.doubleslide_value = this.reader.getFloat(doubleslide, 'value', true);
 	console.log("Ilumination read from file: {doubleslide: value=" + this.doubleslide_value + " }");
 
 	var background = tempIl[0].children[2];
-	this.Illumination['background'] = [];
+	this.Illumination['background']=[];
 	this.Illumination['background']['r'] = this.reader.getFloat(background, 'r', true);
-	this.Illumination['background']['g'] = this.reader.getFloat(background, 'g', true);
+	this.Illumination['background']['g']= this.reader.getFloat(background, 'g', true);
 	this.Illumination['background']['b'] = this.reader.getFloat(background, 'b', true);
 	this.Illumination['background']['a'] = this.reader.getFloat(background, 'a', true);
 	console.log("Ilumination read from file: {ambient: r=" + this.Illumination['background']['r'] + ", g=" + this.Illumination['background']['g'] + ", b=" + this.Illumination['background']['b'] + ", a=" + this.Illumination['background']['a'] + " }");
@@ -265,13 +249,13 @@ MySceneGraph.prototype.parseLights = function(rootElement) {
 		var luz = tempLights[0].children[i];
 
 		var j = 0;
-		var idExists = false; //substituir por funçao idExists(Ids,luz.id);
+		var idExists = false;
 		for (j; j < Ids.length; j++) {
 			if (Ids[j] == luz.id)
 				idExists = true;
 		}
-		if (idExists == false)
-			Ids[Ids.length] = luz.id;
+		if(idExists==false)
+			Ids[Ids.length]=luz.id;
 
 		if (idExists == false) {
 			light.id = luz.id;
@@ -326,48 +310,7 @@ MySceneGraph.prototype.parseLights = function(rootElement) {
 
 };
 
-MySceneGraph.prototype.parseTextures = function(rootElement) {
-	var temp_text = rootElement.getElementsByTagName('TEXTURES');
-	if (temp_text == null) {
-		return "TEXTURES element is missing";
-	}
 
-	if (temp_text.length != 1) {
-		return "More than 1 TEXTURES element found. THERE CAN ONLY BE ONE!!!!";
-	}
-
-	var nrTextures = temp_text[0].children.length;
-	var IDs = [];
-	this.textures = [];
-	//this.nrTextures=[];
-	for (var i = 0; i < nrTextures; i++) {
-		var texture = temp_text[0].children[i];
-		var cur_text = nrTextures[i];
-		this.val = [];
-
-		var id = this.reader.getString(texture, 'id', true);
-		if (this.idExists(IDs, id) == true) {
-			return "Texture already exists (id is already being used.";
-		}
-		this.val['id'] = id;
-
-
-		var file = texture.children[0];
-		this.val['path'] = this.reader.getString(file, 'path', true);
-		console.log("Texture with id " + this.val['id'] + " read from file: {path: path=" + this.val['path'] + " }");
-
-		var amp_factor = texture.children[1];
-		this.val['factor'] = [];
-		this.val['factor']['s'] = this.reader.getFloat(amp_factor, 's', true);
-		this.val['factor']['t'] = this.reader.getFloat(amp_factor, 't', true);
-		console.log("Texture with id " + this.val['id'] + " read from file: {amp_factor: s=" + ~this.val['factor']['s'] + ", t=" + this.val['factor']['t'] + " }");
-
-		this.textures[i] = this.val;
-
-	}
-
-
-};
 /*
  * Callback to be executed on any read error
  */
