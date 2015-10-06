@@ -71,6 +71,9 @@ MySceneGraph.prototype.onXMLReady = function() {
 	this.scene.onGraphLoaded();
 };
 
+
+// TODO: FINISH THIS FUNCTION FOR LESS DUPLICATED CODE
+/*
 MySceneGraph.prototype.parseGetElements = function(rootElement, tagName, nrChildren, nrElements_perChild){
 	var elems=rootElement.getElementsByTagName(tagName);
 	if(elems==null){
@@ -81,8 +84,20 @@ MySceneGraph.prototype.parseGetElements = function(rootElement, tagName, nrChild
 		return "Unusual number of "+tagName+" children received. Should only receveive "+nrChildren+" .";
 	}
 
-	for(var i=0;i<elems.length;i++)
-}
+	this.tagContent=[];
+
+	for(var i=0;i<ele;ms.length;i++){ //i=nr tags ex: ILLUMINATION
+		child=elems[i].children;
+		for(var j=0;j<child.length;j++){ // j=nr sub tags ex: ambient
+			this.tagContent[j]=[];
+			this.nrElements=nrElements_perChild[j]
+			for(var k=0;k<nrElements;k++){ // k= content in the subtags ex: r/g/b/a ...
+				this.tagContent[j][k]=
+			}
+		}
+	}
+};
+*/
 
 /*
  * Example of method that parses elements of one block and stores information in a specific data structure
