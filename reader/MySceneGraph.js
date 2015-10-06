@@ -52,6 +52,7 @@ var MyTexture = function(){
 MySceneGraph.prototype.onXMLReady = function() {
 	console.log("XML Loading finished.");
 	var rootElement = this.reader.xmlDoc.documentElement;
+	console.log(this.reader.xmlDoc.documentElement);
 
 	// Here should go the calls for different functions to parse the various blocks
 	var error = this.parseGlobalsExample(rootElement);
@@ -77,7 +78,7 @@ MySceneGraph.prototype.onXMLReady = function() {
  * Example of method that parses elements of one block and stores information in a specific data structure
  */
 MySceneGraph.prototype.parseGlobalsExample = function(rootElement) {
-
+/*
 	var elems = rootElement.getElementsByTagName('globals');
 	if (elems == null) {
 		return "globals element is missing.";
@@ -88,11 +89,11 @@ MySceneGraph.prototype.parseGlobalsExample = function(rootElement) {
 	}
 
 	// various examples of different types of access
-	var globals = elems[0];
-	this.background = this.reader.getRGBA(globals, 'background');
-	this.drawmode = this.reader.getItem(globals, 'drawmode', ["fill", "line", "point"]);
-	this.cullface = this.reader.getItem(globals, 'cullface', ["back", "front", "none", "frontandback"]);
-	this.cullorder = this.reader.getItem(globals, 'cullorder', ["ccw", "cw"]);
+	//var globals = elems[0];
+	//this.background = this.reader.getRGBA(globals, 'background');
+	//this.drawmode = this.reader.getItem(globals, 'drawmode', ["fill", "line", "point"]);
+	//this.cullface = this.reader.getItem(globals, 'cullface', ["back", "front", "none", "frontandback"]);
+	//this.cullorder = this.reader.getItem(globals, 'cullorder', ["ccw", "cw"]);
 
 	console.log("Globals read from file: {background=" + this.background + ", drawmode=" + this.drawmode + ", cullface=" + this.cullface + ", cullorder=" + this.cullorder + "}");
 
@@ -112,10 +113,17 @@ MySceneGraph.prototype.parseGlobalsExample = function(rootElement) {
 		this.list[e.id] = e.attributes.getNamedItem("coords").value;
 		console.log("Read list item id " + e.id + " with value " + this.list[e.id]);
 	};
+	*/
+
 };
 
 MySceneGraph.prototype.parseInitials = function(rootElement) {
 	var tempIni = rootElement.getElementsByTagName('INITIALS');
+
+	if (tempIni == null) {
+		return "initials element is missing.";
+	}
+
 
 	if (tempIni.length != 1) {
 		return "either zero or more than one 'initials' element found.";
@@ -174,7 +182,11 @@ MySceneGraph.prototype.parseInitials = function(rootElement) {
 
 MySceneGraph.prototype.parseIllumination = function(rootElement) {
 	var tempIl = rootElement.getElementsByTagName('ILLUMINATION');
-
+	
+	if (tempIl == null) {
+		return "ILLUMINATION element is missing.";
+	}
+	
 
 	if (tempIl.length != 1)
 		return "either zero or more than one 'illumination' element found.";

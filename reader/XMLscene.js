@@ -50,18 +50,15 @@ XMLscene.prototype.setDefaultAppearance = function() {
 XMLscene.prototype.onGraphLoaded = function() {
 	
 
-	this.gl.clearColor(this.graph.background, this.graph.background['g'], this.graph.background['b'], this.graph.background['a']);
 	//this.camera = new CGFcamera(0.4,this.graph.initials.frustum.near, this.graph.initials.frustum.far, vec3.fromValues(15, 15, 15), vec3.fromValues(0, 0, 0));
 	//this.axis =newCGFaxis( , length, thickness )
 	this.setGlobalAmbientLight(this.graph.Illumination.ambient.r,this.graph.Illumination.ambient.g,this.graph.Illumination.ambient.b,this.graph.Illumination.ambient.a);//ver no cfscene 
-
-
+	this.setAmbient(this.graph.Illumination.ambient.r,this.graph.Illumination.ambient.g,this.graph.Illumination.ambient.b,this.graph.Illumination.ambient.a);//ver no cfscene 
 	//this.lights[0].setVisible(true);
 	// this.lights[0].enable();
 	console.log("XML SCENNE LIGHTS:" + this.graph.lights.length);
 
-	//this.setAmbient(this.graph.ilu_ambient['r'], this.graph.ilu_ambient['g'], this.graph.ilu_ambient['b'], this.graph.ilu_ambient['a']);
-	//console.log(this.graph.initials.translate);
+	console.log(this);
 	
 	//console.log(this);
 	
