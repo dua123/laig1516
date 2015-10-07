@@ -54,7 +54,7 @@
 	</TEXTURES>
 
 	<MATERIALS>
-		<MATERIAL id="1">
+		<MATERIAL id="2">
 			<shininess value="1"/>
 			<ambient r="4" g="6" b="8" a="1" />        <!-- ambient component -->
 			<diffuse r="6" g="6" b="6" a="1" />        <!-- diffuse component -->
@@ -64,7 +64,10 @@
 	</MATERIALS>
 
     <!-- NOTE: this block "LIGHT" must be repeated as necessary with different "id" -->
-    
+    <LEAVES>
+		<LEAF id="L1" type="rectangle" args ="-2 3 6 -1"/>
+		<LEAF id="L2" type="cylinder" args="3.5 0.5 0.5 8 20"/>
+	</LEAVES>
     <NODES>
 		<ROOT id="1"/>
 

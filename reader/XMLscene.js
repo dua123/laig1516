@@ -20,6 +20,9 @@ XMLscene.prototype.init = function(application) {
 	this.gl.depthFunc(this.gl.LEQUAL);
 
 	this.axis = new CGFaxis(this);
+
+	this.materialDefault = new CGFappearance(this);
+
 }
 XMLscene.prototype.initLights = function() {
 
@@ -56,12 +59,30 @@ XMLscene.prototype.onGraphLoaded = function() {
 	this.setAmbient(this.graph.Illumination.ambient.r,this.graph.Illumination.ambient.g,this.graph.Illumination.ambient.b,this.graph.Illumination.ambient.a);//ver no cfscene 
 	//this.lights[0].setVisible(true);
 	// this.lights[0].enable();
-	console.log("XML SCENNE LIGHTS:" + this.graph.lights.length);
+mat
+	
+	this.mats=[];	
+	for(var i=0;i<this.graph.materials.length;i++){
+		var mat =this.graph.materials[i];
+		//console.log(mat);
+		this.app = new CGFappearance(this);
+		this.app.setAmbient(mat['ambient']['r'],mat['ambient']['g'],mat['ambient']['b'],mat['ambient']['a']);
+		this.app.setSpecular(mat['specular']['r'],mat['specular']['g'],mat['specular']['b'],mat['specular']['a']);
+		this.app.setDiffuse(mat['diffuse']['r'],mat['diffuse']['g'],mat['diffuse']['b'],mat['diffuse']['a']);
+		this.app.setShininess(mat['shininess']['r'],mat['shininess']['g'],mat['shininess']['b'],mat['shininess']['a']);
+		this.mats[mat.id]=this.app;
 
-	console.log(this);
-	
-	//console.log(this);
-	
+	}
+
+	this.tex=[];	
+	for(var i=0;i<this.graph.textures.length;i++){
+		var texts =this.graph.textures[i];
+		this.txt = new CGFappearance(this);
+		this.txt.loadTexture(texts['path']);
+		//amplified factor
+		this.mats[mat.id]=this.app;
+
+	}	
 	//this.setAmbient(this.graph);
 	var i = 0;
 	var k = 0;

@@ -96,6 +96,13 @@ MySceneGraph.prototype.onXMLReady = function() {
 		this.onXMLError(error);
 		return;
 	}
+
+	error = this.parseLeaves(rootElement);
+	if (error != null) {
+		this.onXMLError(error);
+		return;
+	}
+
 	this.loadedOk = true;
 
 	// As the graph loaded ok, signal the scene so that any additional initialization depending on the graph can take place
@@ -441,6 +448,44 @@ MySceneGraph.prototype.parseMaterials = function(rootElement) {
 		console.log("Material with id " + this.val['id'] + " read from file: {emission: r=" + this.val['emission']['r'] + ", g=" + this.val['emission']['g'] + ", b=" + this.val['emission']['b'] + ", a=" + this.val['emission']['a'] + " }");
 
 		this.materials[i] = this.val;
+
+	}
+};
+
+MySceneGraph.prototype.parseLeaves = function(rootElement) {
+	var temp_leaves = rootElement.getElementsByTagName('LEAVES');
+	if (temp_leaves == null) {
+		return "LEAVES element is missing";
+	}
+
+	if (temp_leaves.length != 1) {
+		return "More or less than 1 LEAVES element found. THERE CAN ONLY BE ONE!!!!";
+	}
+
+	var nrLeaves = temp_leaves[0].children.length;
+	var IDs = [];
+	this.leaves = [];
+	//this.nrTextures=[];
+	for (var i = 0; i < nrLeaves; i++) {
+		var leaf = temp_leaves[0].children[i];
+		var cur_leaf = nrLeaves[i];
+		this.val = [];
+
+		var id = this.reader.getString(leaf, 'id', true);
+		if (this.idExists(IDs, id) == true) {
+			return "Texture already exists (id is already being used.";
+		}
+		IDs.push(id);
+		this.val['id'] = id;
+
+		this.val['type'] = this.reader.getString(leaf,'type',true);
+		var string = this.reader.getString(leaf,'args',true);
+		var nstring = string.split(" ");
+		this.val['args'] = nstring
+		console.log("Leag with id "+ this.val['id']+ " read from file: {leaf: type= " +this.val['type']+" args= "+this.val['args']+" }");
+
+
+		this.textures[i] = this.val;
 
 	}
 };
