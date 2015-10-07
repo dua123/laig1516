@@ -40,7 +40,7 @@
         <ambient r="4" g="ff" b="ff" a="ff" />        <!-- ambient component -->
         <diffuse r="6" g="ff" b="ff" a="ff" />        <!-- diffuse component -->
         <specular r="8" g="ff" b="ff" a="ff" />       <!-- specular component -->
-    </LIGHT>
+    	</LIGHT>
     </LIGHTS>
 
     <TEXTURES>
@@ -52,6 +52,16 @@
     <!-- NOTE: this block "TEXTURE" must be repeated as necessary with different "id" -->
     
 	</TEXTURES>
+
+	<MATERIALS>
+		<MATERIAL id="1">
+			<shininess value="1"/>
+			<ambient r="4" g="6" b="8" a="1" />        <!-- ambient component -->
+			<diffuse r="6" g="6" b="6" a="1" />        <!-- diffuse component -->
+				<specular r="8" g="4" b="5" a="1" />       <!-- specular component -->
+				<emission r="8" g="4" b="5" a="1" />       <!-- emission component CHANGE VALUES -->
+		</MATERIAL>
+	</MATERIALS>
 
     <!-- NOTE: this block "LIGHT" must be repeated as necessary with different "id" -->
     

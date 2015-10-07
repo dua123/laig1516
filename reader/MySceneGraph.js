@@ -85,6 +85,11 @@ MySceneGraph.prototype.onXMLReady = function() {
 		return;
 	}
 
+	error = this.parseMaterials(rootElement);
+	if (error != null) {
+		this.onXMLError(error);
+		return;
+	}
 	this.loadedOk = true;
 
 	// As the graph loaded ok, signal the scene so that any additional initialization depending on the graph can take place
@@ -365,8 +370,73 @@ MySceneGraph.prototype.parseTextures = function(rootElement) {
 		this.textures[i] = this.val;
 
 	}
+};
+
+MySceneGraph.prototype.parseMaterials = function(rootElement) {
+	var temp_mat = rootElement.getElementsByTagName('MATERIALS');
+	if (temp_mat == null) {
+		return "MATERIALS element is missing";
+	}
+
+	if (temp_mat.length != 1) {
+		return "More than 1 TEXTURES element found. THERE CAN ONLY BE ONE!!!!";
+	}
+
+	var nrMaterials = temp_mat[0].children.length;
+	var IDs = [];
+	this.materials = [];
+	//this.nrTextures=[];
+	for (var i = 0; i < nrMaterials; i++) {
+		var material = temp_mat[0].children[i];
+		var cur_mat = nrMaterials[i];
+		this.val = [];
+
+		var id = this.reader.getString(material, 'id', true);
+		if (this.idExists(IDs, id) == true) {
+			return "Material already exists (id is already being used.";
+		}
+		this.val['id'] = id;
 
 
+		var enable = material.children[0];
+		this.val['shininess'] = this.reader.getString(enable, 'value', true);
+		console.log("Material with id " + this.val['id'] + " read from file: {enable: value=" + this.val['shininess'] + " }");
+
+		var ambient = material.children[1];
+		this.val['ambient'] = [];
+		this.val['ambient']['r'] = this.reader.getFloat(ambient, 'r', true);
+		this.val['ambient']['g'] = this.reader.getFloat(ambient, 'g', true);
+		this.val['ambient']['b'] = this.reader.getFloat(ambient, 'b', true);
+		this.val['ambient']['a'] = this.reader.getFloat(ambient, 'a', true);
+		console.log("Material with id " + this.val['id'] + " read from file: {ambient: r=" + this.val['ambient']['r'] + ", g=" + this.val['ambient']['g'] +", b="+this.val['ambient']['b'] +", a="+this.val['ambient']['a']+ " }");
+
+		var diffuse=material.children[2];
+		this.val['diffuse'] = [];
+		this.val['diffuse']['r'] = this.reader.getFloat(diffuse, 'r', true);
+		this.val['diffuse']['g'] = this.reader.getFloat(diffuse, 'g', true);
+		this.val['diffuse']['b'] = this.reader.getFloat(diffuse, 'b', true);
+		this.val['diffuse']['a'] = this.reader.getFloat(diffuse, 'a', true);
+		console.log("Material with id " + this.val['id'] + " read from file: {diffuse: r=" + this.val['diffuse']['r'] + ", g=" + this.val['diffuse']['g'] +", b="+this.val['diffuse']['b'] +", a="+this.val['diffuse']['a']+ " }");
+
+		var specular=material.children[3];
+		this.val['specular'] = [];
+		this.val['specular']['r'] = this.reader.getFloat(specular, 'r', true);
+		this.val['specular']['g'] = this.reader.getFloat(specular, 'g', true);
+		this.val['specular']['b'] = this.reader.getFloat(specular, 'b', true);
+		this.val['specular']['a'] = this.reader.getFloat(specular, 'a', true);
+		console.log("Material with id " + this.val['id'] + " read from file: {specular: r=" + this.val['specular']['r'] + ", g=" + this.val['specular']['g'] +", b="+this.val['specular']['b'] +", a="+this.val['specular']['a']+ " }");
+
+		var emission=material.children[3];
+		this.val['emission'] = [];
+		this.val['emission']['r'] = this.reader.getFloat(emission, 'r', true);
+		this.val['emission']['g'] = this.reader.getFloat(emission, 'g', true);
+		this.val['emission']['b'] = this.reader.getFloat(emission, 'b', true);
+		this.val['emission']['a'] = this.reader.getFloat(emission, 'a', true);
+		console.log("Material with id " + this.val['id'] + " read from file: {emission: r=" + this.val['emission']['r'] + ", g=" + this.val['emission']['g'] +", b="+this.val['emission']['b'] +", a="+this.val['emission']['a']+ " }");
+
+		this.materials[i] = this.val;
+
+	}
 };
 /*
  * Callback to be executed on any read error
