@@ -41,9 +41,9 @@
 			<MATERIAL id="1">
 				<shininess value="1"/>
 				<ambient r="4" g="6" b="8" a="1" />        <!-- ambient component -->
-        			<diffuse r="6" g="6" b="6" a="1" />        <!-- diffuse component -->
-       				<specular r="8" g="4" b="5" a="1" />       <!-- specular component -->
-       				<emission r="8" g="4" b="5" a="1" />       <!-- emission component CHANGE VALUES -->
+    			<diffuse r="6" g="6" b="6" a="1" />        <!-- diffuse component -->
+   				<specular r="8" g="4" b="5" a="1" />       <!-- specular component -->
+   				<emission r="8" g="4" b="5" a="1" />       <!-- emission component CHANGE VALUES -->
 			</MATERIAL>
 		</MATERIALS>
 
@@ -73,7 +73,7 @@
 			<NODE id="3">
 				<MATERIAL id=""/>
 				<TEXTURE id=""/>
-				<ROTATION axix="x" angle="-90"/>
+				<ROTATION axis="x" angle="-90"/>
 				<DESCENDENTS>
 					<DESCENDANT id="4"/>
 					<DESCENDANT id="5"/>
@@ -113,6 +113,7 @@
 					<DESCENDANT id="L2"/>
 				</DESCENDENTS>
 			</NODE>
+
 		</NODES>
 
 	</SCENE>

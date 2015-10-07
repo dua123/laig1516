@@ -90,6 +90,12 @@ MySceneGraph.prototype.onXMLReady = function() {
 		this.onXMLError(error);
 		return;
 	}
+
+	error = this.parseNodes(rootElement);
+	if (error != null) {
+		this.onXMLError(error);
+		return;
+	}
 	this.loadedOk = true;
 
 	// As the graph loaded ok, signal the scene so that any additional initialization depending on the graph can take place
@@ -338,7 +344,7 @@ MySceneGraph.prototype.parseTextures = function(rootElement) {
 	}
 
 	if (temp_text.length != 1) {
-		return "More than 1 TEXTURES element found. THERE CAN ONLY BE ONE!!!!";
+		return "More or less than 1 TEXTURES element found. THERE CAN ONLY BE ONE!!!!";
 	}
 
 	var nrTextures = temp_text[0].children.length;
@@ -379,7 +385,7 @@ MySceneGraph.prototype.parseMaterials = function(rootElement) {
 	}
 
 	if (temp_mat.length != 1) {
-		return "More than 1 TEXTURES element found. THERE CAN ONLY BE ONE!!!!";
+		return "More or less than 1 TEXTURES element found. THERE CAN ONLY BE ONE!!!!";
 	}
 
 	var nrMaterials = temp_mat[0].children.length;
@@ -408,35 +414,117 @@ MySceneGraph.prototype.parseMaterials = function(rootElement) {
 		this.val['ambient']['g'] = this.reader.getFloat(ambient, 'g', true);
 		this.val['ambient']['b'] = this.reader.getFloat(ambient, 'b', true);
 		this.val['ambient']['a'] = this.reader.getFloat(ambient, 'a', true);
-		console.log("Material with id " + this.val['id'] + " read from file: {ambient: r=" + this.val['ambient']['r'] + ", g=" + this.val['ambient']['g'] +", b="+this.val['ambient']['b'] +", a="+this.val['ambient']['a']+ " }");
+		console.log("Material with id " + this.val['id'] + " read from file: {ambient: r=" + this.val['ambient']['r'] + ", g=" + this.val['ambient']['g'] + ", b=" + this.val['ambient']['b'] + ", a=" + this.val['ambient']['a'] + " }");
 
-		var diffuse=material.children[2];
+		var diffuse = material.children[2];
 		this.val['diffuse'] = [];
 		this.val['diffuse']['r'] = this.reader.getFloat(diffuse, 'r', true);
 		this.val['diffuse']['g'] = this.reader.getFloat(diffuse, 'g', true);
 		this.val['diffuse']['b'] = this.reader.getFloat(diffuse, 'b', true);
 		this.val['diffuse']['a'] = this.reader.getFloat(diffuse, 'a', true);
-		console.log("Material with id " + this.val['id'] + " read from file: {diffuse: r=" + this.val['diffuse']['r'] + ", g=" + this.val['diffuse']['g'] +", b="+this.val['diffuse']['b'] +", a="+this.val['diffuse']['a']+ " }");
+		console.log("Material with id " + this.val['id'] + " read from file: {diffuse: r=" + this.val['diffuse']['r'] + ", g=" + this.val['diffuse']['g'] + ", b=" + this.val['diffuse']['b'] + ", a=" + this.val['diffuse']['a'] + " }");
 
-		var specular=material.children[3];
+		var specular = material.children[3];
 		this.val['specular'] = [];
 		this.val['specular']['r'] = this.reader.getFloat(specular, 'r', true);
 		this.val['specular']['g'] = this.reader.getFloat(specular, 'g', true);
 		this.val['specular']['b'] = this.reader.getFloat(specular, 'b', true);
 		this.val['specular']['a'] = this.reader.getFloat(specular, 'a', true);
-		console.log("Material with id " + this.val['id'] + " read from file: {specular: r=" + this.val['specular']['r'] + ", g=" + this.val['specular']['g'] +", b="+this.val['specular']['b'] +", a="+this.val['specular']['a']+ " }");
+		console.log("Material with id " + this.val['id'] + " read from file: {specular: r=" + this.val['specular']['r'] + ", g=" + this.val['specular']['g'] + ", b=" + this.val['specular']['b'] + ", a=" + this.val['specular']['a'] + " }");
 
-		var emission=material.children[3];
+		var emission = material.children[3];
 		this.val['emission'] = [];
 		this.val['emission']['r'] = this.reader.getFloat(emission, 'r', true);
 		this.val['emission']['g'] = this.reader.getFloat(emission, 'g', true);
 		this.val['emission']['b'] = this.reader.getFloat(emission, 'b', true);
 		this.val['emission']['a'] = this.reader.getFloat(emission, 'a', true);
-		console.log("Material with id " + this.val['id'] + " read from file: {emission: r=" + this.val['emission']['r'] + ", g=" + this.val['emission']['g'] +", b="+this.val['emission']['b'] +", a="+this.val['emission']['a']+ " }");
+		console.log("Material with id " + this.val['id'] + " read from file: {emission: r=" + this.val['emission']['r'] + ", g=" + this.val['emission']['g'] + ", b=" + this.val['emission']['b'] + ", a=" + this.val['emission']['a'] + " }");
 
 		this.materials[i] = this.val;
 
 	}
+};
+
+MySceneGraph.prototype.parseNodes=function(rootElement) {
+	var temp_node = rootElement.getElementsByTagName('NODES');
+	if (temp_node == null) {
+		return "'NODES' element is missing";
+	}
+
+	if (temp_node.length != 1) {
+		return "More or less than 1 'NODES' element found. THERE CAN ONLY BE ONE!!!!";
+	}
+
+	var rootID = temp_node[0].children[0].id;
+
+	var nrNodes = temp_node[0].children.length;
+	var IDs = [];
+	this.nodes = [];
+	for(var i=1;i<nrNodes;i++){    				//i=1 BECAUSE i=0 is root id
+		var cont=0;
+		var node=temp_node[0].children[i];
+		if (this.idExists(IDs, node.id) == true) {
+			return "Material already exists (id is already being used.";
+		}
+		IDs.push(node.id);
+		this.nodeInfo=[];
+		
+		for(var k=0;k<node.children.length;k++){
+			if(node.children[k].tagName=='MATERIAL'){
+				var material=node.children[k];
+				this.nodeInfo['material']=this.reader.getFloat(material,'id',true);
+				console.log("Node with id "+node.id+" read from file: {material: id="+this.nodeInfo['material']+" }");
+			}
+
+			if(node.children[k].tagName=='TEXTURE'){
+				var texture=node.children[k];
+				this.nodeInfo['texture']=this.reader.getFloat(texture,'id',true);
+				console.log("Node with id "+node.id+" read from file: {texture: id="+this.nodeInfo['texture']+" }");
+			}
+
+			if(node.children[k].tagName=='TRANSLATION'){
+				var translation=node.children[k];
+				this.nodeInfo['translation']=[];
+				this.nodeInfo['translation']['x']=this.reader.getFloat(translation,'x',true);
+				this.nodeInfo['translation']['y']=this.reader.getFloat(translation,'y',true);
+				this.nodeInfo['translation']['z']=this.reader.getFloat(translation,'z',true);
+				console.log("Node with id "+node.id+" read from file: {translation: x="+this.nodeInfo['translation']['x']+", y="+this.nodeInfo['translation']['y'] +", z="+this.nodeInfo['translation']['z']+" }");
+			}
+
+			if(node.children[k].tagName=='ROTATION'){
+				var rotation=node.children[k];
+				this.nodeInfo['rotation']=[];
+				this.nodeInfo['rotation']['axis']=this.reader.getString(rotation,'axis',true);
+				this.nodeInfo['rotation']['angle']=this.reader.getFloat(rotation,'angle',true);
+				
+				console.log("Node with id "+node.id+" read from file: {rotation: axis="+this.nodeInfo['rotation']['axis']+", angle="+this.nodeInfo['rotation']['angle'] +" }");
+			}
+
+			if(node.children[k].tagName=='SCALE'){
+				var scale=node.children[k];
+				this.nodeInfo['scale']=[];
+				this.nodeInfo['scale']['x']=this.reader.getFloat(scale,'sx',true);
+				this.nodeInfo['scale']['y']=this.reader.getFloat(scale,'sy',true);
+				this.nodeInfo['scale']['z']=this.reader.getFloat(scale,'sz',true);
+				console.log("Node with id "+node.id+" read from file: {scale: sx="+this.nodeInfo['scale']['x']+", sy="+this.nodeInfo['scale']['y'] +", sz="+this.nodeInfo['scale']['z']+" }");
+			}
+
+
+
+			if(node.children[k].tagName=='DESCENDENTS'){
+
+				var descendents=node.children[k];
+				this.nodeInfo['descendents']=[];
+				for(var j=0;j<descendents.children.length;j++){
+
+					var desc=descendents.children[j];
+					this.nodeInfo['descendents'][j]=this.reader.getString(desc,'id',true);
+				}
+				console.log("Node "+node.id+" descendents: "+this.nodeInfo['descendents']);
+			}
+		}
+	}
+
 };
 /*
  * Callback to be executed on any read error
