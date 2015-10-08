@@ -1,6 +1,6 @@
 function Node(){
 	this.id=null;
-	this.materials=null;
+	this.material=null;
 	this.texture=null;
 	this.m=null;
 	this.descendents=[];

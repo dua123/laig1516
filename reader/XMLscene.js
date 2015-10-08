@@ -83,7 +83,7 @@ XMLscene.prototype.onGraphLoaded = function() {
 		this.txt = new CGFappearance(this);
 		this.txt.loadTexture(texts['path']);
 		//amplified factor
-		this.mats[mat.id]=this.app;
+		this.tex[texts.id]=this.txt;
 
 	}	
 	//this.setAmbient(this.graph);
@@ -107,11 +107,19 @@ XMLscene.prototype.onGraphLoaded = function() {
 		k++;
 	}
 	
-	console.log(this.graph.nodes[0].id);
+	//console.log(this.tex);
 	this.allNodes=this.graph.nodes;
 	for(var k=0;k<this.allNodes.length;k++){
 		this.newNode= new Node();
 		this.newNode.id=this.allNodes[k].id;
+		//console.log(this.allNodes[k]['texture']);
+		this.newNode.texture=this.allNodes[k]['texture'];
+		this.newNode.material=this.allNodes[k]['material'];
+		this.newNode.descendents=this.allNodes[k]['descendents'];
+		console.log(this.newNode.descendents);
+		var m = mat4.create();
+		//ver caderno for more info
+		
 	}
 };
 

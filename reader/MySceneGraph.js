@@ -474,7 +474,7 @@ MySceneGraph.prototype.parseLeaves = function(rootElement) {
 
 		var id = this.reader.getString(leaf, 'id', true);
 		if (this.idExists(IDs, id) == true) {
-			return "Texture already exists (id is already being used.";
+			return "Leafs already exists (id is already being used.";
 		}
 		IDs.push(id);
 		this.val['id'] = id;
@@ -482,11 +482,11 @@ MySceneGraph.prototype.parseLeaves = function(rootElement) {
 		this.val['type'] = this.reader.getString(leaf,'type',true);
 		var string = this.reader.getString(leaf,'args',true);
 		var nstring = string.split(" ");
-		this.val['args'] = nstring
+		this.val['args'] = nstring;
 		console.log("Leaf with id "+ this.val['id']+ " read from file: {leaf: type= " +this.val['type']+" args= "+this.val['args']+" }");
 
 
-		this.textures[i] = this.val;
+		this.leaves[i] = this.val;
 
 	}
 };
@@ -520,13 +520,13 @@ MySceneGraph.prototype.parseNodes=function(rootElement) {
 		for(var k=0;k<node.children.length;k++){
 			if(node.children[k].tagName=='MATERIAL'){
 				var material=node.children[k];
-				this.nodeInfo['material']=this.reader.getFloat(material,'id',true);
+				this.nodeInfo['material']=this.reader.getString(material,'id',true);
 				console.log("Node with id "+node.id+" read from file: {material: id="+this.nodeInfo['material']+" }");
 			}
 
 			if(node.children[k].tagName=='TEXTURE'){
 				var texture=node.children[k];
-				this.nodeInfo['texture']=this.reader.getFloat(texture,'id',true);
+				this.nodeInfo['texture']=this.reader.getString(texture,'id',true);
 				console.log("Node with id "+node.id+" read from file: {texture: id="+this.nodeInfo['texture']+" }");
 			}
 
@@ -571,7 +571,7 @@ MySceneGraph.prototype.parseNodes=function(rootElement) {
 				console.log("Node "+node.id+" descendents: "+this.nodeInfo['descendents']);
 			}
 		}
-		this.nodes[i-1]=this.nodeInfo;
+		this.nodes[i-1]=this.nodeInfo;	
 	}
 
 };
