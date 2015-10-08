@@ -52,10 +52,18 @@ XMLscene.prototype.setDefaultAppearance = function() {
 // As loading is asynchronous, this may be called already after the application has started the run loop
 XMLscene.prototype.onGraphLoaded = function() {
 	
+	this.camera.near = this.graph.initials.frustum.near;
+    this.camera.far = this.graph.initials.frustum.far;
 
-	this.camera = new CGFcamera(0.4,this.graph.initials.frustum.near, this.graph.initials.frustum.far,vec3.fromValues(this.graph.initials.translate.x,this.graph.initials.translate.y,this.graph.initials.translate.z), vec3.fromValues(0, 0, 0));
+    this.translate(this.graph.initials.translate.x,this.graph.initials.translate.y,this.graph.initials.translate.z);
+    this.rotate(this.graph.initials.rot1.axis,this.graph.initials.rot1.angle);
+    
+    this.rotate(this.graph.initials.rot2.axis,this.graph.initials.rot2.angle);
+      
+    this.rotate(this.graph.initials.rot3.axis,this.graph.initials.rot3.angle);
+    this.scale(this.graph.initials.scale.sx,this.graph.initials.scale.sy,this.graph.initials.scale.sz);
+
 	
-	console.log(this.graph.initials.translate);
 	this.setGlobalAmbientLight(this.graph.Illumination.ambient.r,this.graph.Illumination.ambient.g,this.graph.Illumination.ambient.b,this.graph.Illumination.ambient.a);//ver no cfscene 
 	this.setAmbient(this.graph.Illumination.ambient.r,this.graph.Illumination.ambient.g,this.graph.Illumination.ambient.b,this.graph.Illumination.ambient.a);//ver no cfscene 
 
@@ -63,7 +71,7 @@ XMLscene.prototype.onGraphLoaded = function() {
 	this.node= new Node();
 	console.log(this.node.m);
 
-	console.log(this.graph.nodes["Mesa"]['descendents']);
+	//console.log(this.graph.nodes["Mesa"]['descendents']);
 	
 	this.mats=[];	
 	for(var i=0;i<this.graph.materials.length;i++){
@@ -108,7 +116,7 @@ XMLscene.prototype.onGraphLoaded = function() {
 		k++;
 	}
 	
-<<<<<<< HEAD
+//<<<<<<< HEAD
 	//console.log(this.tex);
 	this.allNodes=this.graph.nodes;
 	for(var k=0;k<this.allNodes.length;k++){
@@ -123,10 +131,9 @@ XMLscene.prototype.onGraphLoaded = function() {
 		//ver caderno for more info
 		
 	}
-=======
+//=======
 	console.log(this.graph.nodes);
 	//for(var k=0;k<this.graph.nodes.length)
->>>>>>> 3872dfb86cb93326ade01d00b13c812dfc4f5284
 };
 
 XMLscene.prototype.display = function() {
