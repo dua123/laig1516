@@ -483,7 +483,7 @@ MySceneGraph.prototype.parseLeaves = function(rootElement) {
 		var string = this.reader.getString(leaf,'args',true);
 		var nstring = string.split(" ");
 		this.val['args'] = nstring
-		console.log("Leag with id "+ this.val['id']+ " read from file: {leaf: type= " +this.val['type']+" args= "+this.val['args']+" }");
+		console.log("Leaf with id "+ this.val['id']+ " read from file: {leaf: type= " +this.val['type']+" args= "+this.val['args']+" }");
 
 
 		this.textures[i] = this.val;
@@ -504,6 +504,7 @@ MySceneGraph.prototype.parseNodes=function(rootElement) {
 	var rootID = temp_node[0].children[0].id;
 
 	var nrNodes = temp_node[0].children.length;
+	console.log(nrNodes);
 	var IDs = [];
 	this.nodes = [];
 	for(var i=1;i<nrNodes;i++){    				//i=1 BECAUSE i=0 is root id
@@ -514,6 +515,7 @@ MySceneGraph.prototype.parseNodes=function(rootElement) {
 		}
 		IDs.push(node.id);
 		this.nodeInfo=[];
+		console.log(temp_node[0]);	
 		
 		for(var k=0;k<node.children.length;k++){
 			if(node.children[k].tagName=='MATERIAL'){
@@ -568,8 +570,8 @@ MySceneGraph.prototype.parseNodes=function(rootElement) {
 				}
 				console.log("Node "+node.id+" descendents: "+this.nodeInfo['descendents']);
 			}
-			this.nodes[node.id]=this.nodeInfo;
 		}
+		this.nodes[node.id]=this.nodeInfo;
 	}
 
 };

@@ -1,5 +1,5 @@
 function Node(){
-	scene.nodes=this;
+	this.id=null;
 	this.materials=null;
 	this.texture=null;
 	this.m=null;
