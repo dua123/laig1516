@@ -223,8 +223,9 @@ MySceneGraph.prototype.parseInitials = function(rootElement) {
 	console.log("Initials read from file: {scale: sx=" + this.initials['scale']['sx'] + ", sy=" + this.initials['scale']['sy'] + ", sz=" + this.initials['scale']['sz'] + " }");
 
 	var reference = tempIni[0].children[6];
-	this.initials['scale']['ref_length'] = this.reader.getFloat(reference, 'length', true);
-	console.log("Initials read from file: {reference: length=" + this.initials['scale']['ref_length'] + "}");
+	this.initials['reference'] = []
+	this.initials['reference']['length'] = this.reader.getFloat(reference, 'length', true);
+	console.log("Initials read from file: {reference: length=" + this.initials['reference']['length'] + "}");
 
 };
 
