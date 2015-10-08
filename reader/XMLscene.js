@@ -53,16 +53,17 @@ XMLscene.prototype.setDefaultAppearance = function() {
 XMLscene.prototype.onGraphLoaded = function() {
 	
 
-	//this.camera = new CGFcamera(0.4,this.graph.initials.frustum.near, this.graph.initials.frustum.far, vec3.fromValues(15, 15, 15), vec3.fromValues(0, 0, 0));
-	//this.axis =newCGFaxis( , length, thickness )
+	this.camera = new CGFcamera(0.4,this.graph.initials.frustum.near, this.graph.initials.frustum.far,vec3.fromValues(this.graph.initials.translate.x,this.graph.initials.translate.y,this.graph.initials.translate.z), vec3.fromValues(0, 0, 0));
+	
+	console.log(this.graph.initials.translate);
 	this.setGlobalAmbientLight(this.graph.Illumination.ambient.r,this.graph.Illumination.ambient.g,this.graph.Illumination.ambient.b,this.graph.Illumination.ambient.a);//ver no cfscene 
 	this.setAmbient(this.graph.Illumination.ambient.r,this.graph.Illumination.ambient.g,this.graph.Illumination.ambient.b,this.graph.Illumination.ambient.a);//ver no cfscene 
 
 
-	//this.node= new Node();
-	//console.log(this.node.m);
+	this.node= new Node();
+	console.log(this.node.m);
 
-	//console.log(this.graph.nodes["Mesa"]['descendents']);
+	console.log(this.graph.nodes["Mesa"]['descendents']);
 	
 	this.mats=[];	
 	for(var i=0;i<this.graph.materials.length;i++){
@@ -107,12 +108,8 @@ XMLscene.prototype.onGraphLoaded = function() {
 		k++;
 	}
 	
-	console.log(this.graph.nodes[0].id);
-	this.allNodes=this.graph.nodes;
-	for(var k=0;k<this.allNodes.length;k++){
-		this.newNode= new Node();
-		this.newNode.id=this.allNodes[k].id;
-	}
+	console.log(this.graph.nodes);
+	//for(var k=0;k<this.graph.nodes.length)
 };
 
 XMLscene.prototype.display = function() {
