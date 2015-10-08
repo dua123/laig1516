@@ -65,67 +65,67 @@
 
     <!-- NOTE: this block "LIGHT" must be repeated as necessary with different "id" -->
     <LEAVES>
-		<LEAF id="L1" type="rectangle" args ="-2 3 6 -1"/>
-		<LEAF id="L2" type="cylinder" args="3.5 0.5 0.5 8 20"/>
+		<LEAF id="tableTop" type="rectangle"  args="-2 3 6 -1"/>
+		<LEAF id="tableLeg" type="cylinder" args="3.5 0.5 0.5 8 20"/>
 	</LEAVES>
     <NODES>
-		<ROOT id="1"/>
+		<ROOT id="Mesa"/>
 
-		<NODE id="1">
+		<NODE id="Mesa">
 			<DESCENDENTS>
 				<DESCENDANT id="2"/>
 				<DESCENDANT id="3"/>
 			</DESCENDENTS>
 		</NODE>
 
-		<NODE id="2">
-			<MATERIAL id=""/>
-			<TEXTURE id=""/>
+		<NODE id="tampo">
+			<MATERIAL id=null/>
+			<TEXTURE id="wood.jpg"/>
 			<TRANSLATION x="1" y="0" z="0"/>
 			<ROTATION axis="x" angle="90"/>
 			<DESCENDENTS>
-				<DESCENDANT id="L1"/>
+				<DESCENDANT id="tableTop"/>
 			</DESCENDENTS>
 		</NODE>
-		<NODE id="3">
-			<MATERIAL id=""/>
-			<TEXTURE id=""/>
+		<NODE id="legs">
+			<MATERIAL id=null/>
+			<TEXTURE id="nothing.png"/>
 			<ROTATION axis="x" angle="-90"/>
 			<DESCENDENTS>
-				<DESCENDANT id="4"/>
-				<DESCENDANT id="5"/>
-				<DESCENDANT id="6"/>
-				<DESCENDANT id="7"/>
+				<DESCENDANT id="leg1"/> 4
+				<DESCENDANT id="leg2"/> 5
+				<DESCENDANT id="leg3"/> 6
+				<DESCENDANT id="leg4"/> 7
 			</DESCENDENTS>
 		</NODE>
-		<NODE id="4">
-			<MATERIAL id=""/>
-			<TEXTURE id=""/>
+		<NODE id="leg1">
+			<MATERIAL id=null/>
+			<TEXTURE id=null/>
 			<TRANSLATION x="1" y="0" z="0"/>
 			<ROTATION axis="x" angle="90"/>
 			<DESCENDENTS>
 				<DESCENDANT id="L1"/>
 			</DESCENDENTS>
 		</NODE>
-		<NODE id="5">
-			<MATERIAL id=""/>
-			<TEXTURE id=""/>
+		<NODE id="leg2">
+			<MATERIAL id=null/>
+			<TEXTURE id=null/>
 			<TRANSLATION x="1" y="0" z="0"/>
 			<ROTATION axis="x" angle="90"/>
 			<DESCENDENTS>
 				<DESCENDANT id="L1"/>
 			</DESCENDENTS>
 		</NODE>
-		<NODE id="6">
-			<MATERIAL id=""/>
-			<TEXTURE id=""/>
+		<NODE id="leg3">
+			<MATERIAL id=null/>
+			<TEXTURE id=null/>
 			<TRANSLATION x="1" y="0" z="0"/>
 			<ROTATION axis="x" angle="90"/>
 			<DESCENDENTS>
 				<DESCENDANT id="L1"/>
 			</DESCENDENTS>
 		</NODE>
-		<NODE id="7">
+		<NODE id="leg4">
 			<MATERIAL id=null/>
 			<TEXTURE id=null/>
 			<TRANSLATION x="4" y="0" z="2"/>
@@ -133,14 +133,6 @@
 				<DESCENDANT id="L2"/>
 			</DESCENDENTS>
 		</NODE>
-		<NODE id="7">
-				<MATERIAL id=null/>
-				<TEXTURE id=null/>
-				<TRANSLATION x="4" y="0" z="2"/>
-				<DESCENDENTS>
-				<DESCENDANT id="L2"/>
-				</DESCENDENTS>
-			</NODE>
 	</NODES>
 
 

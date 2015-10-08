@@ -57,9 +57,10 @@ XMLscene.prototype.onGraphLoaded = function() {
 	//this.axis =newCGFaxis( , length, thickness )
 	this.setGlobalAmbientLight(this.graph.Illumination.ambient.r,this.graph.Illumination.ambient.g,this.graph.Illumination.ambient.b,this.graph.Illumination.ambient.a);//ver no cfscene 
 	this.setAmbient(this.graph.Illumination.ambient.r,this.graph.Illumination.ambient.g,this.graph.Illumination.ambient.b,this.graph.Illumination.ambient.a);//ver no cfscene 
-	//this.lights[0].setVisible(true);
-	// this.lights[0].enable();
-mat
+
+
+	//this.nodes.newNode = new Node();
+	console.log(this.graph.nodes["Mesa"]['descendents']);
 	
 	this.mats=[];	
 	for(var i=0;i<this.graph.materials.length;i++){

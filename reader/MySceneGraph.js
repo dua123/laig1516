@@ -567,6 +567,7 @@ MySceneGraph.prototype.parseNodes=function(rootElement) {
 				}
 				console.log("Node "+node.id+" descendents: "+this.nodeInfo['descendents']);
 			}
+			this.nodes[node.id]=this.nodeInfo;
 		}
 	}
 

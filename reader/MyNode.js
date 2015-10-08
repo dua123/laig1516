@@ -1,4 +1,5 @@
 function Node(){
+	scene.nodes=this;
 	this.materials=null;
 	this.texture=null;
 	this.m=null;
@@ -12,4 +13,4 @@ Node.prototype.push=function(nodeName){
 Node.prototype.setMatrix=function(m){
 	this.m=mat4.clone(m);
 	console.log(this.m);
-}	
+};
