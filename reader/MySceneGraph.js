@@ -504,7 +504,6 @@ MySceneGraph.prototype.parseNodes=function(rootElement) {
 	var rootID = temp_node[0].children[0].id;
 
 	var nrNodes = temp_node[0].children.length;
-	console.log(nrNodes);
 	var IDs = [];
 	this.nodes = [];
 	for(var i=1;i<nrNodes;i++){    				//i=1 BECAUSE i=0 is root id
@@ -515,7 +514,8 @@ MySceneGraph.prototype.parseNodes=function(rootElement) {
 		}
 		IDs.push(node.id);
 		this.nodeInfo=[];
-		console.log(temp_node[0]);	
+		this.nodeInfo['id']=node.id
+	
 		
 		for(var k=0;k<node.children.length;k++){
 			if(node.children[k].tagName=='MATERIAL'){
@@ -571,7 +571,7 @@ MySceneGraph.prototype.parseNodes=function(rootElement) {
 				console.log("Node "+node.id+" descendents: "+this.nodeInfo['descendents']);
 			}
 		}
-		this.nodes[node.id]=this.nodeInfo;
+		this.nodes[i-1]=this.nodeInfo;
 	}
 
 };

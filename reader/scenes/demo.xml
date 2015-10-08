@@ -67,13 +67,13 @@
 
 		<NODE id="Mesa">
 			<DESCENDENTS>
-				<DESCENDANT id="2"/>
-				<DESCENDANT id="3"/>
+				<DESCENDANT id="tampo"/>
+				<DESCENDANT id="legs"/>
 			</DESCENDENTS>
 		</NODE>
 
 		<NODE id="tampo">
-			<MATERIAL id=null/>
+			<MATERIAL id="null"/>
 			<TEXTURE id="wood.jpg"/>
 			<TRANSLATION x="1" y="0" z="0"/>
 			<ROTATION axis="x" angle="90"/>
@@ -82,49 +82,49 @@
 			</DESCENDENTS>
 		</NODE>
 		<NODE id="legs">
-			<MATERIAL id=null/>
+			<MATERIAL id="null"/>
 			<TEXTURE id="nothing.png"/>
 			<ROTATION axis="x" angle="-90"/>
 			<DESCENDENTS>
-				<DESCENDANT id="leg1"/> 4
-				<DESCENDANT id="leg2"/> 5
-				<DESCENDANT id="leg3"/> 6
-				<DESCENDANT id="leg4"/> 7
+				<DESCENDANT id="leg1"/> 
+				<DESCENDANT id="leg2"/> 
+				<DESCENDANT id="leg3"/> 
+				<DESCENDANT id="leg4"/> 
 			</DESCENDENTS>
 		</NODE>
 		<NODE id="leg1">
-			<MATERIAL id=null/>
-			<TEXTURE id=null/>
+			<MATERIAL id="null"/>
+			<TEXTURE id="null"/>
 			<TRANSLATION x="1" y="0" z="0"/>
 			<ROTATION axis="x" angle="90"/>
 			<DESCENDENTS>
-				<DESCENDANT id="L1"/>
+				<DESCENDANT id="tableLeg"/>
 			</DESCENDENTS>
 		</NODE>
 		<NODE id="leg2">
-			<MATERIAL id=null/>
-			<TEXTURE id=null/>
+			<MATERIAL id="null"/>
+			<TEXTURE id="null"/>
 			<TRANSLATION x="1" y="0" z="0"/>
 			<ROTATION axis="x" angle="90"/>
 			<DESCENDENTS>
-				<DESCENDANT id="L1"/>
+				<DESCENDANT id="tableLeg"/>
 			</DESCENDENTS>
 		</NODE>
 		<NODE id="leg3">
-			<MATERIAL id=null/>
-			<TEXTURE id=null/>
+			<MATERIAL id="null"/>
+			<TEXTURE id="null"/>
 			<TRANSLATION x="1" y="0" z="0"/>
 			<ROTATION axis="x" angle="90"/>
 			<DESCENDENTS>
-				<DESCENDANT id="L1"/>
+				<DESCENDANT id="tableLeg"/>
 			</DESCENDENTS>
 		</NODE>
 		<NODE id="leg4">
-			<MATERIAL id=null/>
-			<TEXTURE id=null/>
+			<MATERIAL id="null"/>
+			<TEXTURE id="null"/>
 			<TRANSLATION x="4" y="0" z="2"/>
 			<DESCENDENTS>
-				<DESCENDANT id="L2"/>
+				<DESCENDANT id="tableLeg"/>
 			</DESCENDENTS>
 		</NODE>
 	</NODES>

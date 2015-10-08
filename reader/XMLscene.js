@@ -59,10 +59,10 @@ XMLscene.prototype.onGraphLoaded = function() {
 	this.setAmbient(this.graph.Illumination.ambient.r,this.graph.Illumination.ambient.g,this.graph.Illumination.ambient.b,this.graph.Illumination.ambient.a);//ver no cfscene 
 
 
-	this.node= new Node();
-	console.log(this.node.m);
+	//this.node= new Node();
+	//console.log(this.node.m);
 
-	console.log(this.graph.nodes["Mesa"]['descendents']);
+	//console.log(this.graph.nodes["Mesa"]['descendents']);
 	
 	this.mats=[];	
 	for(var i=0;i<this.graph.materials.length;i++){
@@ -107,8 +107,12 @@ XMLscene.prototype.onGraphLoaded = function() {
 		k++;
 	}
 	
-	console.log(this.graph.nodes);
-	//for(var k=0;k<this.graph.nodes.length)
+	console.log(this.graph.nodes[0].id);
+	this.allNodes=this.graph.nodes;
+	for(var k=0;k<this.allNodes.length;k++){
+		this.newNode= new Node();
+		this.newNode.id=this.allNodes[k].id;
+	}
 };
 
 XMLscene.prototype.display = function() {
