@@ -2,6 +2,8 @@ function XMLscene() {
 	CGFscene.call(this);
 }
 
+var degToRad = Math.PI / 180.0;
+
 XMLscene.prototype = Object.create(CGFscene.prototype);
 XMLscene.prototype.constructor = XMLscene;
 
@@ -116,7 +118,6 @@ XMLscene.prototype.onGraphLoaded = function() {
 		k++;
 	}
 	
-//<<<<<<< HEAD
 	//console.log(this.tex);
 	this.allNodes=this.graph.nodes;
 	for(var k=0;k<this.allNodes.length;k++){
@@ -126,13 +127,17 @@ XMLscene.prototype.onGraphLoaded = function() {
 		this.newNode.texture=this.allNodes[k]['texture'];
 		this.newNode.material=this.allNodes[k]['material'];
 		this.newNode.descendents=this.allNodes[k]['descendents'];
-		console.log(this.newNode.descendents);
+		//console.log(this.newNode.descendents);
 		var m = mat4.create();
 		//ver caderno for more info
+			// Scene elements
+		this.cube = new MyUnitCubeQuad(this);
+		this.cylinder = new MyCylinder(this,20 ,20 );
+
+
 		
 	}
-//=======
-	console.log(this.graph.nodes);
+	//console.log(this.graph.nodes);
 	//for(var k=0;k<this.graph.nodes.length)
 };
 
@@ -169,5 +174,17 @@ XMLscene.prototype.display = function() {
 
 	};
 
+	// Scene elements
+		this.pushMatrix();
+		  this.cube.display();
+		this.popMatrix();
+		this.pushMatrix();
+			this.scale(1,1,10);
+			this.translate(2,0 ,2);
+		  this.cylinder.display();
+		this.popMatrix();
+	
 	this.shader.unbind();
 };
+
+
