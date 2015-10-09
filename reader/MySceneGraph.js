@@ -514,7 +514,9 @@ MySceneGraph.prototype.parseNodes=function(rootElement) {
 		}
 		IDs.push(node.id);
 		this.nodeInfo=[];
-		this.nodeInfo['id']=node.id
+		this.nodeInfo['id']=node.id;
+		var m =mat4.create();
+		console.log("Matrix created {" +m+" }");
 	
 		
 		for(var k=0;k<node.children.length;k++){
@@ -530,31 +532,46 @@ MySceneGraph.prototype.parseNodes=function(rootElement) {
 				console.log("Node with id "+node.id+" read from file: {texture: id="+this.nodeInfo['texture']+" }");
 			}
 
-			if(node.children[k].tagName=='TRANSLATION'){
-				var translation=node.children[k];
-				this.nodeInfo['translation']=[];
-				this.nodeInfo['translation']['x']=this.reader.getFloat(translation,'x',true);
-				this.nodeInfo['translation']['y']=this.reader.getFloat(translation,'y',true);
-				this.nodeInfo['translation']['z']=this.reader.getFloat(translation,'z',true);
-				console.log("Node with id "+node.id+" read from file: {translation: x="+this.nodeInfo['translation']['x']+", y="+this.nodeInfo['translation']['y'] +", z="+this.nodeInfo['translation']['z']+" }");
-			}
-
-			if(node.children[k].tagName=='ROTATION'){
-				var rotation=node.children[k];
-				this.nodeInfo['rotation']=[];
-				this.nodeInfo['rotation']['axis']=this.reader.getString(rotation,'axis',true);
-				this.nodeInfo['rotation']['angle']=this.reader.getFloat(rotation,'angle',true);
-				
-				console.log("Node with id "+node.id+" read from file: {rotation: axis="+this.nodeInfo['rotation']['axis']+", angle="+this.nodeInfo['rotation']['angle'] +" }");
-			}
-
-			if(node.children[k].tagName=='SCALE'){
-				var scale=node.children[k];
-				this.nodeInfo['scale']=[];
-				this.nodeInfo['scale']['x']=this.reader.getFloat(scale,'sx',true);
-				this.nodeInfo['scale']['y']=this.reader.getFloat(scale,'sy',true);
-				this.nodeInfo['scale']['z']=this.reader.getFloat(scale,'sz',true);
-				console.log("Node with id "+node.id+" read from file: {scale: sx="+this.nodeInfo['scale']['x']+", sy="+this.nodeInfo['scale']['y'] +", sz="+this.nodeInfo['scale']['z']+" }");
+			var axis;
+			var tag=node.children[k].tagName
+			
+			switch(tag){
+				case 'TRANSLATION':
+					var translation=node.children[k];
+					var x=this.reader.getFloat(translation,'x',true);
+					var y=this.reader.getFloat(translation,'y',true);
+					var z=this.reader.getFloat(translation,'z',true);
+					console.log(x+" " +y+" "+z);
+					mat4.translate(m,m,[x,y,z]);
+					console.log("translation {" +m+" }");
+					break;
+				case 'ROTATION':
+					var rotation=node.children[k];
+					switch(this.reader.getString(rotation,'axis',true)){
+						case "x":
+							axis=[1,0,0];
+							break;
+						case "y":
+							axis=[0,1,0];
+							break;
+						case "z":
+							axis=[0,0,1];
+							break;
+					}
+					var angle=this.reader.getFloat(rotation,'angle',true);
+					mat4.rotate(m,m,(Math.PI*angle)/180,axis);
+					console.log(axis+" " +angle);
+					console.log("rotation {" +m+" }");
+					break;
+				case 'SCALE':
+					var scale=node.children[k];
+					var sx=this.reader.getFloat(scale,'sx',true);
+					var sy=this.reader.getFloat(scale,'sy',true);
+					var sz=this.reader.getFloat(scale,'sz',true);
+					mat4.scale(m,m,[this.reader.getFloat(scale,'sx',true),this.reader.getFloat(scale,'sy',true),this.reader.getFloat(scale,'sz',true)]);
+					console.log(sx+" " +sy+" "+sz);
+					console.log("scale {" +m+" }");
+					break;
 			}
 
 

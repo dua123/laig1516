@@ -2,7 +2,7 @@
  * MyUnitCubeQuad
  * @constructor
  */
- function MyUnitCubeQuad(scene) {
+ function MyUnitCubeQuad(scene, xt, yt, xb, yb) {
  	CGFobject.call(this, scene);
 
  	this.quad = new MyQuad(this.scene);

@@ -127,19 +127,13 @@ XMLscene.prototype.onGraphLoaded = function() {
 		this.newNode.texture=this.allNodes[k]['texture'];
 		this.newNode.material=this.allNodes[k]['material'];
 		this.newNode.descendents=this.allNodes[k]['descendents'];
-		//console.log(this.newNode.descendents);
-		var m = mat4.create();
-		//ver caderno for more info
-			// Scene elements
-		//this.cube = new MyUnitCubeQuad(this);
+		this.newNode.m=this.allNodes[k]['m'];
 
 		
 	}
 
-	 this.element = new Elemets(this,"rectangle");
-	//this.element = new MyUnitCubeQuad(this);
-	//console.log(this.graph);
-	//for(var k=0;k<this.graph.nodes.length)
+	// this.element = new Elemets(this,"rectangle");
+	
 };
 
 XMLscene.prototype.display = function() {
