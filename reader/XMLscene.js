@@ -131,13 +131,14 @@ XMLscene.prototype.onGraphLoaded = function() {
 		var m = mat4.create();
 		//ver caderno for more info
 			// Scene elements
-		this.cube = new MyUnitCubeQuad(this);
-		this.cylinder = new MyCylinder(this,20 ,20 );
-
+		//this.cube = new MyUnitCubeQuad(this);
 
 		
 	}
-	//console.log(this.graph.nodes);
+
+	 this.element = new Elemets(this,"rectangle");
+	//this.element = new MyUnitCubeQuad(this);
+	//console.log(this.graph);
 	//for(var k=0;k<this.graph.nodes.length)
 };
 
@@ -176,14 +177,9 @@ XMLscene.prototype.display = function() {
 
 	// Scene elements
 		this.pushMatrix();
-		  this.cube.display();
+		  this.element.display();
 		this.popMatrix();
-		this.pushMatrix();
-			this.scale(1,1,10);
-			this.translate(2,0 ,2);
-		  this.cylinder.display();
-		this.popMatrix();
-	
+		
 	this.shader.unbind();
 };
 
