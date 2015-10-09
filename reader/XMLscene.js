@@ -53,6 +53,9 @@ XMLscene.prototype.setDefaultAppearance = function() {
 // Handler called when the graph is finally loaded. 
 // As loading is asynchronous, this may be called already after the application has started the run loop
 XMLscene.prototype.onGraphLoaded = function() {
+
+	this.enableTextures(true);
+		this.gl.clearColor(0.0, 0.0, 0.0, 1.0);
 	
 	this.camera.near = this.graph.initials.frustum.near;
     this.camera.far = this.graph.initials.frustum.far;
@@ -132,7 +135,7 @@ XMLscene.prototype.onGraphLoaded = function() {
 		
 	}
 
-	// this.element = new Elemets(this,"rectangle");
+	 this.el = new Element(this,"rectangle","../resources/images/wood.jpg");
 	
 };
 
@@ -167,13 +170,15 @@ XMLscene.prototype.display = function() {
 			this.lights[this.lightsEnabled[i]].update();
 		}
 
+		// Scene elements
+	this.pushMatrix;
+		this.el.display();
+	this.popMatrix;
+
 	};
 
-	// Scene elements
-		this.pushMatrix();
-		  this.element.display();
-		this.popMatrix();
-		
+	
+				
 	this.shader.unbind();
 };
 

@@ -4,6 +4,7 @@
  */
  function MyCylinder(scene, slices, stacks) {
  	CGFobject.call(this,scene);
+
 	
 	this.slices=slices;
 	this.stacks=stacks;

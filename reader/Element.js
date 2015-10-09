@@ -2,9 +2,16 @@
  * Elemets
  * @constructor
  */
- function Elemets(scene,ident) {
- 	//CGFobject.call(this, scene);
+ function Element(scene,ident,tex) {
+ 	CGFobject.call(this, scene);
 
+	this.texture = new CGFappearance(scene);
+	this.texture.loadTexture(tex);
+
+	this.texture.setAmbient(1,1,1.3,1);
+	this.texture.setDiffuse(0.1,0.1,0.1,1);
+	this.texture.setSpecular(0.9,0.9,0.9,1);
+	this.texture.setShininess(100);
 
  	switch(ident) {
     case "rectangle":
@@ -18,10 +25,11 @@
     break;
     }
  };
- Elemets.prototype = Object.create(CGFobject.prototype);
- Elemets.prototype.constructor = Elemets;
+ Element.prototype = Object.create(CGFobject.prototype);
+ Element.prototype.constructor = Element;
 
- Elemets.prototype.display = function() {
+ Element.prototype.display = function() {
+    this.texture.apply();
         this.elementV.display();
  	
  };
