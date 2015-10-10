@@ -12,6 +12,9 @@ XMLscene.prototype.init = function(application) {
 
 	this.initCameras();
 
+	this.grafo=[];
+	var graphRootID;
+
 	this.initLights();
 
 	this.gl.clearColor(0.0, 0.0, 0.0, 1.0);
@@ -72,7 +75,8 @@ XMLscene.prototype.onGraphLoaded = function() {
 	this.setGlobalAmbientLight(this.graph.Illumination.ambient.r,this.graph.Illumination.ambient.g,this.graph.Illumination.ambient.b,this.graph.Illumination.ambient.a);//ver no cfscene 
 	this.setAmbient(this.graph.Illumination.ambient.r,this.graph.Illumination.ambient.g,this.graph.Illumination.ambient.b,this.graph.Illumination.ambient.a);//ver no cfscene 
 
-
+	
+	console.log("GRAFO: "+this.grafo);
 	this.node= new Node();
 	console.log(this.node.m);
 
@@ -124,18 +128,26 @@ XMLscene.prototype.onGraphLoaded = function() {
 	//console.log(this.tex);
 	this.allNodes=this.graph.nodes;
 	for(var k=0;k<this.allNodes.length;k++){
-		this.newNode= new Node();
-		this.newNode.id=this.allNodes[k].id;
+		
+	//	this.newNode= new Node();
+		var nodeID = this.graph.nodes[k].id;
 		//console.log(this.allNodes[k]['texture']);
-		this.newNode.texture=this.allNodes[k]['texture'];
-		this.newNode.material=this.allNodes[k]['material'];
-		this.newNode.descendents=this.allNodes[k]['descendents'];
-		this.newNode.m=this.allNodes[k]['m'];
+		this.grafo[nodeID].texture=this.allNodes[k]['texture'];
+		this.grafo[nodeID].material=this.allNodes[k]['material'];
+		this.grafo[nodeID].descendents=this.allNodes[k]['descendents'];
+		console.log("GRAFO: id="+nodeID+", texture="+this.grafo[nodeID].texture+", material="+this.grafo[nodeID].material+", descendents="+this.grafo[nodeID].descendents+", m=" +this.grafo[nodeID].m);
+		//console.log(this.allNodes[k].id);
 
 		
 	}
 
-	 this.el = new Element(this,"rectangle","../resources/images/wood.jpg");
+	this.allLeaves=this.graph.leaves;
+	this.sceneLeaves=[];
+	for(var n=0;n<this.allLeaves.length;n++){
+		var leaveID=this.allLeaves[n].id;
+		this.sceneLeaves[n]= new Element(this, this.allLeaves[n]['type'],this.allLeaves[n]['args']);
+	}
+	// this.el = new Element(this,"rectangle","../resources/images/wood.jpg");
 	
 };
 
@@ -171,9 +183,16 @@ XMLscene.prototype.display = function() {
 		}
 
 		// Scene elements
-	this.pushMatrix;
+		//TESTING / NOT FINAL
+	for(var i=0;i<this.sceneLeaves.length;i++){
+		this.pushMatrix;
+			this.sceneLeaves[i].display();
+		this.popMatrix;
+	}
+	
+	/*this.pushMatrix;
 		this.el.display();
-	this.popMatrix;
+	this.popMatrix;*/
 
 	};
 

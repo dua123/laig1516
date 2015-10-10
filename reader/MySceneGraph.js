@@ -91,17 +91,18 @@ MySceneGraph.prototype.onXMLReady = function() {
 		return;
 	}
 
+	error = this.parseLeaves(rootElement);
+	if (error != null) {
+		this.onXMLError(error);
+		return;
+	}
 	error = this.parseNodes(rootElement);
 	if (error != null) {
 		this.onXMLError(error);
 		return;
 	}
 
-	error = this.parseLeaves(rootElement);
-	if (error != null) {
-		this.onXMLError(error);
-		return;
-	}
+	
 
 	this.loadedOk = true;
 
@@ -482,17 +483,18 @@ MySceneGraph.prototype.parseLeaves = function(rootElement) {
 		this.val['type'] = this.reader.getString(leaf,'type',true);
 		var string = this.reader.getString(leaf,'args',true);
 		var nstring = string.split(" ");
-		this.val['args'] = nstring;
 		console.log("Leaf with id "+ this.val['id']+ " read from file: {leaf: type= " +this.val['type']+" args= "+this.val['args']+" }");
+		this.val['args'] = nstring;
 
 
 		this.leaves[i] = this.val;
 
 	}
 };
-
 MySceneGraph.prototype.parseNodes=function(rootElement) {
+
 	var temp_node = rootElement.getElementsByTagName('NODES');
+		
 	if (temp_node == null) {
 		return "'NODES' element is missing";
 	}
@@ -501,7 +503,7 @@ MySceneGraph.prototype.parseNodes=function(rootElement) {
 		return "More or less than 1 'NODES' element found. THERE CAN ONLY BE ONE!!!!";
 	}
 
-	var rootID = temp_node[0].children[0].id;
+	this.graphRootID = temp_node[0].children[0].id;
 
 	var nrNodes = temp_node[0].children.length;
 	var IDs = [];
@@ -531,6 +533,7 @@ MySceneGraph.prototype.parseNodes=function(rootElement) {
 				this.nodeInfo['texture']=this.reader.getString(texture,'id',true);
 				console.log("Node with id "+node.id+" read from file: {texture: id="+this.nodeInfo['texture']+" }");
 			}
+			
 
 			var axis;
 			var tag=node.children[k].tagName
@@ -576,6 +579,7 @@ MySceneGraph.prototype.parseNodes=function(rootElement) {
 
 
 
+
 			if(node.children[k].tagName=='DESCENDENTS'){
 
 				var descendents=node.children[k];
@@ -588,6 +592,13 @@ MySceneGraph.prototype.parseNodes=function(rootElement) {
 				console.log("Node "+node.id+" descendents: "+this.nodeInfo['descendents']);
 			}
 		}
+		//console.log(node.id);
+		this.scene.grafo[node.id]=new Node();
+		this.scene.grafo[node.id].setMatrix(m);
+		//console.log("GRAFO2: "+this.scene.grafo[node.id].m);
+		//this.nodeInfo['m']=[];
+		//this.nodeInfo['m']=m;
+		//console.log(m);
 		this.nodes[i-1]=this.nodeInfo;	
 	}
 

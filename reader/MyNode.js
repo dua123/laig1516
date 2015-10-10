@@ -1,5 +1,4 @@
 function Node(){
-	this.id=null;
 	this.material=null;
 	this.texture=null;
 	this.m=null;

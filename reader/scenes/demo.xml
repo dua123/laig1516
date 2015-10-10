@@ -22,18 +22,18 @@
 	<LIGHTS>
     <LIGHT id="2">                                    <!-- light identifier -->
         <enable value ="1" />                         <!-- enable/disable -->
-        <position x="1" y="1" z="1" w="1" />       <!-- light position -->
-        <ambient r="3" g="ff" b="ff" a="ff" />        <!-- ambient component -->
-        <diffuse r="5" g="ff" b="ff" a="ff" />        <!-- diffuse component -->
-        <specular r="7" g="ff" b="ff" a="8" />       <!-- specular component -->
+        <position x="0" y="0" z="0" w="1" />       <!-- light position -->
+        <ambient r="1" g="1" b="1" a="1" />        <!-- ambient component -->
+        <diffuse r="1" g="1" b="1" a="1" />        <!-- diffuse component -->
+        <specular r="1" g="1" b="1" a="1" />       <!-- specular component -->
     </LIGHT>
 
     <LIGHT id="1">                                    <!-- light identifier -->
         <enable value ="1" />                         <!-- enable/disable -->
-        <position x="2" y="2" z="2" w="2" />       <!-- light position -->
-        <ambient r="4" g="ff" b="ff" a="ff" />        <!-- ambient component -->
-        <diffuse r="6" g="ff" b="ff" a="ff" />        <!-- diffuse component -->
-        <specular r="8" g="ff" b="ff" a="ff" />       <!-- specular component -->
+        <position x="0" y="0" z="0" w="1" />       <!-- light position -->
+        <ambient r="1" g="1" b="1" a="1" />        <!-- ambient component -->
+        <diffuse r="1" g="1" b="1" a="1" />        <!-- diffuse component -->
+        <specular r="1" g="1" b="1" a="1" />       <!-- specular component -->
     	</LIGHT>
     </LIGHTS>
 
@@ -62,6 +62,7 @@
 		<LEAF id="tableTop" type="rectangle"  args="-2 3 6 -1"/>
 		<LEAF id="tableLeg" type="cylinder" args="3.5 0.5 0.5 8 20"/>
 	</LEAVES>
+	
     <NODES>
 		<ROOT id="Mesa"/>
 
