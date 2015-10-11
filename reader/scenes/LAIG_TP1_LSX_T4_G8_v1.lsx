@@ -80,13 +80,18 @@
 	</LEAVES>
 	
     <NODES>
-		<ROOT id="Mesa"/>
+		<ROOT id="Quarto"/>
+		<NODE id="Quarto">
+			<DESCENDENTS>
+				<DESCENDANT id="Walls"/>
+				<DESCENDANT id="Mesa"/>
+			</DESCENDENTS>
+		</NODE>
 
 		<NODE id="Mesa">
 			<DESCENDENTS>
 				<DESCENDANT id="tampo"/>
 				<DESCENDANT id="legs"/>
-				<DESCENDANT id="walls"/>
 			</DESCENDENTS>
 		</NODE>
 
@@ -145,7 +150,7 @@
 				<DESCENDANT id="tableLeg"/>
 			</DESCENDENTS>
 		</NODE>
-		<NODE id="walls">
+		<NODE id="Walls">
 			<MATERIAL id="1"/>
 			<TEXTURE id="2"/>
 			<DESCENDENTS>
