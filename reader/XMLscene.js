@@ -35,9 +35,9 @@ XMLscene.prototype.initLights = function() {
 
 	//console.log("XML SCENNE "+this.graph.lights.length);
 
-	//this.lights[0].setPosition(2, 3, 3, 1);
-	//  this.lights[0].setDiffuse(1.0,1.0,1.0,1.0);
-	// this.lights[0].update();
+	this.lights[0].setPosition(2, 3, 3, 1);
+	this.lights[0].setDiffuse(1.0,1.0,1.0,1.0);
+	this.lights[0].update();
 
 	this.shader.unbind();
 };
@@ -57,6 +57,7 @@ XMLscene.prototype.setDefaultAppearance = function() {
 // As loading is asynchronous, this may be called already after the application has started the run loop
 XMLscene.prototype.onGraphLoaded = function() {
 
+	this.axis= new CGFaxis(this);
 	this.enableTextures(true);
 		this.gl.clearColor(0.0, 0.0, 0.0, 1.0);
 	
@@ -141,14 +142,17 @@ XMLscene.prototype.onGraphLoaded = function() {
 		
 	}
 
-	this.allLeaves=this.graph.leaves;
+/*	this.allLeaves=this.graph.leaves;
 	this.sceneLeaves=[];
 	for(var n=0;n<this.allLeaves.length;n++){
 		var leaveID=this.allLeaves[n].id;
 		this.sceneLeaves[n]= new Element(this, this.allLeaves[n]['type'],this.allLeaves[n]['args']);
 	}
-	// this.el = new Element(this,"rectangle","../resources/images/wood.jpg");
-	
+	 this.el = new Element(this,"sphere","../resources/images/wood.jpg");*/
+	//console.log(this.graph.leaves);
+	//console.log(this.graph.nodes.length);
+//leitura do grafo 
+
 };
 
 XMLscene.prototype.display = function() {
@@ -181,18 +185,17 @@ XMLscene.prototype.display = function() {
 		for(i;i<this.lightsEnabled.length;i++){
 			this.lights[this.lightsEnabled[i]].update();
 		}
+		
+	/*for(var n=0;n<this.allLeaves.length;n++){
+		this.pushMatrix();
+		this.sceneLeaves[n].display();
+		this.popMatrix();
+	}*/
 
-		// Scene elements
-		//TESTING / NOT FINAL
-	for(var i=0;i<this.sceneLeaves.length;i++){
-		this.pushMatrix;
-			this.sceneLeaves[i].display();
-		this.popMatrix;
-	}
-	
-	/*this.pushMatrix;
-		this.el.display();
-	this.popMatrix;*/
+	//representa a raiz
+	this.NodesDiplay(this.graph.nodes[0]);
+
+
 
 	};
 
@@ -200,5 +203,35 @@ XMLscene.prototype.display = function() {
 				
 	this.shader.unbind();
 };
+XMLscene.prototype.NodesDiplay = function(root) {
 
+	console.log(root);
+	if(root.descendents.length>1){
+		for(var i = 0; i < root.descendents.length ;i++)
+		{
+			//actualiza ma matriz e faz pop 
+			var newroot = this.getNode(root.descendents[i]);
+			if(newroot!='null')
+			this.pushMatrix;
+			//multipicacao da matri
+				this.NodesDiplay(newroot);
+			this.popMatrix;
 
+		}
+	}else {
+		// de certeza que um folha 
+			this.pushMatrix;
+			this.sceneLeaves.push= new Element(this, this.root['type'],this.root['args']);
+			this.pushMatrix;
+
+		}
+}
+XMLscene.prototype.getNode = function(node){
+	for(var i=0;i<this.graph.nodes.length;i++){
+		if(node.id == this.graph.nodes[i].id ){
+				return this.graph.nodes[i];
+		}
+			
+	}
+	return 'null';
+}

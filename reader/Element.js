@@ -22,7 +22,12 @@
              this.elementV = new MyUnitCubeQuad(scene, xt, yt, xb, yb);
              break;
          case "cylinder":
+         //falta alterar os argumentos do climdro
              this.elementV = new MyCylinder(scene, 20, 20);
+             break;
+         case "sphere":
+         //falta alterar os argumentos do climdro
+             this.elementV = new MySphere(scene,2, 50,50);
              break;
          default:
              console.log("Identificao de elemento nao identificada");
