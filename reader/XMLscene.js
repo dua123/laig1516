@@ -148,7 +148,6 @@ XMLscene.prototype.onGraphLoaded = function() {
 		var leaveID=this.allLeaves[n].id;
 		this.sceneLeaves[leaveID]= new Element(this, this.allLeaves[n]['type'],this.allLeaves[n]['args']);
 	}
-	//console.log(this.sceneLeaves);
 	//console.log(this.graph.nodes.length);
 //leitura do grafo 
 
@@ -192,8 +191,7 @@ XMLscene.prototype.display = function() {
 	}*/
 
 	//representa a raiz
-//	this.NodesDiplay(this.graph.nodes[0].id);
-	
+	this.NodesDiplay(this.graph.nodes[0].id);
 	};
 			
 	this.shader.unbind();
@@ -202,32 +200,30 @@ XMLscene.prototype.NodesDiplay = function(root) {
 
 	var node = this.getNode(root);
 
-	console.log(root);
-	console.log(node);
-	console.log(node.descendents[0]);
-	console.log(this.getNode(node.descendents[0]));
+
 	if(node=='null'){
 		console.log('erros no carregamento de nos');
 	}else
 	{
 	//this.graph.nodes[nodeN];
-	if(	node.descendents.length!=1){
+	if(this.isLeave(node.descendents[0])==false & node.descendents.length>1){
 		for(var i = 0; i < 	node.descendents.length ;i++)
 		{
 			//actualiza ma matriz e faz pop 
-		//	this.pushMatrix;
+			this.pushMatrix;
 			//multipicacao da matri
 				this.NodesDiplay(node.descendents[i]);
-		//	this.popMatrix;
+			this.popMatrix;
 
 		}
 	}else {
 		// de certeza que um folha 
 		this.pushMatrix;
-			//this.sceneLeaves.push= new Element(this, this.root['type'],this.root['args']);
-			//this.sceneLeaves[his.allLeaves[n]['type']].display();
-			this.sceneLeaves[node.descendents[0]].display();
-			this.pushMatrix;
+				this.sceneLeaves[node.descendents[0]].display();
+				//console.log(node.descendents[0]);
+				//console.log(this.sceneLeaves);
+				//console.log(this.sceneLeaves[node.descendents[0]]);
+		this.pushMatrix;
 
 		}
 	}
@@ -242,4 +238,14 @@ XMLscene.prototype.getNode = function(node){
 			
 	}
 	return 'null';
+}
+XMLscene.prototype.isLeave = function(leave){
+	//leave
+	for(var i=0;i<this.graph.leaves.length;i++){
+		if(leave==this.graph.leaves[i].id ){
+				return true;
+		}
+			
+	}
+	return false;
 }
