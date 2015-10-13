@@ -142,14 +142,13 @@ XMLscene.prototype.onGraphLoaded = function() {
 		
 	}
 
-/*	this.allLeaves=this.graph.leaves;
+	this.allLeaves=this.graph.leaves;
 	this.sceneLeaves=[];
 	for(var n=0;n<this.allLeaves.length;n++){
 		var leaveID=this.allLeaves[n].id;
-		this.sceneLeaves[n]= new Element(this, this.allLeaves[n]['type'],this.allLeaves[n]['args']);
+		this.sceneLeaves[leaveID]= new Element(this, this.allLeaves[n]['type'],this.allLeaves[n]['args']);
 	}
-	 this.el = new Element(this,"sphere","../resources/images/wood.jpg");*/
-	//console.log(this.graph.leaves);
+	//console.log(this.sceneLeaves);
 	//console.log(this.graph.nodes.length);
 //leitura do grafo 
 
@@ -193,42 +192,51 @@ XMLscene.prototype.display = function() {
 	}*/
 
 	//representa a raiz
-	this.NodesDiplay(this.graph.nodes[0]);
-
-
-
-	};
-
+//	this.NodesDiplay(this.graph.nodes[0].id);
 	
-				
+	};
+			
 	this.shader.unbind();
 };
 XMLscene.prototype.NodesDiplay = function(root) {
 
+	var node = this.getNode(root);
+
 	console.log(root);
-	if(root.descendents.length>1){
-		for(var i = 0; i < root.descendents.length ;i++)
+	console.log(node);
+	console.log(node.descendents[0]);
+	console.log(this.getNode(node.descendents[0]));
+	if(node=='null'){
+		console.log('erros no carregamento de nos');
+	}else
+	{
+	//this.graph.nodes[nodeN];
+	if(	node.descendents.length!=1){
+		for(var i = 0; i < 	node.descendents.length ;i++)
 		{
 			//actualiza ma matriz e faz pop 
-			var newroot = this.getNode(root.descendents[i]);
-			if(newroot!='null')
-			this.pushMatrix;
+		//	this.pushMatrix;
 			//multipicacao da matri
-				this.NodesDiplay(newroot);
-			this.popMatrix;
+				this.NodesDiplay(node.descendents[i]);
+		//	this.popMatrix;
 
 		}
 	}else {
 		// de certeza que um folha 
-			this.pushMatrix;
-			this.sceneLeaves.push= new Element(this, this.root['type'],this.root['args']);
+		this.pushMatrix;
+			//this.sceneLeaves.push= new Element(this, this.root['type'],this.root['args']);
+			//this.sceneLeaves[his.allLeaves[n]['type']].display();
+			this.sceneLeaves[node.descendents[0]].display();
 			this.pushMatrix;
 
 		}
+	}
+
 }
 XMLscene.prototype.getNode = function(node){
+	//node
 	for(var i=0;i<this.graph.nodes.length;i++){
-		if(node.id == this.graph.nodes[i].id ){
+		if(node==this.graph.nodes[i].id ){
 				return this.graph.nodes[i];
 		}
 			
