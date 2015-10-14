@@ -152,7 +152,8 @@ XMLscene.prototype.onGraphLoaded = function() {
 //leitura do grafo 
 //variavel de teste
 	//this.el = new Element(this, 'sphere',[2, 20, 20]);
-	console.log(graphRootID);
+		console.log(this.grafo['leg5'].descendents);
+		console.log(this.sceneLeaves);
 };
 
 XMLscene.prototype.display = function() {
@@ -195,7 +196,6 @@ XMLscene.prototype.display = function() {
 	/*this.pushMatrix;
 		this.el.display();
 	this.popMatrix;*/
-	
 	this.NodesDiplay(graphRootID);
 	};
 			

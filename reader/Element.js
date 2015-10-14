@@ -28,9 +28,9 @@
              //this.elementV = new MyCylinder(scene, 20, 20);
              break;
          case "sphere":
-              var sfa = args[0];
-             var sia = args[1];
-             var sib = args[2];
+              var sfa = parseInt(args[0]);
+              var sia = parseInt(args[1]);
+              var sib = parseInt(args[2]);
          //falta alterar os argumentos do climdro
              this.elementV = new MySphere(scene,sfa, sia,sib);
              break;
