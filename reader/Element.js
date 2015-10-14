@@ -22,17 +22,22 @@
              this.elementV = new MyUnitCubeQuad(scene, xt, yt, xb, yb);
              break;
          case "cylinder":
-         //falta alterar os argumentos do climdro
-             //this.elementV = new MyCylinder(scene, height,bottonR,topR,slices,stacks);
-             this.elementV = new MyCylinder(scene, 20,60,25,20,20);
+             //falta alterar os argumentos do climdro
+             var height= parseFloat(args[0]);
+             var bottom_radius= parseFloat(args[1]);
+             var top_radius= parseFloat(args[2]);
+             var sections_height= parseInt(args[3]);
+             var sections_part= parseInt(args[4]);
+             //this.elementV = new MyCylinder(scene, height, bot_rad, top_rad, sec_height, parts_sec slices, stacks);
+             this.elementV = new MyCylinder(scene, height,bottom_radius,top_radius,sections_height,sections_part);
              //this.elementV = new MyCylinder(scene, 20, 20);
              break;
          case "sphere":
-              var sfa = parseInt(args[0]);
-              var sia = parseInt(args[1]);
-              var sib = parseInt(args[2]);
-         //falta alterar os argumentos do climdro
-             this.elementV = new MySphere(scene,sfa, sia,sib);
+             var sfa = parseFloat(args[0]);
+             var sia = parseInt(args[1]);
+             var sib = parseInt(args[2]);
+             //falta alterar os argumentos do climdro
+             this.elementV = new MySphere(scene, sfa, sia, sib);
              break;
          default:
              console.log("Identificao de elemento nao identificada");

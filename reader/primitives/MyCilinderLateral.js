@@ -2,7 +2,7 @@
  * MyCilinderLateral
  * @constructor
  */
-function MyCilinderLateral(scene, height, bot_rad, top_rad, sec_height, parts_sec slices, stacks) {
+function MyCilinderLateral(scene, height, bot_rad, top_rad, sec_height, parts_sec) {
 	CGFobject.call(this, scene);
 
 	this.height = height;
@@ -29,7 +29,7 @@ MyCilinderLateral.prototype.initBuffers = function() {
 	this.normals = [];
 	this.texCoords = [];
 	var rad = Math.abs(this.top_rad - this.bot_rad);
-	var heightDiff = radius_diff / this.sec_height;
+	var heightDiff = rad / this.sec_height;
 
 	//lateral surface
 	for (var j = 0; j <= this.sec_height; j++) {
@@ -38,11 +38,11 @@ MyCilinderLateral.prototype.initBuffers = function() {
 			var ang = i * angle;
 			this.vertices.push(Math.cos(ang), Math.sin(ang), (this.height * j) / this.sec_height);
 			this.normals.push(Math.cos(ang), Math.sin(ang), 0);
-			this.texCoords.parts_sec(i*patchS,j*patchT);
+			this.texCoords.push(i*patchS,j*patchT);
 
 			this.vertices.push(Math.cos(ang), Math.sin(ang), (this.height * (j + 1)) / this.sec_height);
 			this.normals.push(Math.cos(ang), Math.sin(ang), 0);
-			this.texCoords.parts_sec(i*patchS,(j+1)*patchT);
+			this.texCoords.push(i*patchS,(j+1)*patchT);
 
 
 			//		this.texCoords.push(0+i/this.slices,0+j/this.stacks);.
@@ -53,7 +53,7 @@ MyCilinderLateral.prototype.initBuffers = function() {
 			this.indices.push(n + i * 2 + 2, n + i * 2 + 3, n + i * 2 + 1);
 		}
 		this.indices.push(n + (2*this.parts_sec)-2, n, n +(2*this.parts_sec)-1);
-		this.indices.push(n, n+1, n +(2*this.parts_sec)-1,);
+		this.indices.push(n, n+1, n +(2*this.parts_sec)-1);
 	}
 
 
