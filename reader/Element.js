@@ -23,11 +23,16 @@
              break;
          case "cylinder":
          //falta alterar os argumentos do climdro
-             this.elementV = new MyCylinder(scene, 20, 20);
+             //this.elementV = new MyCylinder(scene, height,bottonR,topR,slices,stacks);
+             this.elementV = new MyCylinder(scene, 20,60,25,20,20);
+             //this.elementV = new MyCylinder(scene, 20, 20);
              break;
          case "sphere":
+              var sfa = args[0];
+             var sia = args[1];
+             var sib = args[2];
          //falta alterar os argumentos do climdro
-             this.elementV = new MySphere(scene,2, 50,50);
+             this.elementV = new MySphere(scene,sfa, sia,sib);
              break;
          default:
              console.log("Identificao de elemento nao identificada");
@@ -38,7 +43,6 @@
  Element.prototype.constructor = Element;
 
  Element.prototype.display = function() {
-     //this.texture.apply();
      this.elementV.display();
 
  };
