@@ -502,12 +502,12 @@ MySceneGraph.prototype.parseNodes=function(rootElement) {
 	if (temp_node.length != 1) {
 		return "More or less than 1 'NODES' element found. THERE CAN ONLY BE ONE!!!!";
 	}
-
+	this.nodes = [];
+//como no xml a root esta dentro dos nodes
 	this.graphRootID = temp_node[0].children[0].id;
-
+	this.nodes['root']=temp_node[0].children[0].id;
 	var nrNodes = temp_node[0].children.length;
 	var IDs = [];
-	this.nodes = [];
 	for(var i=1;i<nrNodes;i++){    				//i=1 BECAUSE i=0 is root id
 		var cont=0;
 		var node=temp_node[0].children[i];

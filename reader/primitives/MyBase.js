@@ -2,9 +2,10 @@
  * MyBase
  * @constructor
  */
-function MyBase(scene, slices, baseIndex) {
+function MyBase(scene, slices, baseIndex,radios) {
     CGFobject.call(this, scene);
 
+    this.radios = radios;
     this.slices = slices;
     this.baseIndex = baseIndex;
 
@@ -27,8 +28,8 @@ MyBase.prototype.initBuffers = function() {
     var centroX = (this.maxS + this.minS) / 2;
     var centroY = (this.maxT + this.minT) / 2;
 
-    var raioX = this.maxS - centroX;
-    var raioY = this.maxT - centroY;
+      var raioX = this.radios;
+      var raioY = this.radios; 
 
     this.vertices = [];
     this.indices = [];

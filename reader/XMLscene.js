@@ -148,8 +148,10 @@ XMLscene.prototype.onGraphLoaded = function() {
 		var leaveID=this.allLeaves[n].id;
 		this.sceneLeaves[leaveID]= new Element(this, this.allLeaves[n]['type'],this.allLeaves[n]['args']);
 	}
-	console.log(this.graph.materials[0].id);
+//	console.log(this.graphRootID);
 //leitura do grafo 
+//variavel de teste
+	//this.el = new Element(this, 'sphere',[2, 20, 20]);
 
 };
 
@@ -191,6 +193,9 @@ XMLscene.prototype.display = function() {
 	}*/
 
 	//representa a raiz
+	/*this.pushMatrix;
+		this.el.display();
+	this.popMatrix;*/
 	this.NodesDiplay(this.graph.nodes[0].id);
 	};
 			
@@ -223,6 +228,7 @@ XMLscene.prototype.NodesDiplay = function(root) {
 			}
 			
 			//multipicacao da matri
+			//mat4.multiply(newMatrix, matrix, descendantNode.m);
 				this.NodesDiplay(node.descendents[i]);
 			this.popMatrix;
 
@@ -230,6 +236,15 @@ XMLscene.prototype.NodesDiplay = function(root) {
 	}else {
 		// de certeza que um folha 
 		this.pushMatrix;
+					var mat = this.getMaterial(node.material);
+			if(mat!=null){
+				mat.apply;
+			}
+			//aplicacao da textura
+			var tex = this.getMaterial(node.texture);
+			if(tex!=null){
+				tex.apply;
+			}
 
 				this.sceneLeaves[node.descendents[0]].display();
 		this.pushMatrix;
