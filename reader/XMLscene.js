@@ -125,7 +125,7 @@ XMLscene.prototype.onGraphLoaded = function() {
 
 		k++;
 	}
-	
+	graphRootID = this.graph.graphRootID;	
 	//console.log(this.tex);
 	this.allNodes=this.graph.nodes;
 	for(var k=0;k<this.allNodes.length;k++){
@@ -148,11 +148,11 @@ XMLscene.prototype.onGraphLoaded = function() {
 		var leaveID=this.allLeaves[n].id;
 		this.sceneLeaves[leaveID]= new Element(this, this.allLeaves[n]['type'],this.allLeaves[n]['args']);
 	}
-	console.log(this.graph.nodes[4]);
+
 //leitura do grafo 
 //variavel de teste
 	//this.el = new Element(this, 'sphere',[2, 20, 20]);
-
+	console.log(graphRootID);
 };
 
 XMLscene.prototype.display = function() {
@@ -191,97 +191,69 @@ XMLscene.prototype.display = function() {
 		this.sceneLeaves[n].display();
 		this.popMatrix();
 	}*/
-
 	//representa a raiz
 	/*this.pushMatrix;
 		this.el.display();
 	this.popMatrix;*/
 	
-	this.NodesDiplay(this.graph.nodes[0].id);
+	this.NodesDiplay(graphRootID);
 	};
 			
 	this.shader.unbind();
 };
-XMLscene.prototype.NodesDiplay = function(root) {
+XMLscene.prototype.NodesDiplay = function(id) {
 
-	var node = this.getNode(root);
+	//console.log(id);
+	//console.log(this.grafo[id]);
+	//console.log(root.descendents);
 
-
-	if(node=='null'){
-		console.log('erros no carregamento de nos');
-	}else
-	{
 	//this.graph.nodes[nodeN];
-	if(this.isLeave(node.descendents[0])==false & node.descendents.length>1){
-		for(var i = 0; i < 	node.descendents.length ;i++)
+	if(this.isLeave(this.grafo[id].descendents[0])==false & this.grafo[id].descendents.length>1){
+		for(var i = 0; i < 	this.grafo[id].descendents.length ;i++)
 		{
 			//actualiza ma matriz e faz pop 
 			this.pushMatrix;
 			//apicacao do material
-			var mat = this.getMaterial(node.material);
-			if(mat!=null){
+			var mat = this.grafo[id].material
+			if(mat!=undefined){
 				mat.apply;
 			}
 			//aplicacao da textura
-			var tex = this.getMaterial(node.texture);
-			if(tex!=null){
+			var tex = this.grafo[id].texture;
+			if(tex!=undefined){
 				tex.apply;
 			}
-			//aplicacao de todas rotarions
-			var rot = node.rotation;
-			if(rot!=undefined){
-				this.multMatrix(rot);
-			}
-			//aplicacao de transcacao
-			var tra =node.translation;
-			if(tra != undefined){
-				this.multMatrix(tra);
-				//magia aplica a transcacao
+			//multipilicacao da matrix
+				this.multMatrix(this.grafo[id].m);
 				
-			}
-			//aplicacao de scale
-			var sca = node.scale;
-			if(sca != undefined){
-				//magia aplica a scale
-				this.multMatrix(sca);
-				
-			}
-			//multipicacao da matri
-			//mat4.multiply(newMatrix, matrix, descendantNode.m);
-				this.NodesDiplay(node.descendents[i]);
+				this.NodesDiplay(this.grafo[id].descendents[i]);
 			this.popMatrix;
 
 		}
 	}else {
-		// de certeza que um folha 
-		this.pushMatrix;
-		var mat = this.getMaterial(node.material);
-			if(mat!=null){
+			//actualiza ma matriz e faz pop 
+			this.pushMatrix;
+			//apicacao do material
+			var mat = this.grafo[id].material
+			if(mat!=undefined){
 				mat.apply;
 			}
 			//aplicacao da textura
-		var tex = this.getMaterial(node.texture);
-			if(tex!=null){
+			var tex = this.grafo[id].texture;
+			if(tex!=undefined){
 				tex.apply;
 			}
 
-				this.sceneLeaves[node.descendents[0]].display();
+			//multipilicacao da matrix
+				this.multMatrix(this.grafo[id].m);
+				this.sceneLeaves[this.grafo[id].descendents[0]].display();
 		this.pushMatrix;
 
 		}
-	}
+
 
 }
-XMLscene.prototype.getNode = function(node){
-	//node
-	for(var i=0;i<this.graph.nodes.length;i++){
-		if(node==this.graph.nodes[i].id ){
-				return this.graph.nodes[i];
-		}
-			
-	}
-	return 'null';
-}
+
 XMLscene.prototype.isLeave = function(leave){
 	//leave
 	for(var i=0;i<this.graph.leaves.length;i++){
@@ -291,25 +263,4 @@ XMLscene.prototype.isLeave = function(leave){
 			
 	}
 	return false;
-}
-XMLscene.prototype.getTexture = function(tex){
-	//leave
-	for(var i=0;i<this.graph.textures.length;i++){
-		if(tex==this.graph.textures[i].id ){
-				return this.graph.textures[i];
-		}
-			
-	}
-	return null;
-}
-
-XMLscene.prototype.getMaterial = function(mat){
-	//leave
-	for(var i=0;i<this.graph.materials.length;i++){
-		if(mat==this.graph.materials[i].id ){
-				return this.graph.materials[i];
-		}
-			
-	}
-	return null;
 }
