@@ -148,7 +148,7 @@ XMLscene.prototype.onGraphLoaded = function() {
 		var leaveID=this.allLeaves[n].id;
 		this.sceneLeaves[leaveID]= new Element(this, this.allLeaves[n]['type'],this.allLeaves[n]['args']);
 	}
-	this.el = new Element(this,'triangle',[-0.5,-0.5,0.5,-0.5,0.0,0.5 ]);
+
 };
 
 XMLscene.prototype.display = function() {
@@ -182,22 +182,23 @@ XMLscene.prototype.display = function() {
 			this.lights[this.lightsEnabled[i]].update();
 		}
 		
-	this.NodesDiplay(graphRootID);
+	//	console.log(this.getMatrix( ));
+
+	this.NodesDiplay(graphRootID,this.grafo[graphRootID].m);
 	};
 	this.shader.unbind();
 };
-XMLscene.prototype.NodesDiplay = function(id) {
+XMLscene.prototype.NodesDiplay = function(id,matrix) {
 
 	//console.log(id);
 	//console.log(this.grafo[id]);
 	//console.log(root.descendents);
 
-	//this.graph.nodes[nodeN];
+	//this.graph.nodes[nodeN)
 	if(this.isLeave(this.grafo[id].descendents[0])==false & this.grafo[id].descendents.length>1){
 		for(var i = 0; i < 	this.grafo[id].descendents.length ;i++)
 		{
 			//actualiza ma matriz e faz pop 
-			this.pushMatrix;
 			//apicacao do material
 
 			var mat = this.grafo[id].material
@@ -211,15 +212,16 @@ XMLscene.prototype.NodesDiplay = function(id) {
 				this.tex[tex].apply();
 			}
 			//multipilicacao da matrix
-				this.multMatrix(this.grafo[id].m);
 				
-				this.NodesDiplay(this.grafo[id].descendents[i]);
-			this.popMatrix;
-
+               var newmatrix = mat4.create();
+               mat4.multiply(newmatrix, this.grafo[id].m, matrix);
+               
+				this.NodesDiplay(this.grafo[id].descendents[i],newmatrix);
+	
+			
 		}
 	}else {
 			//actualiza ma matriz e faz pop 
-			this.pushMatrix;
 			//apicacao do material
 
 			var mat = this.grafo[id].material
@@ -233,9 +235,13 @@ XMLscene.prototype.NodesDiplay = function(id) {
 			}
 
 			//multipilicacao da matrix
-				this.multMatrix(this.grafo[id].m);
+
+               var newmatrix = mat4.create();
+               mat4.multiply(newmatrix, this.grafo[id].m,matrix);
+            this.pushMatrix();
+               this.multMatrix( newmatrix );
 				this.sceneLeaves[this.grafo[id].descendents[0]].display();
-		this.pushMatrix;
+			this.popMatrix();
 
 		}
 
