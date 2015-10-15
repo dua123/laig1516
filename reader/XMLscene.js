@@ -182,8 +182,7 @@ XMLscene.prototype.display = function() {
 			this.lights[this.lightsEnabled[i]].update();
 		}
 		
-//	this.NodesDiplay(graphRootID);
-	this.el.display();
+	this.NodesDiplay(graphRootID);
 	};
 	this.shader.unbind();
 };
@@ -200,14 +199,16 @@ XMLscene.prototype.NodesDiplay = function(id) {
 			//actualiza ma matriz e faz pop 
 			this.pushMatrix;
 			//apicacao do material
+
 			var mat = this.grafo[id].material
 			if(mat!=null){
-				mat.apply;
+				this.mats[mat].apply();
 			}
 			//aplicacao da textura
 			var tex = this.grafo[id].texture;
+			
 			if(tex!=null){
-				tex.apply;
+				this.tex[tex].apply();
 			}
 			//multipilicacao da matrix
 				this.multMatrix(this.grafo[id].m);
@@ -220,14 +221,15 @@ XMLscene.prototype.NodesDiplay = function(id) {
 			//actualiza ma matriz e faz pop 
 			this.pushMatrix;
 			//apicacao do material
+
 			var mat = this.grafo[id].material
-			if(mat!=null){
-				mat.apply;
+			if(mat!='null'){
+				this.mats[mat].apply();
 			}
 			//aplicacao da textura
 			var tex = this.grafo[id].texture;
-			if(tex!=null){
-				tex.apply;
+			if(tex!='null'){
+				this.tex[tex].apply();
 			}
 
 			//multipilicacao da matrix
