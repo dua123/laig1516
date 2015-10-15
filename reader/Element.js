@@ -15,11 +15,11 @@
 
      switch (type) {
          case "rectangle":
-             var xt = args[0];
-             var yt = args[1];
-             var xb = args[2];
-             var yb = args[3];
-             this.elementV = new MyUnitCubeQuad(scene, xt, yt, xb, yb);
+             var xt = parseFloat(args[0]);
+             var yt = parseFloat(args[1]);
+             var xb = parseFloat(args[2]);
+             var yb = parseFloat(args[3]);
+              	this.elementV = new MyQuad(this.scene,xt,yt,xb,yb);
              break;
          case "cylinder":
              //falta alterar os argumentos do climdro

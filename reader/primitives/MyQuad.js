@@ -5,10 +5,10 @@
 function MyQuad(scene, xt, yt, xb, yb, minS, maxS, minT, maxT) {
 	CGFobject.call(this, scene);
 
-	this.xt = xt || -0.5;
-	this.yt = yt || -0.5;
-	this.xb = xb || 0.5;
-	this.yb = yb || 0.5;
+	this.xt = xt 
+	this.yt = yt 
+	this.xb = xb 
+	this.yb = yb 
 
 	this.minS = minS || 0;
 	this.minT = minT || 0;
@@ -25,9 +25,9 @@ MyQuad.prototype.constructor = MyQuad;
 MyQuad.prototype.initBuffers = function() {
 	this.vertices = [
 		this.xt, this.yt, 0,
-		this.xb, this.yt, 0,
+		this.xt, this.yb, 0,
 		this.xb, this.yb, 0,
-		this.xt, this.yb, 0
+		this.xb, this.yt, 0
 	];
 
 	this.indices = [
