@@ -148,12 +148,7 @@ XMLscene.prototype.onGraphLoaded = function() {
 		var leaveID=this.allLeaves[n].id;
 		this.sceneLeaves[leaveID]= new Element(this, this.allLeaves[n]['type'],this.allLeaves[n]['args']);
 	}
-
-//leitura do grafo 
-//variavel de teste
-	//this.el = new Element(this, 'sphere',[2, 20, 20]);
-		console.log(this.grafo['leg5'].descendents);
-		console.log(this.sceneLeaves);
+	this.el = new Element(this,'triangle',[-0.5,-0.5,0.5,-0.5,0.0,0.5 ]);
 };
 
 XMLscene.prototype.display = function() {
@@ -187,18 +182,9 @@ XMLscene.prototype.display = function() {
 			this.lights[this.lightsEnabled[i]].update();
 		}
 		
-	/*for(var n=0;n<this.allLeaves.length;n++){
-		this.pushMatrix();
-		this.sceneLeaves[n].display();
-		this.popMatrix();
-	}*/
-	//representa a raiz
-	/*this.pushMatrix;
-		this.el.display();
-	this.popMatrix;*/
-	this.NodesDiplay(graphRootID);
+//	this.NodesDiplay(graphRootID);
+	this.el.display();
 	};
-			
 	this.shader.unbind();
 };
 XMLscene.prototype.NodesDiplay = function(id) {
@@ -215,12 +201,12 @@ XMLscene.prototype.NodesDiplay = function(id) {
 			this.pushMatrix;
 			//apicacao do material
 			var mat = this.grafo[id].material
-			if(mat!=undefined){
+			if(mat!=null){
 				mat.apply;
 			}
 			//aplicacao da textura
 			var tex = this.grafo[id].texture;
-			if(tex!=undefined){
+			if(tex!=null){
 				tex.apply;
 			}
 			//multipilicacao da matrix
@@ -235,12 +221,12 @@ XMLscene.prototype.NodesDiplay = function(id) {
 			this.pushMatrix;
 			//apicacao do material
 			var mat = this.grafo[id].material
-			if(mat!=undefined){
+			if(mat!=null){
 				mat.apply;
 			}
 			//aplicacao da textura
 			var tex = this.grafo[id].texture;
-			if(tex!=undefined){
+			if(tex!=null){
 				tex.apply;
 			}
 
