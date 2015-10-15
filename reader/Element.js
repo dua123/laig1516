@@ -39,6 +39,20 @@
              //falta alterar os argumentos do climdro
              this.elementV = new MySphere(scene, sfa, sia, sib);
              break;
+          case "triangle":
+         //falta alterar os argumentos do climdro
+             var x1= parseFloat(args[0]);
+             var y1= parseFloat(args[1]);
+             var z1= parseFloat(args[2]);
+             var x2= parseFloat(args[3]);
+             var y2= parseFloat(args[4]);
+             var z2= parseFloat(args[5]);
+             var x3= parseFloat(args[6]);
+             var y3= parseFloat(args[7]);
+             var z3= parseFloat(args[8]);
+             //this.elementV = new MyTriangle(scene,x1,y1,z1,x2,y2,z2,x3,y3,z3);
+             this.elementV = new MyTriangle(scene,0.0, 0.0, 0.0, 1.0 , 0.0, 0.0, 1 , 1.0, 0.0);
+             break;
          default:
              console.log("Identificao de elemento nao identificada");
              break;
