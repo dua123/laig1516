@@ -51,8 +51,8 @@ var MyTexture = function() {
  */
 MySceneGraph.prototype.onXMLReady = function() {
 	console.log("XML Loading finished.");
-	var rootElement = this.reader.xmlDoc.documentElement;
-	console.log(this.reader.xmlDoc.documentElement);
+	var rootElemenScene = this.reader.xmlDoc.documentElement;
+	var rootElement = rootElemenScene.children;
 
 	// Here should go the calls for different functions to parse the various blocks
 	var error = this.parseGlobalsExample(rootElement);
@@ -167,35 +167,34 @@ MySceneGraph.prototype.idExists = function(IDs, id) {
 }
 
 MySceneGraph.prototype.parseInitials = function(rootElement) {
-	var tempIni = rootElement.getElementsByTagName('INITIALS');
 
+	//var tempIni = rootElement.getElementsByTagName('INITIALS');
+	var tempIni = rootElement[0].children;
 	if (tempIni == null) {
 		return "initials element is missing.";
 	}
-
-
-	if (tempIni.length != 1) {
+	if (tempIni.length < 1) {
 		return "either zero or more than one 'initials' element found.";
 	}
 
 	this.initials = [];
 	//this.list=[];
-	var frustum = tempIni[0].children[0];
+	var frustum = tempIni[0];
 	this.initials = [];
 	this.initials['frustum'] = [];
 	this.initials['frustum']['near'] = this.reader.getFloat(frustum, 'near', true);
 	this.initials['frustum']['far'] = this.reader.getFloat(frustum, 'far', true);
 //	console.log("Initials read from file: {Frustum: near=" + this.initials['frustum']['near'] + ", far=" + this.initials['frustum']['far'] + "}");
 
-	var translate = tempIni[0].children[1];
-	this.initials['translate'] = [];
-	this.initials['translate']['x'] = this.reader.getFloat(translate, 'x', true);
-	this.initials['translate']['y'] = this.reader.getFloat(translate, 'y', true);
-	this.initials['translate']['z'] = this.reader.getFloat(translate, 'z', true);
+	var translate = tempIni[1];
+	this.initials['translation'] = [];
+	this.initials['translation']['x'] = this.reader.getFloat(translate, 'x', true);
+	this.initials['translation']['y'] = this.reader.getFloat(translate, 'y', true);
+	this.initials['translation']['z'] = this.reader.getFloat(translate, 'z', true);
 //	console.log("Initials read from file: {translate: x=" + this.initials['translate']['x'] + ", y=" + this.initials['translate']['y'] + ", z=" + this.initials['translate']['z'] + " }");
 
 	//TODO: axis can only accpet x y or z
-	var rotation1 = tempIni[0].children[2];
+	var rotation1 = tempIni[2];
 //	console.log(rotation1);
 
 	//verificar mais tarde 
@@ -204,26 +203,26 @@ MySceneGraph.prototype.parseInitials = function(rootElement) {
 	this.initials['rot1']['angle'] = this.reader.getFloat(rotation1, 'angle', true);
 //	console.log("Initials read from file: {rotation1: axis=" + this.initials['rot1']['axis'] + ", angle=" + this.initials['rot1']['angle'] + " }");
 
-	var rotation2 = tempIni[0].children[3];
+	var rotation2 = tempIni[3];
 	this.initials['rot2'] = [];
 	this.initials['rot2']['axis'] = this.reader.getString(rotation2, 'axis', true);
 	this.initials['rot2']['angle'] = this.reader.getFloat(rotation2, 'angle', true);
 	//console.log("Initials read from file: {rotation2: axis=" + this.initials['rot2']['axis'] + ", angle=" + this.initials['rot2']['angle'] + " }");
 
-	var rotation3 = tempIni[0].children[4];
+	var rotation3 = tempIni[4];
 	this.initials['rot3'] = [];
 	this.initials['rot3']['axis'] = this.reader.getString(rotation3, 'axis', true);
 	this.initials['rot3']['angle'] = this.reader.getFloat(rotation3, 'angle', true);
 	//console.log("Initials read from file: {rotation3: axis=" + this.initials['rot3']['axis'] + ", angle=" + this.initials['rot3']['angle'] + " }");
 
-	var scale = tempIni[0].children[5];
+	var scale = tempIni[5];
 	this.initials['scale'] = []
 	this.initials['scale']['sx'] = this.reader.getFloat(scale, 'sx', true);
 	this.initials['scale']['sy'] = this.reader.getFloat(scale, 'sy', true);
 	this.initials['scale']['sz'] = this.reader.getFloat(scale, 'sz', true);
 	//console.log("Initials read from file: {scale: sx=" + this.initials['scale']['sx'] + ", sy=" + this.initials['scale']['sy'] + ", sz=" + this.initials['scale']['sz'] + " }");
 
-	var reference = tempIni[0].children[6];
+	var reference = tempIni[6];
 	this.initials['reference'] = []
 	this.initials['reference']['length'] = this.reader.getFloat(reference, 'length', true);
 	//console.log("Initials read from file: {reference: length=" + this.initials['reference']['length'] + "}");
@@ -231,17 +230,17 @@ MySceneGraph.prototype.parseInitials = function(rootElement) {
 };
 
 MySceneGraph.prototype.parseIllumination = function(rootElement) {
-	var tempIl = rootElement.getElementsByTagName('ILLUMINATION');
+	var tempIl = rootElement[1].children;
 
 	if (tempIl == null) {
 		return "ILLUMINATION element is missing.";
 	}
 
 
-	if (tempIl.length != 1)
+	if (tempIl.length == 0)
 		return "either zero or more than one 'illumination' element found.";
 
-	var ambient = tempIl[0].children[0];
+	var ambient = tempIl[0];
 	this.Illumination = [];
 	this.Illumination['ambient'] = [];
 	this.Illumination['ambient']['r'] = this.reader.getFloat(ambient, 'r', true);
@@ -251,12 +250,12 @@ MySceneGraph.prototype.parseIllumination = function(rootElement) {
 	//console.log(this.ilu_ambient);
 	//console.log("Ilumination read from file: {ambient: r=" + this.Illumination['ambient']['r'] + ", g=" + this.Illumination['ambient']['g'] + ", b=" + this.Illumination['ambient']['b'] + ", a=" + this.Illumination['ambient']['a'] + " }");
 
-	var doubleslide = tempIl[0].children[1];
-	this.Illumination['doubleslide'] = [];
-	this.doubleslide_value = this.reader.getFloat(doubleslide, 'value', true);
+//	var doubleslide = tempIl[0].children[1];
+//	this.Illumination['doubleslide'] = [];
+//	this.doubleslide_value = this.reader.getFloat(doubleslide, 'value', true);
 	//console.log("Ilumination read from file: {doubleslide: value=" + this.doubleslide_value + " }");
 
-	var background = tempIl[0].children[2];
+	var background = tempIl[1];
 	this.Illumination['background'] = [];
 	this.Illumination['background']['r'] = this.reader.getFloat(background, 'r', true);
 	this.Illumination['background']['g'] = this.reader.getFloat(background, 'g', true);
@@ -269,7 +268,9 @@ MySceneGraph.prototype.parseIllumination = function(rootElement) {
 
 MySceneGraph.prototype.parseLights = function(rootElement) {
 
-	var tempLights = rootElement.getElementsByTagName('LIGHTS');
+	//var tempLights = rootElement.getElementsByTagName('LIGHTS');
+	//console.log(rootElement[2].children);
+	var tempLights = rootElement[2].children;
 
 	if (tempLights == null || tempLights.length == 0) {
 		return "list element is missing.";
@@ -277,12 +278,12 @@ MySceneGraph.prototype.parseLights = function(rootElement) {
 
 	this.lights = [];
 	var Ids = [];
-	var nlights = tempLights[0].children.length;
+	var nlights = tempLights.length;
 	for (var i = 0; i < nlights; i++) {
 
 
 		var light = new MyLights();
-		var luz = tempLights[0].children[i];
+		var luz = tempLights[i];
 
 		var j = 0;
 		var idExists = false; //substituir por funçao idExists(Ids,luz.id);
@@ -347,21 +348,23 @@ MySceneGraph.prototype.parseLights = function(rootElement) {
 };
 
 MySceneGraph.prototype.parseTextures = function(rootElement) {
-	var temp_text = rootElement.getElementsByTagName('TEXTURES');
+	//var temp_text = rootElement.getElementsByTagName('TEXTURES');
+	//console.log(rootElement[3].children);
+	var temp_text = rootElement[3].children;
 	if (temp_text == null) {
 		return "TEXTURES element is missing";
 	}
 
-	if (temp_text.length != 1) {
+	if (temp_text.length < 1) {
 		return "More or less than 1 TEXTURES element found. THERE CAN ONLY BE ONE!!!!";
 	}
 
-	var nrTextures = temp_text[0].children.length;
+	var nrTextures = temp_text.length;
 	var IDs = [];
 	this.textures = [];
 	//this.nrTextures=[];
 	for (var i = 0; i < nrTextures; i++) {
-		var texture = temp_text[0].children[i];
+		var texture = temp_text[i];
 		var cur_text = nrTextures[i];
 		this.val = [];
 
@@ -388,21 +391,25 @@ MySceneGraph.prototype.parseTextures = function(rootElement) {
 };
 
 MySceneGraph.prototype.parseMaterials = function(rootElement) {
-	var temp_mat = rootElement.getElementsByTagName('MATERIALS');
+	//var temp_mat = rootElement.getElementsByTagName('MATERIALS');
+	//console.log(rootElement[4].children);
+	var temp_mat = rootElement[4].children;
+
+
 	if (temp_mat == null) {
 		return "MATERIALS element is missing";
 	}
 
-	if (temp_mat.length != 1) {
-		return "More or less than 1 TEXTURES element found. THERE CAN ONLY BE ONE!!!!";
+	if (temp_mat.length < 1) {
+		return "Does have any material";
 	}
 
-	var nrMaterials = temp_mat[0].children.length;
+	var nrMaterials = temp_mat.length;
 	var IDs = [];
 	this.materials = [];
 	//this.nrTextures=[];
 	for (var i = 0; i < nrMaterials; i++) {
-		var material = temp_mat[0].children[i];
+		var material = temp_mat[i];
 		var cur_mat = nrMaterials[i];
 		this.val = [];
 
@@ -455,21 +462,25 @@ MySceneGraph.prototype.parseMaterials = function(rootElement) {
 };
 
 MySceneGraph.prototype.parseLeaves = function(rootElement) {
-	var temp_leaves = rootElement.getElementsByTagName('LEAVES');
+	//var temp_leaves = rootElement.getItem('LEAVES');
+	//console.log(rootElement[5].children);
+	var temp_leaves = rootElement[5].children;
+
+	
 	if (temp_leaves == null) {
 		return "LEAVES element is missing";
 	}
 
-	if (temp_leaves.length != 1) {
-		return "More or less than 1 LEAVES element found. THERE CAN ONLY BE ONE!!!!";
+	if (temp_leaves.length < 1) {
+		return "there is no leaves";
 	}
 
-	var nrLeaves = temp_leaves[0].children.length;
+	var nrLeaves = temp_leaves.length;
 	var IDs = [];
 	this.leaves = [];
 	//this.nrTextures=[];
 	for (var i = 0; i < nrLeaves; i++) {
-		var leaf = temp_leaves[0].children[i];
+		var leaf = temp_leaves[i];
 		var cur_leaf = nrLeaves[i];
 		this.val = [];
 
@@ -493,23 +504,26 @@ MySceneGraph.prototype.parseLeaves = function(rootElement) {
 };
 MySceneGraph.prototype.parseNodes=function(rootElement) {
 
-	var temp_node = rootElement.getElementsByTagName('NODES');
-		
+	//var temp_node =rootElement.getElementsByTagName('NODES');
+	
+	var temp_node = rootElement[6].children;
+
 	if (temp_node == null) {
 		return "'NODES' element is missing";
 	}
 
-	if (temp_node.length != 1) {
-		return "More or less than 1 'NODES' element found. THERE CAN ONLY BE ONE!!!!";
+	if (temp_node.length == 0) {
+		return "there is no NODES!!";
 	}
 	this.nodes = [];
 
-	this.graphRootID = temp_node[0].children[0].id;
-	var nrNodes = temp_node[0].children.length;
+	this.graphRootID = temp_node[0].id;
+	var nrNodes = temp_node.length;
 	var IDs = [];
 	for(var i=1;i<nrNodes;i++){    				//i=1 BECAUSE i=0 is root id
 		var cont=0;
-		var node=temp_node[0].children[i];
+		var node=temp_node[i];
+		console.log(node);
 		if (this.idExists(IDs, node.id) == true) {
 			return "Material already exists (id is already being used.";
 		}
@@ -577,12 +591,12 @@ MySceneGraph.prototype.parseNodes=function(rootElement) {
 					this.nodeInfo['scale']=m;
 					break;
 			}
-			if(node.children[k].tagName=='DESCENDENTS'){
 
+			if(node.children[k].tagName=='DESCENDANTS'){
 				var descendents=node.children[k];
 				this.nodeInfo['descendents']=[];
 				for(var j=0;j<descendents.children.length;j++){
-
+					console.log(descendents.children[j]);
 					var desc=descendents.children[j];
 					this.nodeInfo['descendents'][j]=this.reader.getString(desc,'id',true);
 				}

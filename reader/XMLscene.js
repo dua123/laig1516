@@ -64,7 +64,7 @@ XMLscene.prototype.onGraphLoaded = function() {
 	this.camera.near = this.graph.initials.frustum.near;
     this.camera.far = this.graph.initials.frustum.far;
 
-    this.translate(this.graph.initials.translate.x,this.graph.initials.translate.y,this.graph.initials.translate.z);
+    this.translate(this.graph.initials.translation.x,this.graph.initials.translation.y,this.graph.initials.translation.z);
     this.rotate(this.graph.initials.rot1.axis,this.graph.initials.rot1.angle);
     
     this.rotate(this.graph.initials.rot2.axis,this.graph.initials.rot2.angle);
@@ -113,17 +113,16 @@ XMLscene.prototype.onGraphLoaded = function() {
 		var newLight = this.graph.lights[i];
 
 		if (newLight.enable == 1) {
-			this.lights[newLight.id - 1].setVisible(true);
-			this.lights[newLight.id - 1].enable();
+			this.lights[i ].setVisible(true);
+			this.lights[i ].enable();
 		}
-		this.lights[newLight.id - 1].setPosition(newLight.pos.x, newLight.pos.y, newLight.pos.z, newLight.pos.w);
-		this.lights[newLight.id - 1].setAmbient(newLight.amb.r, newLight.amb.g, newLight.amb.b, newLight.amb.a);
-		this.lights[newLight.id - 1].setDiffuse(newLight.dif.r, newLight.dif.g, newLight.dif.b, newLight.dif.a);
-		this.lights[newLight.id - 1].setSpecular(newLight.spec.r, newLight.spec.g, newLight.spec.b, newLight.spec.a);
+		this.lights[i].setPosition(newLight.pos.x, newLight.pos.y, newLight.pos.z, newLight.pos.w);
+		this.lights[i].setAmbient(newLight.amb.r, newLight.amb.g, newLight.amb.b, newLight.amb.a);
+		this.lights[i].setDiffuse(newLight.dif.r, newLight.dif.g, newLight.dif.b, newLight.dif.a);
+		this.lights[i].setSpecular(newLight.spec.r, newLight.spec.g, newLight.spec.b, newLight.spec.a);
 		
 		this.lightsEnabled.push(newLight.id-1);
 
-		k++;
 	}
 	graphRootID = this.graph.graphRootID;	
 	//console.log(this.tex);
@@ -178,8 +177,8 @@ XMLscene.prototype.display = function() {
 	// This is one possible way to do it
 	if (this.graph.loadedOk) {
 		var i=0;
-		for(i;i<this.lightsEnabled.length;i++){
-			this.lights[this.lightsEnabled[i]].update();
+		for(i;i<this.lights.length;i++){
+			this.lights[i].update();
 		}
 		
 	//	console.log(this.getMatrix( ));
@@ -195,7 +194,8 @@ XMLscene.prototype.NodesDiplay = function(id,matrix) {
 	//console.log(root.descendents);
 
 	//this.graph.nodes[nodeN)
-	if(this.isLeave(this.grafo[id].descendents[0])==false & this.grafo[id].descendents.length>1){
+console.log(this.grafo[id]);
+	if(this.grafo[id].descendents.length>0){
 		for(var i = 0; i < 	this.grafo[id].descendents.length ;i++)
 		{
 			//actualiza ma matriz e faz pop 
@@ -203,55 +203,39 @@ XMLscene.prototype.NodesDiplay = function(id,matrix) {
 
 			var mat = this.grafo[id].material
 			if(mat!=null){
-				this.mats[mat].apply();
+				console.log(mat);
+				//this.mats[mat].apply();
 			}
 			//aplicacao da textura
 			var tex = this.grafo[id].texture;
 			
 			if(tex!=null){
-				this.tex[tex].apply();
+				//this.tex[tex].apply();
+				console.log(tex);
 			}
 			//multipilicacao da matrix
 				
                var newmatrix = mat4.create();
                mat4.multiply(newmatrix, this.grafo[id].m, matrix);
-               
+         if(this.isLeaf(this.grafo[id].descendents[i])==false){     
 				this.NodesDiplay(this.grafo[id].descendents[i],newmatrix);
-	
-			
-		}
-	}else {
-			//actualiza ma matriz e faz pop 
-			//apicacao do material
-
-			var mat = this.grafo[id].material
-			if(mat!='null'){
-				this.mats[mat].apply();
-			}
-			//aplicacao da textura
-			var tex = this.grafo[id].texture;
-			if(tex!='null'){
-				this.tex[tex].apply();
-			}
-
-			//multipilicacao da matrix
-
-               var newmatrix = mat4.create();
-               mat4.multiply(newmatrix, this.grafo[id].m,matrix);
-            this.pushMatrix();
+			}else{
+			            this.pushMatrix();
                this.multMatrix( newmatrix );
 				this.sceneLeaves[this.grafo[id].descendents[0]].display();
 			this.popMatrix();
-
+			}
+			
 		}
+	}
 
 
 }
 
-XMLscene.prototype.isLeave = function(leave){
-	//leave
+XMLscene.prototype.isLeaf = function(leaf){
+	//leaf
 	for(var i=0;i<this.graph.leaves.length;i++){
-		if(leave==this.graph.leaves[i].id ){
+		if(leaf==this.graph.leaves[i].id ){
 				return true;
 		}
 			
