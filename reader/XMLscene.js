@@ -135,7 +135,7 @@ XMLscene.prototype.onGraphLoaded = function() {
 		this.grafo[nodeID].texture=this.allNodes[k]['texture'];
 		this.grafo[nodeID].material=this.allNodes[k]['material'];
 		this.grafo[nodeID].descendents=this.allNodes[k]['descendents'];
-		//console.log("GRAFO: id="+nodeID+", texture="+this.grafo[nodeID].texture+", material="+this.grafo[nodeID].material+", descendents="+this.grafo[nodeID].descendents+", m=" +this.grafo[nodeID].m);
+		console.log("GRAFO: id="+nodeID+", texture="+this.grafo[nodeID].texture+", material="+this.grafo[nodeID].material+", descendents="+this.grafo[nodeID].descendents+", m=" +this.grafo[nodeID].m);
 		//console.log(this.allNodes[k].id);
 	}
 	//console.log(this.allNodes[k]['descendents']);
