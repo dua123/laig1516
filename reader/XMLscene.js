@@ -146,13 +146,9 @@ XMLscene.prototype.onGraphLoaded = function() {
 		this.sceneLeaves[leaveID]= new Element(this, this.allLeaves[n]['type'],this.allLeaves[n]['args']);
 	}
 
+	console.log(this.grafo);
 	this.texture=[];	
-	//this.texture.push("teste");
-	console.log(this.texture);
-	//var i = this.texture.pop();
-	console.log(this.texture);
 	this.material=[];
-	//console.log(this.material);
 
 };
 
@@ -189,7 +185,7 @@ XMLscene.prototype.display = function() {
 		
 	//	console.log(this.getMatrix( ));
 
-	//this.NodesDiplay(graphRootID);
+	this.NodesDiplay(graphRootID);
 	};
 	this.shader.unbind();
 };
@@ -209,7 +205,9 @@ XMLscene.prototype.NodesDiplay = function(id) {
 			var mat = this.grafo[id].material
 			if(mat!=='null' || mat!=='Clear'){
 				//console.log("aqui "+ mat);
-				this.material.push(this.mats[mat]);
+				//juntothis.material.push(this.mats[mat]);
+				//this.material.push(this.mats[mat]);
+				//this.materia[this.material.length].apply();
 				
 			} else if (mat=='clear'){
 				console.log("Material Clear ");
@@ -218,10 +216,11 @@ XMLscene.prototype.NodesDiplay = function(id) {
 			var tex = this.grafo[id].texture;
 			
 			if(tex!=='null' || tex!=='Clear'){
-			
+				this.texture.push(this.tex[tex]);
+				//this.textura[this.texture.length].apply();
 				//console.log("aqui2: " + tex);
 			}else if (tex=='Clear'){
-				console.log("texture Clear ");
+				//console.log("texture Clear ");
 			}
 
 			//multipilicacao da matrix
@@ -234,6 +233,20 @@ XMLscene.prototype.NodesDiplay = function(id) {
 				this.sceneLeaves[this.grafo[id].descendents[0]].display();
 			}
 			this.popMatrix();
+			if(mat!=='null' || mat!=='Clear'){
+				this.material.pop();
+				
+			} else if (mat=='clear'){
+				console.log("Material Clear ");
+			}
+			//aplicacao da textura
+			
+			if(tex!=='null' || tex!=='Clear'){
+				this.texture.pop();
+			}else if (tex=='Clear'){
+				//console.log("texture Clear ");
+			}
+
 			
 		}
 	}

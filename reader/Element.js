@@ -50,8 +50,8 @@
              var x3= parseFloat(args[6]);
              var y3= parseFloat(args[7]);
              var z3= parseFloat(args[8]);
-             //this.elementV = new MyTriangle(scene,x1,y1,z1,x2,y2,z2,x3,y3,z3);
-             this.elementV = new MyTriangle(scene,0.0, 0.0, 0.0, 1.0 , 0.0, 0.0, 1 , 1.0, 0.0);
+             this.elementV = new MyTriangle(scene,x1,y1,z1,x2,y2,z2,x3,y3,z3);
+             //this.elementV = new MyTriangle(scene,0.0, 0.0, 0.0, 1.0 , 0.0, 0.0, 1 , 1.0, 0.0);
              break;
          default:
              console.log("Identificao de elemento nao identificada");
