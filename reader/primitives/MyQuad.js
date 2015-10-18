@@ -36,8 +36,8 @@ MyQuad.prototype.initBuffers = function() {
 	];
 
 	this.normals = [
-    		0, 0, 1,
-    		0, 0, 1,
+    		0, 0, -1,
+    		0, 0, -1,
     		0, 0, 1,
     		0, 0, 1
     ];
