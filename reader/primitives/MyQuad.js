@@ -38,15 +38,16 @@ MyQuad.prototype.initBuffers = function() {
 	this.normals = [
     		0, 0, -1,
     		0, 0, -1,
-    		0, 0, 1,
-    		0, 0, 1
+    		0, 0, -1,
+    		0, 0, -1
+
     ];
 
 	this.texCoords = [
-		this.minS, this.maxT,
-		this.maxS, this.maxT,
-		this.minS, this.minT,
-		this.maxS, this.minT
+       0, 0,
+       0,Math.abs(this.yt-this.yb),
+       Math.abs(this.xb-this.xt), 0,
+       Math.abs(this.xb-this.xt), Math.abs(this.yt-this.yb)
 	];
 
 
