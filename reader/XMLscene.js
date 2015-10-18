@@ -85,13 +85,13 @@ XMLscene.prototype.onGraphLoaded = function() {
 	
 	this.mats=[];	
 	for(var i=0;i<this.graph.materials.length;i++){
+		//console.log(this.graph.materials[i]);
 		var mat =this.graph.materials[i];
-		//console.log(mat);
 		this.app = new CGFappearance(this);
 		this.app.setAmbient(mat['ambient']['r'],mat['ambient']['g'],mat['ambient']['b'],mat['ambient']['a']);
 		this.app.setSpecular(mat['specular']['r'],mat['specular']['g'],mat['specular']['b'],mat['specular']['a']);
 		this.app.setDiffuse(mat['diffuse']['r'],mat['diffuse']['g'],mat['diffuse']['b'],mat['diffuse']['a']);
-		this.app.setShininess(mat['shininess']['r'],mat['shininess']['g'],mat['shininess']['b'],mat['shininess']['a']);
+		this.app.setShininess(mat['shininess']);
 		this.mats[mat.id]=this.app;
 
 	}
@@ -135,7 +135,7 @@ XMLscene.prototype.onGraphLoaded = function() {
 		this.grafo[nodeID].texture=this.allNodes[k]['texture'];
 		this.grafo[nodeID].material=this.allNodes[k]['material'];
 		this.grafo[nodeID].descendents=this.allNodes[k]['descendents'];
-		console.log("GRAFO: id="+nodeID+", texture="+this.grafo[nodeID].texture+", material="+this.grafo[nodeID].material+", descendents="+this.grafo[nodeID].descendents+", m=" +this.grafo[nodeID].m);
+		//console.log("GRAFO: id="+nodeID+", texture="+this.grafo[nodeID].texture+", material="+this.grafo[nodeID].material+", descendents="+this.grafo[nodeID].descendents+", m=" +this.grafo[nodeID].m);
 		//console.log(this.allNodes[k].id);
 	}
 	//console.log(this.allNodes[k]['descendents']);
@@ -147,8 +147,8 @@ XMLscene.prototype.onGraphLoaded = function() {
 	}
 
 	console.log(this.grafo);
-	this.texture=[];	
-	this.material=[];
+	this.stacktexture=[];	
+	this.stackmaterial=[];
 
 };
 
@@ -184,8 +184,19 @@ XMLscene.prototype.display = function() {
 		}
 		
 	//	console.log(this.getMatrix( ));
-
+	var newmat = this.mats['default'];
+	if(newmat!=undefined ){
+		//guarda o material na stack
+		this.pushAppearance(newmat);
+	}
+	this.pushMatrix();
+	this.multMatrix(this.grafo[graphRootID].m);
 	this.NodesDiplay(graphRootID);
+	this.popMatrix();
+	if(newmat!=undefined ){
+				//remove o material da stack 
+			this.popAppearance();
+	}
 	};
 	this.shader.unbind();
 };
@@ -206,19 +217,15 @@ XMLscene.prototype.NodesDiplay = function(id) {
 			//console.log(mat2);
 			if(mat!=undefined ){
 				//guarda o material na stack
-				//this.material.push(mat);
-				//aplicado o tamerial a imagem
-				//this.materia[this.material.length].apply();
-				//mat.apply();
-				
+				this.pushAppearance(mat);
 			}
 			//aplicacao da textura
 			var tex = this.tex[this.grafo[id].texture];
 			if(tex!=undefined){
-				//guarda a textura na stack									
-				 this.texture.push(tex);
+				//guarda a textura na stack						
+				 this.stacktexture.push(tex);
 				//aplicado o tamerial a imagem
-				this.texture[this.texture.length-1].apply();
+				this.stacktexture[this.stacktexture.length-1].apply();
 				
 			}
 			//multipilicacao da matrix
@@ -231,13 +238,13 @@ XMLscene.prototype.NodesDiplay = function(id) {
 				this.sceneLeaves[this.grafo[id].descendents[0]].display();
 			}
 			this.popMatrix();
-			/*if(mat!=undefined ){
+			if(mat!=undefined ){
 				//remove o material da stack 
-				this.material.pop();
-			}*/
+				this.popAppearance();
+			}
 			if(tex!=undefined){
 				//remove a textura do stack
-				this.texture.pop();
+				this.stacktexture.pop();
 				
 			}
 
@@ -258,3 +265,20 @@ XMLscene.prototype.isLeaf = function(leaf){
 	}
 	return false;
 }
+
+XMLscene.prototype.pushAppearance = function(mat) {
+	this.stackmaterial.push(mat);
+	this.setAmbient(mat['ambient']['r'], mat['ambient']['g'], mat['ambient']['b'],mat['ambient']['a']);
+	this.setDiffuse(mat['diffuse']['r'], mat['diffuse']['g'], mat['diffuse']['b'],mat['diffuse']['a']);
+	this.setSpecular(mat['shininess']['r'], mat['shininess']['g'],mat['shininess']['b'], mat['shininess']['a']);
+	this.setShininess(mat['shininess']);
+
+};
+XMLscene.prototype.popAppearance = function() {
+	var mat =this.stackmaterial.pop();
+	this.setAmbient(mat['ambient']['r'], mat['ambient']['g'], mat['ambient']['b'],mat['ambient']['a']);
+	this.setDiffuse(mat['diffuse']['r'], mat['diffuse']['g'], mat['diffuse']['b'],mat['diffuse']['a']);
+	this.setSpecular(mat['shininess']['r'], mat['shininess']['g'],mat['shininess']['b'], mat['shininess']['a']);
+	this.setShininess(mat['shininess']);
+
+};
