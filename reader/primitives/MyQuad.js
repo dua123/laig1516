@@ -2,18 +2,16 @@
  * MyQuad
  * @constructor
  */
-function MyQuad(scene, xt, yt, xb, yb, minS, maxS, minT, maxT) {
+function MyQuad(scene, xt, yt, xb, yb, minS, maxS, s, t) {
 	CGFobject.call(this, scene);
 
-	this.xt = xt 
-	this.yt = yt 
-	this.xb = xb 
-	this.yb = yb 
+	this.xt = xt
+	this.yt = yt
+	this.xb = xb
+	this.yb = yb
 
-	this.minS = minS || 0;
-	this.minT = minT || 0;
-	this.maxS = maxS || 1;
-	this.maxT = maxT || 1;
+	this.s = s || 0;
+	this.t = t || 0;
 
 
 	this.initBuffers();
@@ -26,28 +24,28 @@ MyQuad.prototype.initBuffers = function() {
 	this.vertices = [
 		this.xt, this.yt, 0,
 		this.xt, this.yb, 0,
-		this.xb, this.yb, 0,
-		this.xb, this.yt, 0
+		this.xb, this.yt, 0,
+		this.xb, this.yb, 0
 	];
 
 	this.indices = [
-		0, 3, 2,
-		0, 2, 1
+		0, 1, 2,
+		3, 2, 1
 	];
 
 	this.normals = [
-    		0, 0, -1,
-    		0, 0, -1,
-    		0, 0, -1,
-    		0, 0, -1
+		0, 0, 1,
+		0, 0, 1,
+		0, 0, 1,
+		0, 0, 1
 
-    ];
+	];
 
 	this.texCoords = [
-       0, 0,
-       0,Math.abs(this.yt-this.yb),
-       Math.abs(this.xb-this.xt), 0,
-       Math.abs(this.xb-this.xt), Math.abs(this.yt-this.yb)
+		0, 0,
+		0, (this.yt - this.yb)/this.t,
+		(this.xb - this.xt)/this.s, 0,
+		(this.xb - this.xt)/this.s, (this.yt - this.yb)/this.t
 	];
 
 
