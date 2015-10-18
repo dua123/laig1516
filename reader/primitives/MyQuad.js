@@ -10,8 +10,8 @@ function MyQuad(scene, xt, yt, xb, yb, minS, maxS, s, t) {
 	this.xb = xb
 	this.yb = yb
 
-	this.s = s || 0;
-	this.t = t || 0;
+	this.s = s || 1;
+	this.t = t || 1;
 
 
 	this.initBuffers();

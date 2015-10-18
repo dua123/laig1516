@@ -2,7 +2,7 @@
   * Elemets
   * @constructor
   */
- function Element(scene, type, args) {
+ function Element(scene, type, args,s,t) {
      CGFobject.call(this, scene);
 
      /*this.texture = new CGFappearance(scene);
@@ -12,6 +12,8 @@
 	this.texture.setDiffuse(0.1,0.1,0.1,1);
 	this.texture.setSpecular(0.9,0.9,0.9,1);
 	this.texture.setShininess(100);*/
+    this.s=s || 1;
+    this.t=t || 1;
 
      switch (type) {
          case "rectangle":

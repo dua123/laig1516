@@ -96,12 +96,15 @@ XMLscene.prototype.onGraphLoaded = function() {
 
 	}
 
-	this.tex=[];	
+	this.tex=[];
+	this.tex_ampfac=[];	
 	for(var i=0;i<this.graph.textures.length;i++){
 		var texts =this.graph.textures[i];
 		this.txt = new CGFappearance(this);
 		this.txt.loadTexture(texts['path']);
-		//amplified factor
+		this.tex_ampfac[texts.id]=[];
+		this.tex_ampfac[texts.id]['s']=this.graph.textures[i]['factor']['s'];
+		this.tex_ampfac[texts.id]['t']=this.graph.textures[i]['factor']['t'];
 		this.tex[texts.id]=this.txt;
 
 	}	
