@@ -149,7 +149,7 @@ XMLscene.prototype.onGraphLoaded = function() {
 		this.sceneLeaves[leaveID]= new Element(this, this.allLeaves[n]['type'],this.allLeaves[n]['args']);
 	}
 
-	console.log(this.grafo);
+	//console.log(this.mats);
 	this.stacktexture=[];	
 	this.stackmaterial=[];
 
@@ -186,73 +186,54 @@ XMLscene.prototype.display = function() {
 			this.lights[i].update();
 		}
 		
-	//	console.log(this.getMatrix( ));
-	var newmat = this.mats['default'];
-	if(newmat!=undefined ){
-		//guarda o material na stack
-		this.pushAppearance(newmat);
-	}
-	this.pushMatrix();
-	this.multMatrix(this.grafo[graphRootID].m);
+	
 	this.NodesDiplay(graphRootID);
-	this.popMatrix();
-	if(newmat!=undefined ){
-				//remove o material da stack 
-			this.popAppearance();
-	}
+
 	};
 	this.shader.unbind();
 };
 XMLscene.prototype.NodesDiplay = function(id) {
 
-	//console.log(id);
-	//console.log(this.grafo[id]);
-	//console.log(root.descendents);
-
-	//this.graph.nodes[nodeN)
+		//actualiza ma matriz e faz pop 
+		//apicacao do material
+	var mat = this.mats[this.grafo[id].material];
+	if(mat!=undefined ){
+			//guarda o material na stack
+			this.pushAppearance(mat);
+	}
+			//aplicacao da textura
+	var tex = this.tex[this.grafo[id].texture];
+	if(tex!=undefined){
+			//guarda a textura na stack						
+			this.stacktexture.push(tex);
+			//aplicado o tamerial a imagem
+			this.stacktexture[this.stacktexture.length-1].apply();			
+	}
+	this.pushMatrix();
+	//multiplicacao das matrizes
+	this.multMatrix(this.grafo[id].m);  
 	if(this.grafo[id].descendents.length>0){
 		for(var i = 0; i < 	this.grafo[id].descendents.length ;i++)
 		{
-			//actualiza ma matriz e faz pop 
-			//apicacao do material
-
-			var mat = this.mats[this.grafo[id].material];
-			//console.log(mat2);
-			if(mat!=undefined ){
-				//guarda o material na stack
-				this.pushAppearance(mat);
-			}
-			//aplicacao da textura
-			var tex = this.tex[this.grafo[id].texture];
-			if(tex!=undefined){
-				//guarda a textura na stack						
-				 this.stacktexture.push(tex);
-				//aplicado o tamerial a imagem
-				this.stacktexture[this.stacktexture.length-1].apply();
-				
-			}
-			//multipilicacao da matrix
-			this.pushMatrix();
-               			this.multMatrix(this.grafo[id].m);
-         		if(this.isLeaf(this.grafo[id].descendents[i])==false){     
+			
+            if(this.isLeaf(this.grafo[id].descendents[i])==false){
 				this.NodesDiplay(this.grafo[id].descendents[i]);
 			}else{
 			            
 				this.sceneLeaves[this.grafo[id].descendents[0]].display();
 			}
-			this.popMatrix();
-			if(mat!=undefined ){
-				//remove o material da stack 
-				this.popAppearance();
-			}
-			if(tex!=undefined){
-				//remove a textura do stack
-				this.stacktexture.pop();
-				
-			}
 
-			
 		}
+	}
+	this.popMatrix();
+
+	if(mat!=undefined ){
+		//remove o material da stack 
+		this.popAppearance();
+	}
+	if(tex!=undefined){
+		//remove a textura do stack
+		this.stacktexture.pop();			
 	}
 
 
