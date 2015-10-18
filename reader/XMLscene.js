@@ -202,27 +202,25 @@ XMLscene.prototype.NodesDiplay = function(id) {
 			//actualiza ma matriz e faz pop 
 			//apicacao do material
 
-			var mat = this.grafo[id].material
-			if(mat!=='null' || mat!=='Clear'){
-				//console.log("aqui "+ mat);
-				//juntothis.material.push(this.mats[mat]);
-				//this.material.push(this.mats[mat]);
+			var mat = this.mats[this.grafo[id].material];
+			//console.log(mat2);
+			if(mat!=undefined ){
+				//guarda o material na stack
+				//this.material.push(mat);
+				//aplicado o tamerial a imagem
 				//this.materia[this.material.length].apply();
+				//mat.apply();
 				
-			} else if (mat=='clear'){
-				console.log("Material Clear ");
 			}
 			//aplicacao da textura
-			var tex = this.grafo[id].texture;
-			
-			if(tex!=='null' || tex!=='Clear'){
-				this.texture.push(this.tex[tex]);
-				//this.textura[this.texture.length].apply();
-				//console.log("aqui2: " + tex);
-			}else if (tex=='Clear'){
-				//console.log("texture Clear ");
+			var tex = this.tex[this.grafo[id].texture];
+			if(tex!=undefined){
+				//guarda a textura na stack									
+				 this.texture.push(tex);
+				//aplicado o tamerial a imagem
+				this.texture[this.texture.length-1].apply();
+				
 			}
-
 			//multipilicacao da matrix
 			this.pushMatrix();
                			this.multMatrix(this.grafo[id].m);
@@ -233,18 +231,14 @@ XMLscene.prototype.NodesDiplay = function(id) {
 				this.sceneLeaves[this.grafo[id].descendents[0]].display();
 			}
 			this.popMatrix();
-			if(mat!=='null' || mat!=='Clear'){
+			/*if(mat!=undefined ){
+				//remove o material da stack 
 				this.material.pop();
-				
-			} else if (mat=='clear'){
-				console.log("Material Clear ");
-			}
-			//aplicacao da textura
-			
-			if(tex!=='null' || tex!=='Clear'){
+			}*/
+			if(tex!=undefined){
+				//remove a textura do stack
 				this.texture.pop();
-			}else if (tex=='Clear'){
-				//console.log("texture Clear ");
+				
 			}
 
 			
