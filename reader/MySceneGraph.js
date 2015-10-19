@@ -51,10 +51,9 @@ var MyTexture = function() {
  */
 MySceneGraph.prototype.onXMLReady = function() {
 	console.log("XML Loading finished.");
-	//var rootElemenScene = this.reader.xmlDoc.documentElement;
+	
 	var rootElement = this.reader.xmlDoc.documentElement;
 
-	// Here should go the calls for different functions to parse the various blocks
 	
 
 	error = this.parseInitials(rootElement);
@@ -108,48 +107,7 @@ MySceneGraph.prototype.onXMLReady = function() {
 
 
 
-/*
- * Example of method that parses elements of one block and stores information in a specific data structure
- */
-/*MySceneGraph.prototype.parseGlobalsExample = function(rootElement) {
-	
-		var elems = rootElement.getElementsByTagName('globals');
-		if (elems == null) {
-			return "globals element is missing.";
-		}
 
-		if (elems.length != 1) {
-			return "either zero or more than one 'globals' element found.";
-		}
-
-		// various examples of different types of access
-		//var globals = elems[0];
-		//this.background = this.reader.getRGBA(globals, 'background');
-		//this.drawmode = this.reader.getItem(globals, 'drawmode', ["fill", "line", "point"]);
-		//this.cullface = this.reader.getItem(globals, 'cullface', ["back", "front", "none", "frontandback"]);
-		//this.cullorder = this.reader.getItem(globals, 'cullorder', ["ccw", "cw"]);
-
-		console.log("Globals read from file: {background=" + this.background + ", drawmode=" + this.drawmode + ", cullface=" + this.cullface + ", cullorder=" + this.cullorder + "}");
-
-		var tempList = rootElement.getElementsByTagName('list');
-
-		if (tempList == null || tempList.length == 0) {
-			return "list element is missing.";
-		}
-
-		this.list = [];
-		// iterate over every element
-		var nnodes = tempList[0].children.length;
-		for (var i = 0; i < nnodes; i++) {
-			var e = tempList[0].children[i];
-
-			// process each element and store its information
-			this.list[e.id] = e.attributes.getNamedItem("coords").value;
-			console.log("Read list item id " + e.id + " with value " + this.list[e.id]);
-		};
-		
-
-};*/
 
 MySceneGraph.prototype.idExists = function(IDs, id) {
 	var exists = false;
@@ -165,18 +123,14 @@ MySceneGraph.prototype.idExists = function(IDs, id) {
 MySceneGraph.prototype.parseInitials = function(rootElement) {
 
 	var tempIni = rootElement.getElementsByTagName('INITIALS');
-	//console.log(tempIni[0]);
 	if (tempIni == null) {
 		return "initials element is missing.";
 	}
 	if (tempIni.length < 1) {
 		return "either zero or more than one 'initials' element found.";
 	}
-	/*var initials = tempIni[0];
-	this.elems=tempIni[0].children[0];
-	console.log(this.elems);*/
 	this.initials = [];
-	//this.list=[];
+
 	var frustum = tempIni[0].children[0];
 	this.initials = [];
 	this.initials['frustum'] = [];
@@ -192,11 +146,9 @@ MySceneGraph.prototype.parseInitials = function(rootElement) {
 	this.initials['translation']['z'] = this.reader.getFloat(translate, 'z', true);
 	console.log("Initials read from file: {translate: x=" + this.initials['translation']['x'] + ", y=" + this.initials['translation']['y'] + ", z=" + this.initials['translation']['z'] + " }");
 
-	//TODO: axis can only accpet x y or z
-	var rotation1 =tempIni[0].children[2];
-//	console.log(rotation1);
 
-	//verificar mais tarde 
+	var rotation1 =tempIni[0].children[2];
+
 	this.initials['rot1'] = [];
 	this.initials['rot1']['axis'] = this.reader.getString(rotation1, 'axis', true);
 	this.initials['rot1']['angle'] = this.reader.getFloat(rotation1, 'angle', true);
@@ -246,7 +198,6 @@ MySceneGraph.prototype.parseIllumination = function(rootElement) {
 	this.Illumination['ambient']['g'] = this.reader.getFloat(ambient, 'g', true);
 	this.Illumination['ambient']['b'] = this.reader.getFloat(ambient, 'b', true);
 	this.Illumination['ambient']['a'] = this.reader.getFloat(ambient, 'a', true);
-	//console.log(this.ilu_ambient);
 	console.log("Ilumination read from file: {ambient: r=" + this.Illumination['ambient']['r'] + ", g=" + this.Illumination['ambient']['g'] + ", b=" + this.Illumination['ambient']['b'] + ", a=" + this.Illumination['ambient']['a'] + " }");
 
 
@@ -268,7 +219,7 @@ MySceneGraph.prototype.parseIllumination = function(rootElement) {
 MySceneGraph.prototype.parseLights = function(rootElement) {
 
 	var tempLights = rootElement.getElementsByTagName('LIGHTS');
-	//console.log(rootElement[2].children);
+
 	
 
 	if (tempLights == null || tempLights.length == 0) {
@@ -285,7 +236,7 @@ MySceneGraph.prototype.parseLights = function(rootElement) {
 		var luz = tempLights[0].children[i];
 
 		var j = 0;
-		var idExists = false; //substituir por funçao idExists(Ids,luz.id);
+		var idExists = false; 
 		for (j; j < Ids.length; j++) {
 			if (Ids[j] == luz.id)
 				idExists = true;
@@ -309,7 +260,6 @@ MySceneGraph.prototype.parseLights = function(rootElement) {
 
 
 			var light_ambient = luz.children[2];
-			//console.log(luz.children[2]);
 			light.amb.r = this.reader.getFloat(light_ambient, 'r', true);
 			light.amb.g = this.reader.getFloat(light_ambient, 'g', true);
 			light.amb.b = this.reader.getFloat(light_ambient, 'b', true);
@@ -334,12 +284,10 @@ MySceneGraph.prototype.parseLights = function(rootElement) {
 
 			this.lights[i] = light;
 			console.log("e"+this.lights.length);
-			//console.log();
 		} else
 			console.log("a light with the id:" + luz.id + " already exists!");
 		idExists = false;
 	}
-	console.log("Nr of lights in the scene: " + this.lights.length);
 
 };
 
@@ -356,7 +304,6 @@ MySceneGraph.prototype.parseTextures = function(rootElement) {
 	var nrTextures = temp_text[0].children.length;
 	var IDs = [];
 	this.textures = [];
-	//this.nrTextures=[];
 	for (var i = 0; i < nrTextures; i++) {
 		console.log(temp_text[0].children[i]);
 		var texture = temp_text[0].children[i]	;
@@ -474,7 +421,6 @@ MySceneGraph.prototype.parseLeaves = function(rootElement) {
 	var nrLeaves = temp_leaves[0].children.length;
 	var IDs = [];
 	this.leaves = [];
-	//this.nrTextures=[];
 	for (var i = 0; i < nrLeaves; i++) {
 		var leaf = temp_leaves[0].children[i];
 		var cur_leaf = nrLeaves[i];
@@ -515,7 +461,6 @@ MySceneGraph.prototype.parseNodes=function(rootElement) {
 	this.graphRootID = temp_node[0].children[0].id;
 	var nrNodes = temp_node[0].children.length;
 	var IDs = [];
-	console.log(nrNodes);
 	for(var i=1;i<nrNodes;i++){    				//i=1 BECAUSE i=0 is root id
 		var cont=0;
 		var node=temp_node[0].children[i];
@@ -527,7 +472,6 @@ MySceneGraph.prototype.parseNodes=function(rootElement) {
 		this.nodeInfo=[];
 		this.nodeInfo['id']=node.id;
 		var m =mat4.create();
-		console.log("Matrix created {" +m+" }");
 	
 		
 		for(var k=0;k<node.children.length;k++){
@@ -555,7 +499,6 @@ MySceneGraph.prototype.parseNodes=function(rootElement) {
 					var z=this.reader.getFloat(translation,'z',true);
 					console.log("TRANSLATION");
 					mat4.translate(m,m,[x,y,z]);
-			//		console.log("translation {" +m+" }");
 					this.nodeInfo['translation']=m;
 					break;
 				case 'ROTATION':
@@ -574,8 +517,6 @@ MySceneGraph.prototype.parseNodes=function(rootElement) {
 					}
 					var angle=this.reader.getFloat(rotation,'angle',true);
 					mat4.rotate(m,m,(Math.PI*angle)/180,axis);
-			//		console.log(axis+" " +angle);
-			//		console.log("rotation {" +m+" }");
 					this.nodeInfo['rotation']=m;
 					break;
 				case 'SCALE':
@@ -585,8 +526,6 @@ MySceneGraph.prototype.parseNodes=function(rootElement) {
 					var sy=this.reader.getFloat(scale,'sy',true);
 					var sz=this.reader.getFloat(scale,'sz',true);
 					mat4.scale(m,m,[this.reader.getFloat(scale,'sx',true),this.reader.getFloat(scale,'sy',true),this.reader.getFloat(scale,'sz',true)]);
-			//		console.log(sx+" " +sy+" "+sz);
-			//		console.log("scale {" +m+" }");
 					this.nodeInfo['scale']=m;
 					break;
 			}

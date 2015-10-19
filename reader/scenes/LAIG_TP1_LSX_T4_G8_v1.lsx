@@ -36,15 +36,15 @@
     <TEXTURES>
     	<TEXTURE id="1">
         	<file path="resources/wood.png" />                             <!-- path to file -->
-        	<amplif_factor s="1" t="1" />                <!-- x/s, y/t -->
+        	<amplif_factor s="2" t="1" />                <!-- x/s, y/t -->
     	</TEXTURE>
    		<TEXTURE id="2">
         	<file path="resources/brick_wall.jpg" />                             <!-- path to file -->
-        	<amplif_factor s="0" t="0" />                <!-- x/s, y/t -->
+        	<amplif_factor s="1" t="1" />                <!-- x/s, y/t -->
     	</TEXTURE>
     	<TEXTURE id="3">
         	<file path="resources/floor.png" />                             <!-- path to file -->
-        	<amplif_factor s="0" t="0" />                <!-- x/s, y/t -->
+        	<amplif_factor s="1" t="1" />                <!-- x/s, y/t -->
     	</TEXTURE>
     	<TEXTURE id="4">
         	<file path="resources/metal.jpg" />                             <!-- path to file -->

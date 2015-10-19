@@ -33,7 +33,6 @@ XMLscene.prototype.initLights = function() {
 
 	this.shader.bind();
 
-	//console.log("XML SCENNE "+this.graph.lights.length);
 
 	this.lights[0].setPosition(2, 3, 3, 1);
 	this.lights[0].setDiffuse(1.0,1.0,1.0,1.0);
@@ -77,15 +76,10 @@ XMLscene.prototype.onGraphLoaded = function() {
 	this.setAmbient(this.graph.Illumination.ambient.r,this.graph.Illumination.ambient.g,this.graph.Illumination.ambient.b,this.graph.Illumination.ambient.a);//ver no cfscene 
 
 	
-	//console.log("GRAFO: "+this.grafo);
-	//this.node= new Node();
-	//console.log(this.node.m);
 
-	//console.log(this.graph.nodes["Mesa"]['descendents']);
 	
 	this.mats=[];	
 	for(var i=0;i<this.graph.materials.length;i++){
-		//console.log(this.graph.materials[i]);
 		var mat =this.graph.materials[i];
 		this.app = new CGFappearance(this);
 		this.app.setAmbient(mat['ambient']['r'],mat['ambient']['g'],mat['ambient']['b'],mat['ambient']['a']);
@@ -105,10 +99,11 @@ XMLscene.prototype.onGraphLoaded = function() {
 		this.tex_ampfac[texts.id]=[];
 		this.tex_ampfac[texts.id]['s']=this.graph.textures[i]['factor']['s'];
 		this.tex_ampfac[texts.id]['t']=this.graph.textures[i]['factor']['t'];
+		console.log(texts.id+"    "+this.graph.textures[i]['factor']['s']+"    "+this.graph.textures[i]['factor']['t']);
 		this.tex[texts.id]=this.txt;
 
 	}	
-	//this.setAmbient(this.graph);
+
 	var i = 0;
 	var k = 0;
 	this.lightsEnabled = [];
@@ -128,20 +123,17 @@ XMLscene.prototype.onGraphLoaded = function() {
 
 	}
 	graphRootID = this.graph.graphRootID;	
-	//console.log(this.tex);
 	this.allNodes=this.graph.nodes;
 	for(var k=1;k<this.allNodes.length;k++){
 		
-	//	this.newNode= new Node();
 		var nodeID = this.graph.nodes[k].id;
-		//console.log(this.allNodes[k]['texture']);
 		this.grafo[nodeID].texture=this.allNodes[k]['texture'];
 		this.grafo[nodeID].material=this.allNodes[k]['material'];
 		this.grafo[nodeID].descendents=this.allNodes[k]['descendents'];
-		//console.log("GRAFO: id="+nodeID+", texture="+this.grafo[nodeID].texture+", material="+this.grafo[nodeID].material+", descendents="+this.grafo[nodeID].descendents+", m=" +this.grafo[nodeID].m);
-		//console.log(this.allNodes[k].id);
 	}
-	//console.log(this.allNodes[k]['descendents']);
+	console.log(this.grafo['tampo']);
+	console.log(this.tex_ampfac[this.grafo['tampo'].texture]['s']+"    "+this.tex_ampfac[this.grafo['tampo'].texture]['t']);
+	
 	this.allLeaves=this.graph.leaves;
 	this.sceneLeaves=[];
 	for(var n=0;n<this.allLeaves.length;n++){
@@ -149,7 +141,7 @@ XMLscene.prototype.onGraphLoaded = function() {
 		this.sceneLeaves[leaveID]= new Element(this, this.allLeaves[n]['type'],this.allLeaves[n]['args']);
 	}
 
-	//console.log(this.mats);
+
 	this.stacktexture=[];	
 	this.stackmaterial=[];
 
@@ -197,7 +189,6 @@ XMLscene.prototype.NodesDiplay = function(id) {
 		//actualiza ma matriz e faz pop 
 		//apicacao do material
 	var mat = this.mats[this.grafo[id].material];
-	//console.log(this.grafo[id].material);
 	if(mat!=undefined ){
 			//guarda o material na stack
 			this.stackmaterial.push(mat);
@@ -229,7 +220,8 @@ XMLscene.prototype.NodesDiplay = function(id) {
 				var newtex = this.stacktexture.pop();
 				if(tex!=undefined)      
 			    {		
-			    	isleaf.setAmplif(newtex.s,newtex.t);
+			    	
+			    	isleaf.setAmplif(this.tex_ampfac[this.grafo[id].texture]['s'],this.tex_ampfac[this.grafo[id].texture]['t']);
 			    	this.stacktexture.push(newtex);
 			    }
 				isleaf.display();
