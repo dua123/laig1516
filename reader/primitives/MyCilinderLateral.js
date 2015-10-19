@@ -4,7 +4,7 @@
  */
 function MyCilinderLateral(scene, height, bot_rad, top_rad, sec_height, parts_sec) {
 	CGFobject.call(this, scene);
-
+//
 	this.height = height;
 	this.bot_rad = bot_rad;
 	this.top_rad = top_rad;

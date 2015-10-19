@@ -36,7 +36,7 @@ MyTriangle.prototype.initBuffers = function() {
         this.x2, this.y2, this.z2,
         this.x3, this.y3, this.z3
     ];
-
+//calculos das normais
     this.vec1 = vec3.fromValues(this.x2 - this.x1, this.y2 - this.y1, this.z2 - this.z1);
     this.vec2 = vec3.fromValues(this.x3 - this.x2, this.y3 - this.y2, this.z3 - this.z2);
     this.normal = vec3.create();
@@ -48,7 +48,7 @@ MyTriangle.prototype.initBuffers = function() {
         this.normal[0], this.normal[1], this.normal[2],
         this.normal[0], this.normal[1], this.normal[2]
     ];
-
+//calculos dos indices
     this.indices = [
         0, 1, 2
     ];
@@ -70,8 +70,9 @@ MyTriangle.prototype.setAmplif = function(ampS, ampT) {
     this.t = ampT;
     this.updateTexCoords();
 };
-
+//fuuncao que atualiza as texturas
 MyTriangle.prototype.updateTexCoords = function() {
+    
     this.texCoords = [
         0, 0,
         this.c / this.s, 0, (this.c - this.a * this.cos_beta) / this.s, (this.a * this.sin_beta) / this.t

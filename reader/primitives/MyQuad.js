@@ -21,18 +21,19 @@ MyQuad.prototype = Object.create(CGFobject.prototype);
 MyQuad.prototype.constructor = MyQuad;
 
 MyQuad.prototype.initBuffers = function() {
+	 //calculos dos vertices
 	 this.vertices = [
     	this.xt, this.yb, 0,
     	this.xb, this.yb, 0,
     	this.xb, this.yt, 0,
     	this.xt, this.yt, 0
     ];
-
+//ordem dos indices
     this.indices = [
     	0, 1, 2,
     	0, 2, 3
     ];
-
+//calculos das normais
 	this.normals = [
 			0,0,1,
 			0,0,1,
