@@ -211,7 +211,9 @@ XMLscene.prototype.NodesDiplay = function(id) {
 			//guarda a textura na stack						
 			this.stacktexture.push(tex);
 			//aplicado o textura a imagem
-			this.stacktexture[this.stacktexture.length-1].apply();			
+			this.stacktexture[this.stacktexture.length-1].apply();
+			this.sceneLeaves[id]
+						
 	}
 	this.pushMatrix();
 	//multiplicacao das matrizes
@@ -224,7 +226,12 @@ XMLscene.prototype.NodesDiplay = function(id) {
             if(isleaf == undefined){
 				this.NodesDiplay(this.grafo[id].descendents[i]);
 			}else{
-			            
+				var newtex = this.stacktexture.pop();
+				if(tex!=undefined)      
+			    {		
+			    	isleaf.setAmplif(newtex.s,newtex.t);
+			    	this.stacktexture.push(newtex);
+			    }
 				isleaf.display();
 			}
 

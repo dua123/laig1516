@@ -23,3 +23,7 @@
  	//this.top.display();
  //	this.down.display();
  };
+
+MyCylinder.prototype.setAmplif = function(ampS, ampT) {
+  this.lateral.setAmplif(amS,ampT);
+};

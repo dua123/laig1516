@@ -67,3 +67,9 @@
      this.elementV.display();
 
  };
+ Element.prototype.setAmplif = function(ampS, ampT) {
+this.elementV.setAmplif(ampS,ampT);
+};
+
+ 
+

@@ -63,10 +63,10 @@
      this.initGLBuffers();
  }
 
- MyQuad.prototype.setAmplif = function(ampS, ampT) {
+ MySphere.prototype.setAmplif = function(ampS, ampT) {
     this.s = ampS;
     this.t = ampT;
-    this.updateTexCoords();
+
 };
 
  
