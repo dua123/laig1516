@@ -18,10 +18,10 @@
 	<LIGHTS>
     <LIGHT id="2">                                    <!-- light identifier -->
         <enable value ="1" />                         <!-- enable/disable -->
-        <position x="0" y="0" z="0" w="1" />       <!-- light position -->
-        <ambient r="1" g="1" b="1" a="1" />        <!-- ambient component -->
-        <diffuse r="1" g="1" b="1" a="1" />        <!-- diffuse component -->
-        <specular r="1" g="1" b="1" a="1" />       <!-- specular component -->
+        <position x="9" y="9" z="9" w="1" />       <!-- light position -->
+        <ambient r="0" g="0" b="1" a="1" />        <!-- ambient component -->
+        <diffuse r="0" g="0" b="0" a="1" />        <!-- diffuse component -->
+        <specular r="0" g="1" b="1" a="1" />       <!-- specular component -->
     </LIGHT>
 
     <LIGHT id="1">                                    <!-- light identifier -->
@@ -99,15 +99,21 @@
 		<NODE id="tampo">
 			<MATERIAL id="null"/>
 			<TEXTURE id="1"/>
-			<TRANSLATION x="5.5" y="-4.5" z="4"/>
+			<TRANSLATION x="5.5" y="-4.5" z="3.5"/>
 			<DESCENDANTS>
 				<DESCENDANT id="tampoSuperSu"/>
 				<DESCENDANT id="tampoSuperif"/>
+				<DESCENDANT id="tampoLeft"/>
+				<DESCENDANT id="tampoRight"/>
+				<DESCENDANT id="tampoFront"/>
+				<DESCENDANT id="tampoBack"/>
+
 			</DESCENDANTS>
 		</NODE>
 		<NODE id="tampoSuperSu">
 			<MATERIAL id="null"/>
 			<TEXTURE id="null"/>
+			<TRANSLATION x="0" y="0" z="0.25"/>
 			<DESCENDANTS>
 				<DESCENDANT id="tableTopside"/>
 			</DESCENDANTS>
@@ -115,8 +121,48 @@
 		<NODE id="tampoSuperif">
 			<MATERIAL id="null"/>
 			<TEXTURE id="null"/>
-			<TRANSLATION x="5" y="0" z="0"/>
+			<TRANSLATION x="4" y="0" z="0"/>
 			<ROTATION axis="y" angle="180"/>
+			<DESCENDANTS>
+				<DESCENDANT id="tableTopside"/>
+			</DESCENDANTS>
+		</NODE>
+		<NODE id="tampoLeft">
+			<MATERIAL id="null"/>
+			<TEXTURE id="null"/>
+			<ROTATION axis="x" angle="90"/>
+			<SCALE sx="1" sy="0.0625" sz="1"/>
+			<TRANSLATION x="0" y="1" z="1"/>
+			<DESCENDANTS>
+				<DESCENDANT id="tableTopside"/>
+			</DESCENDANTS>
+		</NODE>
+		<NODE id="tampoRight">
+			<MATERIAL id="null"/>
+			<TEXTURE id="null"/>
+			<ROTATION axis="x" angle="-90"/>
+			<SCALE sx="1" sy="0.0625" sz="1"/>
+			<TRANSLATION x="0" y="-3" z="3"/>
+			<DESCENDANTS>
+				<DESCENDANT id="tableTopside"/>
+			</DESCENDANTS>
+		</NODE>
+		<NODE id="tampoFront">
+			<MATERIAL id="null"/>
+			<TEXTURE id="null"/>
+			<ROTATION axis="y" angle="90"/>
+			<SCALE sx="0.03125" sy="1" sz="1"/>
+			<TRANSLATION x="-6" y="0" z="6"/>
+			<DESCENDANTS>
+				<DESCENDANT id="tableTopside"/>
+			</DESCENDANTS>
+		</NODE>
+		<NODE id="tampoBack">
+			<MATERIAL id="null"/>
+			<TEXTURE id="null"/>
+			<ROTATION axis="y" angle="-90"/>
+			<SCALE sx="0.03125" sy="1" sz="1"/>
+			<TRANSLATION x="2" y="0" z="2"/>
 			<DESCENDANTS>
 				<DESCENDANT id="tableTopside"/>
 			</DESCENDANTS>
