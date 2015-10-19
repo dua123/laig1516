@@ -215,12 +215,13 @@ XMLscene.prototype.NodesDiplay = function(id) {
 	if(this.grafo[id].descendents.length>0){
 		for(var i = 0; i < 	this.grafo[id].descendents.length ;i++)
 		{
+			var isleaf = this.sceneLeaves[this.grafo[id].descendents[i]];
 			
-            if(this.isLeaf(this.grafo[id].descendents[i])==false){
+            if(isleaf == undefined){
 				this.NodesDiplay(this.grafo[id].descendents[i]);
 			}else{
 			            
-				this.sceneLeaves[this.grafo[id].descendents[0]].display();
+				isleaf.display();
 			}
 
 		}
@@ -237,17 +238,6 @@ XMLscene.prototype.NodesDiplay = function(id) {
 	}
 
 
-}
-
-XMLscene.prototype.isLeaf = function(leaf){
-	//leaf
-	for(var i=0;i<this.graph.leaves.length;i++){
-		if(leaf==this.graph.leaves[i].id ){
-				return true;
-		}
-			
-	}
-	return false;
 }
 
 XMLscene.prototype.pushAppearance = function(mat) {
