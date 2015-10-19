@@ -35,16 +35,20 @@
 
     <TEXTURES>
     	<TEXTURE id="1">
-        	<file path="../resources/wood.jpg" />                             <!-- path to file -->
-        	<amplif_factor s="0" t="0" />                <!-- x/s, y/t -->
+        	<file path="resources/wood.png" />                             <!-- path to file -->
+        	<amplif_factor s="1" t="1" />                <!-- x/s, y/t -->
     	</TEXTURE>
-   	<TEXTURE id="2">
-        	<file path="../resources/brick_wall.jpg" />                             <!-- path to file -->
+   		<TEXTURE id="2">
+        	<file path="resources/brick_wall.jpg" />                             <!-- path to file -->
         	<amplif_factor s="0" t="0" />                <!-- x/s, y/t -->
     	</TEXTURE>
     	<TEXTURE id="3">
-        	<file path="../resources/floor.png" />                             <!-- path to file -->
+        	<file path="resources/floor.png" />                             <!-- path to file -->
         	<amplif_factor s="0" t="0" />                <!-- x/s, y/t -->
+    	</TEXTURE>
+    	<TEXTURE id="4">
+        	<file path="resources/metal.jpg" />                             <!-- path to file -->
+        	<amplif_factor s="1" t="1" />                <!-- x/s, y/t -->
     	</TEXTURE>
 
     	<!-- NOTE: this block "TEXTURE" must be repeated as necessary with different "id" -->
@@ -59,10 +63,10 @@
 		</MATERIAL>
 		<MATERIAL id="2">
 			<shininess value="1"/>
-			<ambient r="4" g="6" b="8" a="1" />        <!-- ambient component -->
-			<diffuse r="6" g="6" b="6" a="1" />        <!-- diffuse component -->
-				<specular r="8" g="4" b="5" a="1" />       <!-- specular component -->
-				<emission r="8" g="4" b="5" a="1" />       <!-- emission component CHANGE VALUES -->
+			<ambient r="0" g="0" b="1" a="1" />        <!-- ambient component -->
+			<diffuse r="1" g="0" b="0" a="1" />        <!-- diffuse component -->
+				<specular r="1" g="1" b="1" a="1" />       <!-- specular component -->
+				<emission r="1" g="1" b="1" a="1" />       <!-- emission component -->
 		</MATERIAL>
 	</MATERIALS>
 
@@ -95,7 +99,7 @@
 		<NODE id="tampo">
 			<MATERIAL id="null"/>
 			<TEXTURE id="1"/>
-			<TRANSLATION x="5" y="-4" z="4"/>
+			<TRANSLATION x="5.5" y="-4.5" z="4"/>
 			<DESCENDANTS>
 				<DESCENDANT id="tampoSuperSu"/>
 				<DESCENDANT id="tampoSuperif"/>
@@ -119,7 +123,7 @@
 		</NODE>
 		<NODE id="legs">
 			<MATERIAL id="2"/>
-			<TEXTURE id="1"/>
+			<TEXTURE id="4"/>
 			<TRANSLATION x="5" y="-5" z="0"/>
 			<DESCENDANTS>
 				<DESCENDANT id="leg1"/> 
@@ -163,12 +167,12 @@
 			<MATERIAL id="1"/>
 			<TEXTURE id="2"/>
 			<DESCENDANTS>
-				<DESCENDANT id="wallrith"/> 
+				<DESCENDANT id="wallrigth"/> 
 				<DESCENDANT id="wallleft"/> 
 				<DESCENDANT id="floor"/> 
 			</DESCENDANTS>
 		</NODE>
-		<NODE id="wallrith">
+		<NODE id="wallrigth">
 			<MATERIAL id="null"/>
 			<TEXTURE id="null"/>
 			<ROTATION axis="y" angle="180"/>

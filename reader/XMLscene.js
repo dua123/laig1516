@@ -197,16 +197,20 @@ XMLscene.prototype.NodesDiplay = function(id) {
 		//actualiza ma matriz e faz pop 
 		//apicacao do material
 	var mat = this.mats[this.grafo[id].material];
+	//console.log(this.grafo[id].material);
 	if(mat!=undefined ){
 			//guarda o material na stack
-			this.pushAppearance(mat);
+			this.stackmaterial.push(mat);
+			//aplica material
+			this.stackmaterial[this.stackmaterial.length-1].apply();
 	}
 			//aplicacao da textura
 	var tex = this.tex[this.grafo[id].texture];
+	
 	if(tex!=undefined){
 			//guarda a textura na stack						
 			this.stacktexture.push(tex);
-			//aplicado o tamerial a imagem
+			//aplicado o textura a imagem
 			this.stacktexture[this.stacktexture.length-1].apply();			
 	}
 	this.pushMatrix();
@@ -230,7 +234,7 @@ XMLscene.prototype.NodesDiplay = function(id) {
 
 	if(mat!=undefined ){
 		//remove o material da stack 
-		this.popAppearance();
+		this.stackmaterial.pop();
 	}
 	if(tex!=undefined){
 		//remove a textura do stack

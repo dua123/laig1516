@@ -2,12 +2,15 @@
  * MySphere
  * @constructor
  */
- function MySphere(scene, radius,rings , stacks) {
+ function MySphere(scene, radius,rings , stacks,s,t) {
  	CGFobject.call(this,scene);
 	
 	this.radius=radius;
 	this.rings=rings;
 	this.stacks=stacks;
+
+    this.s = s || 1;
+    this.t = t || 1;
 
 
 
@@ -27,7 +30,9 @@ MySphere.prototype.initBuffers = function () {
 
     var theta = (2 * Math.PI) / this.rings;
     var phi = (2 * Math.PI) / this.stacks;
- 
+    var text_heigth= Math.PI *this.radius/this.t;
+    var text_length=(2*Math.Pi*this.radius)/this.s;
+
     for (var stack = 0; stack <= this.stacks; ++stack) {
         for (var ring = 0; ring <= this.rings ; ++ring) {
             this.vertices.push(this.radius * Math.cos(theta * stack) * Math.sin(phi * ring));
@@ -38,8 +43,10 @@ MySphere.prototype.initBuffers = function () {
             this.normals.push(Math.sin(stack * theta) * Math.sin(ring * phi));
             this.normals.push(Math.cos(stack * theta));
 
-            this.texCoords.push(stack / this.rings);
-            this.texCoords.push(2 * ring / this.stack);
+            this.texCoords.push(text_length * (1-ring/this.rings),(text_heigth*stack)/this.stacks);
+            this.texCoords.push(text_length * (1-(ring+1)/this.rings),(text_heigth*stack)/this.stacks);
+            this.texCoords.push(text_length * (1-ring/this.rings),(text_heigth*(stack+1))/this.stacks);
+            this.texCoords.push(text_length * (1-(ring+1)/this.rings),(text_heigth*(stack+1))/this.stacks);
         }
     }
     var nVertices = this.vertices.length / 3;
