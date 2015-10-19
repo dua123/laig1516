@@ -1,8 +1,4 @@
-<?xml version="1.0" encoding="UTF-16" standalone="yes"?>
-<yaf>
-
-    <globals background="0 0.5 0 1" drawmode="fill" shading="gouraud" cullface="none" cullorder="CCW" /> 
-    
+<SCENE>
 	<INITIALS>
 	    <frustum near="0.1" far="500"/>                      <!-- frustum planes-->
 	    <translate x="15" y="15" z="15" />                 <!-- initial translate -->
@@ -38,24 +34,22 @@
     </LIGHTS>
 
     <TEXTURES>
-    <TEXTURE id="1">
-        <file path="../resources/images/wood.png" />                             <!-- path to file -->
-        <amplif_factor s="0" t="0" />                <!-- x/s, y/t -->
-    </TEXTURE>
-   <TEXTURE id="2">
-        <file path="../resources/images/brick_wall.jpg" />                             <!-- path to file -->
-        <amplif_factor s="0" t="0" />                <!-- x/s, y/t -->
-    </TEXTURE>
-    <TEXTURE id="3">
-        <file path="../resources/images/floor.png" />                             <!-- path to file -->
-        <amplif_factor s="0" t="0" />                <!-- x/s, y/t -->
-    </TEXTURE>
+    	<TEXTURE id="1">
+        	<file path="../resources/wood.jpg" />                             <!-- path to file -->
+        	<amplif_factor s="0" t="0" />                <!-- x/s, y/t -->
+    	</TEXTURE>
+   	<TEXTURE id="2">
+        	<file path="../resources/brick_wall.jpg" />                             <!-- path to file -->
+        	<amplif_factor s="0" t="0" />                <!-- x/s, y/t -->
+    	</TEXTURE>
+    	<TEXTURE id="3">
+        	<file path="../resources/floor.png" />                             <!-- path to file -->
+        	<amplif_factor s="0" t="0" />                <!-- x/s, y/t -->
+    	</TEXTURE>
 
-    <!-- NOTE: this block "TEXTURE" must be repeated as necessary with different "id" -->
-    
-	</TEXTURES>
-
-	<MATERIALS>
+    	<!-- NOTE: this block "TEXTURE" must be repeated as necessary with different "id" -->
+    </TEXTURES>
+    <MATERIALS>
 		<MATERIAL id="1">
 			<shininess value="1"/>
 			<ambient r="1" g="1" b="1" a="1" />        <!-- ambient component -->
@@ -74,117 +68,130 @@
 
     <!-- NOTE: this block "LIGHT" must be repeated as necessary with different "id" -->
     <LEAVES>
-		<LEAF id="tableTop" type="rectangle"  args="-2 3 6 -1"/>
+		<LEAF id="tableTopside" type="rectangle"  args="-2 3 6 -1"/>
+		<LEAF id="tableTopleft" type="rectangle"  args="-2 3 6 -1"/>
+		<LEAF id="tableTopup" type="rectangle"  args="-2 3 6 -1"/>
 		<LEAF id="tableLeg" type="cylinder" args="3.5 0.5 0.5 8 20"/>
-		<LEAF id="wall" type="rectangle" args="0 10 0 12"/>
+		<LEAF id="wall" type="rectangle" args="0 0 12 12"/>
 	</LEAVES>
 	
     <NODES>
 		<ROOT id="Quarto"/>
 		<NODE id="Quarto">
-			<DESCENDENTS>
+			<DESCENDANTS>
 				<DESCENDANT id="Walls"/>
 				<DESCENDANT id="Mesa"/>
-			</DESCENDENTS>
+			</DESCENDANTS>
 		</NODE>
 
 		<NODE id="Mesa">
-			<DESCENDENTS>
+			<ROTATION axis="x" angle="-90"/>
+			<DESCENDANTS>
 				<DESCENDANT id="tampo"/>
 				<DESCENDANT id="legs"/>
-			</DESCENDENTS>
+			</DESCENDANTS>
 		</NODE>
 
 		<NODE id="tampo">
 			<MATERIAL id="null"/>
 			<TEXTURE id="1"/>
-			<TRANSLATION x="1" y="0" z="0"/>
-			<ROTATION axis="x" angle="90"/>
-			<DESCENDENTS>
-				<DESCENDANT id="tableTop"/>
-			</DESCENDENTS>
+			<TRANSLATION x="5" y="-4" z="4"/>
+			<DESCENDANTS>
+				<DESCENDANT id="tampoSuperSu"/>
+				<DESCENDANT id="tampoSuperif"/>
+			</DESCENDANTS>
+		</NODE>
+		<NODE id="tampoSuperSu">
+			<MATERIAL id="null"/>
+			<TEXTURE id="null"/>
+			<DESCENDANTS>
+				<DESCENDANT id="tableTopside"/>
+			</DESCENDANTS>
+		</NODE>
+		<NODE id="tampoSuperif">
+			<MATERIAL id="null"/>
+			<TEXTURE id="null"/>
+			<TRANSLATION x="5" y="0" z="0"/>
+			<ROTATION axis="y" angle="180"/>
+			<DESCENDANTS>
+				<DESCENDANT id="tableTopside"/>
+			</DESCENDANTS>
 		</NODE>
 		<NODE id="legs">
 			<MATERIAL id="2"/>
 			<TEXTURE id="1"/>
-			<ROTATION axis="x" angle="-90"/>
-			<DESCENDENTS>
+			<TRANSLATION x="5" y="-5" z="0"/>
+			<DESCENDANTS>
 				<DESCENDANT id="leg1"/> 
 				<DESCENDANT id="leg2"/> 
 				<DESCENDANT id="leg3"/> 
 				<DESCENDANT id="leg4"/> 
-			</DESCENDENTS>
+			</DESCENDANTS>
 		</NODE>
 		<NODE id="leg1">
 			<MATERIAL id="null"/>
 			<TEXTURE id="null"/>
-			<TRANSLATION x="1" y="0" z="0"/>
-			<ROTATION axis="x" angle="90"/>
-			<DESCENDENTS>
+			<TRANSLATION x="5" y="0" z="0"/>
+			<DESCENDANTS>
 				<DESCENDANT id="tableLeg"/>
-			</DESCENDENTS>
+			</DESCENDANTS>
 		</NODE>
 		<NODE id="leg2">
 			<MATERIAL id="null"/>
 			<TEXTURE id="null"/>
-			<TRANSLATION x="1" y="0" z="0"/>
-			<ROTATION axis="x" angle="90"/>
-			<DESCENDENTS>
+			<TRANSLATION x="0" y="3" z="0"/>
+			<DESCENDANTS>
 				<DESCENDANT id="tableLeg"/>
-			</DESCENDENTS>
+			</DESCENDANTS>
 		</NODE>
 		<NODE id="leg3">
 			<MATERIAL id="null"/>
 			<TEXTURE id="null"/>
-			<TRANSLATION x="1" y="0" z="0"/>
-			<ROTATION axis="x" angle="90"/>
-			<DESCENDENTS>
+			<TRANSLATION x="5" y="3" z="0"/>
+			<DESCENDANTS>
 				<DESCENDANT id="tableLeg"/>
-			</DESCENDENTS>
+			</DESCENDANTS>
 		</NODE>
 		<NODE id="leg4">
 			<MATERIAL id="null"/>
 			<TEXTURE id="null"/>
-			<TRANSLATION x="4" y="0" z="2"/>
-			<DESCENDENTS>
+			<DESCENDANTS>
 				<DESCENDANT id="tableLeg"/>
-			</DESCENDENTS>
+			</DESCENDANTS>
 		</NODE>
 		<NODE id="Walls">
 			<MATERIAL id="1"/>
 			<TEXTURE id="2"/>
-			<DESCENDENTS>
+			<DESCENDANTS>
 				<DESCENDANT id="wallrith"/> 
 				<DESCENDANT id="wallleft"/> 
 				<DESCENDANT id="floor"/> 
-			</DESCENDENTS>
+			</DESCENDANTS>
 		</NODE>
 		<NODE id="wallrith">
 			<MATERIAL id="null"/>
 			<TEXTURE id="null"/>
-			<DESCENDENTS>
+			<ROTATION axis="y" angle="180"/>
+			<TRANSLATION x="-12" y="0" z="0"/>
+			<DESCENDANTS>
 				<DESCENDANT id="wall"/> 
-			</DESCENDENTS>
+			</DESCENDANTS>
 		</NODE>
 		<NODE id="wallleft">
 			<MATERIAL id="null"/>
 			<TEXTURE id="null"/>
-			<ROTATION axis="y" angle="90"/>
-			<DESCENDENTS>
+			<ROTATION axis="y" angle="-90"/>
+			<DESCENDANTS>
 				<DESCENDANT id="wall"/> 
-			</DESCENDENTS>
+			</DESCENDANTS>
 		</NODE>
 		<NODE id="floor">
 			<MATERIAL id="null"/>
 			<TEXTURE id="3"/>
 			<ROTATION axis="x" angle="90"/>
-			<DESCENDENTS>
+			<DESCENDANTS>
 				<DESCENDANT id="wall"/> 
-			</DESCENDENTS>
+			</DESCENDANTS>
 		</NODE>
 	</NODES>
-
-
-	
-	
-</yaf> 
+</SCENE>
