@@ -8,10 +8,7 @@
      this.radius = radius;
      this.rings = rings;
      this.stacks = stacks;
-
-
-     this.s = 1;
-     this.t = 1;
+  
 
 
      this.initBuffers();
@@ -42,8 +39,10 @@
              this.normals.push(Math.sin(stack * theta) * Math.sin(ring * phi));
              this.normals.push(Math.cos(stack * theta));
 
+             this.texCoords.push(ring/this.rings,stack/this.stacks)
+
          }
-         this.updateTexCoords();
+
      }
      var nVertices = this.vertices.length / 3;
      for (stack = 0; stack < this.rings; stack++) {
@@ -64,22 +63,4 @@
      this.initGLBuffers();
  }
 
- MySphere.prototype.setAmplif = function(ampS, ampT) {
-     this.s = ampS;
-     this.t = ampT;
-     this.updateTexCoords();
- };
-
- MySphere.prototype.updateTexCoords = function() {
-     var text_heigth = Math.PI * this.radius / this.t;
-     var text_length = (2 * Math.Pi * this.radius) / this.s;
-
-     for (var stack = 0; stack <= this.stacks; ++stack) {
-         for (var ring = 0; ring <= this.rings; ++ring) {
-             this.texCoords.push(text_length * (1 - ring / this.rings), (text_heigth * stack) / this.stacks);
-             this.texCoords.push(text_length * (1 - (ring + 1) / this.rings), (text_heigth * stack) / this.stacks);
-             this.texCoords.push(text_length * (1 - ring / this.rings), (text_heigth * (stack + 1)) / this.stacks);
-             this.texCoords.push(text_length * (1 - (ring + 1) / this.rings), (text_heigth * (stack + 1)) / this.stacks);
-         }
-     }
- }
+ 
