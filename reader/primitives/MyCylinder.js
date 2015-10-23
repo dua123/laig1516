@@ -25,5 +25,5 @@
  };
 
 MyCylinder.prototype.setAmplif = function(ampS, ampT) {
-  this.lateral.setAmplif(amS,ampT);
+  this.lateral.setAmplif(ampS,ampT);
 };

@@ -26,7 +26,7 @@
 
     <LIGHT id="1">                                    <!-- light identifier -->
         <enable value ="1" />                         <!-- enable/disable -->
-        <position x="0" y="0" z="0" w="1" />       <!-- light position -->
+        <position x="8" y="7" z="" w="1" />       <!-- light position -->
         <ambient r="1" g="1" b="1" a="1" />        <!-- ambient component -->
         <diffuse r="1" g="1" b="1" a="1" />        <!-- diffuse component -->
         <specular r="1" g="1" b="1" a="1" />       <!-- specular component -->
@@ -50,6 +50,10 @@
         	<file path="resources/metal.jpg" />                             <!-- path to file -->
         	<amplif_factor s="1" t="1" />                <!-- x/s, y/t -->
     	</TEXTURE>
+    	<TEXTURE id="5">
+        	<file path="resources/glass.jpg" />                             <!-- path to file -->
+        	<amplif_factor s="1" t="1" />                <!-- x/s, y/t -->
+    	</TEXTURE>
 
     	<!-- NOTE: this block "TEXTURE" must be repeated as necessary with different "id" -->
     </TEXTURES>
@@ -64,7 +68,7 @@
 		<MATERIAL id="2">
 			<shininess value="1"/>
 			<ambient r="0" g="0" b="1" a="1" />        <!-- ambient component -->
-			<diffuse r="1" g="0" b="0" a="1" />        <!-- diffuse component -->
+			<diffuse r="0.5" g="0.5" b="0.5" a="1" />        <!-- diffuse component -->
 				<specular r="1" g="1" b="1" a="1" />       <!-- specular component -->
 				<emission r="1" g="1" b="1" a="1" />       <!-- emission component -->
 		</MATERIAL>
@@ -76,7 +80,10 @@
 		<LEAF id="tableTopleft" type="rectangle"  args="-2 3 6 -1"/>
 		<LEAF id="tableTopup" type="rectangle"  args="-2 3 6 -1"/>
 		<LEAF id="tableLeg" type="cylinder" args="3.5 0.5 0.5 8 20"/>
+		<LEAF id="cand" type="cylinder" args="1.5 0.5 0.25 8 20"/>
 		<LEAF id="wall" type="rectangle" args="0 0 12 12"/>
+		<LEAF id="ball" type="sphere" args="0.5 48 48"/>
+		<LEAF id="tri" type="triangle" args="0.0 0.0 0.0 2.0 2.0 0.0 4 0.0 0.0"/>
 	</LEAVES>
 	
     <NODES>
@@ -85,9 +92,31 @@
 			<DESCENDANTS>
 				<DESCENDANT id="Walls"/>
 				<DESCENDANT id="Mesa"/>
+				<DESCENDANT id="lamp"/>
 			</DESCENDANTS>
 		</NODE>
-
+		<NODE id="lamp">
+			<!--<MATERIAL id="2"/>-->
+			<DESCENDANTS>
+				<DESCENDANT id="base"/>
+				<DESCENDANT id="light"/>
+			</DESCENDANTS>
+		</NODE>
+		<NODE id="base">
+			<TEXTURE id="4"/>
+			<ROTATION axis="x" angle="-90"/>
+			<TRANSLATION x="7.5" y="-3.5" z="3.5"/>
+			<DESCENDANTS>
+				<DESCENDANT id="cand"/>
+			</DESCENDANTS>
+		</NODE>
+		<NODE id="light">
+			<TEXTURE id="5"/>
+			<TRANSLATION x="7.5" y="5.4" z="3.5"/>
+			<DESCENDANTS>
+				<DESCENDANT id="ball"/>
+			</DESCENDANTS>
+		</NODE>
 		<NODE id="Mesa">
 			<ROTATION axis="x" angle="-90"/>
 			<DESCENDANTS>
@@ -107,7 +136,6 @@
 				<DESCENDANT id="tampoRight"/>
 				<DESCENDANT id="tampoFront"/>
 				<DESCENDANT id="tampoBack"/>
-
 			</DESCENDANTS>
 		</NODE>
 		<NODE id="tampoSuperSu">

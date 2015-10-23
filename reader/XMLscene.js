@@ -25,6 +25,7 @@ XMLscene.prototype.init = function(application) {
 	this.gl.depthFunc(this.gl.LEQUAL);
 
 	this.axis = new CGFaxis(this);
+	this.quad= new MyDiamond(this,4);
 
 	this.materialDefault = new CGFappearance(this);
 
@@ -131,8 +132,6 @@ XMLscene.prototype.onGraphLoaded = function() {
 		this.grafo[nodeID].material=this.allNodes[k]['material'];
 		this.grafo[nodeID].descendents=this.allNodes[k]['descendents'];
 	}
-	console.log(this.grafo['tampo']);
-	console.log(this.tex_ampfac[this.grafo['tampo'].texture]['s']+"    "+this.tex_ampfac[this.grafo['tampo'].texture]['t']);
 	
 	this.allLeaves=this.graph.leaves;
 	this.sceneLeaves=[];
@@ -178,7 +177,9 @@ XMLscene.prototype.display = function() {
 			this.lights[i].update();
 		}
 		
-	
+	/*this.pushMatrix();
+		this.quad.display();
+	this.popMatrix();	*/
 	this.NodesDiplay(graphRootID);
 
 	};
@@ -188,12 +189,13 @@ XMLscene.prototype.NodesDiplay = function(id) {
 
 		//actualiza ma matriz e faz pop 
 		//apicacao do material
+		//console.log(this.grafo);
 	var mat = this.mats[this.grafo[id].material];
 	if(mat!=undefined ){
 			//guarda o material na stack
-			this.stackmaterial.push(mat);
+			//this.stackmaterial.push(mat);
 			//aplica material
-			this.stackmaterial[this.stackmaterial.length-1].apply();
+			this.pushAppearance(mat);
 	}
 			//aplicacao da textura
 	var tex = this.tex[this.grafo[id].texture];
@@ -221,7 +223,7 @@ XMLscene.prototype.NodesDiplay = function(id) {
 				if(tex!=undefined)      
 			    {		
 			    	
-			    	isleaf.setAmplif(this.tex_ampfac[this.grafo[id].texture]['s'],this.tex_ampfac[this.grafo[id].texture]['t']);
+			    	//isleaf.setAmplif(this.tex_ampfac[this.grafo[id].texture]['s'],this.tex_ampfac[this.grafo[id].texture]['t']);
 			    	this.stacktexture.push(newtex);
 			    }
 				isleaf.display();
@@ -233,11 +235,13 @@ XMLscene.prototype.NodesDiplay = function(id) {
 
 	if(mat!=undefined ){
 		//remove o material da stack 
-		this.stackmaterial.pop();
+		this.popAppearance();
 	}
 	if(tex!=undefined){
 		//remove a textura do stack
-		this.stacktexture.pop();			
+		this.stacktexture.pop()
+		//tex.apply();	
+
 	}
 
 
@@ -245,17 +249,11 @@ XMLscene.prototype.NodesDiplay = function(id) {
 
 XMLscene.prototype.pushAppearance = function(mat) {
 	this.stackmaterial.push(mat);
-	this.setAmbient(mat['ambient']['r'], mat['ambient']['g'], mat['ambient']['b'],mat['ambient']['a']);
-	this.setDiffuse(mat['diffuse']['r'], mat['diffuse']['g'], mat['diffuse']['b'],mat['diffuse']['a']);
-	this.setSpecular(mat['shininess']['r'], mat['shininess']['g'],mat['shininess']['b'], mat['shininess']['a']);
-	this.setShininess(mat['shininess']);
+	mat.apply();
 
 };
 XMLscene.prototype.popAppearance = function() {
 	var mat =this.stackmaterial.pop();
-	this.setAmbient(mat['ambient']['r'], mat['ambient']['g'], mat['ambient']['b'],mat['ambient']['a']);
-	this.setDiffuse(mat['diffuse']['r'], mat['diffuse']['g'], mat['diffuse']['b'],mat['diffuse']['a']);
-	this.setSpecular(mat['shininess']['r'], mat['shininess']['g'],mat['shininess']['b'], mat['shininess']['a']);
-	this.setShininess(mat['shininess']);
+	mat.apply();
 
 };
