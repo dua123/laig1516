@@ -33,6 +33,13 @@
     	</LIGHT>
     </LIGHTS>
 
+    <ANIMATIONS>
+		<animation id="1" span="2" type="linear">
+			<controlpoint xx="1" yy="1" zz="1" />
+		</animation>
+		<animation id="2" span="3" type="circular" center="1 1 1" radius="1" startang="1" rotang="1" />
+	</ANIMATIONS>
+
     <TEXTURES>
     	<TEXTURE id="1">
         	<file path="resources/wood.png" />                             <!-- path to file -->

@@ -56,10 +56,10 @@ var MyTexture = function() {
  */
 MySceneGraph.prototype.onXMLReady = function() {
 	console.log("XML Loading finished.");
-	
+
 	var rootElement = this.reader.xmlDoc.documentElement;
 
-	
+
 
 	error = this.parseInitials(rootElement);
 	if (error != null) {
@@ -102,15 +102,19 @@ MySceneGraph.prototype.onXMLReady = function() {
 		return;
 	}
 
-	
+	error = this.parseAnimation(rootElement);
+	if (error != null) {
+		this.onXMLError(error);
+		return;
+	}
+
+
 
 	this.loadedOk = true;
 
 	// As the graph loaded ok, signal the scene so that any additional initialization depending on the graph can take place
 	this.scene.onGraphLoaded();
 };
-
-
 
 
 
@@ -127,7 +131,7 @@ MySceneGraph.prototype.idExists = function(IDs, id) {
 
 MySceneGraph.prototype.parseInitials = function(rootElement) {
 
-	var tempIni = rootElement.getElementsByTagName('INITIALS'); 	
+	var tempIni = rootElement.getElementsByTagName('INITIALS');
 	if (tempIni == null) {
 		return "initials element is missing.";
 	}
@@ -140,7 +144,7 @@ MySceneGraph.prototype.parseInitials = function(rootElement) {
 	var frustum = tempIni[0].children[0];
 	this.initials = [];
 	this.initials['frustum'] = [];
-	this.initials['frustum']['near'] = this.reader.getFloat(frustum, 'near', true);	
+	this.initials['frustum']['near'] = this.reader.getFloat(frustum, 'near', true);
 	this.initials['frustum']['far'] = this.reader.getFloat(frustum, 'far', true);
 	console.log("Initials read from file: {Frustum: near=" + this.initials['frustum']['near'] + ", far=" + this.initials['frustum']['far'] + "}");
 
@@ -153,7 +157,7 @@ MySceneGraph.prototype.parseInitials = function(rootElement) {
 	console.log("Initials read from file: {translate: x=" + this.initials['translation']['x'] + ", y=" + this.initials['translation']['y'] + ", z=" + this.initials['translation']['z'] + " }");
 
 	//gets rotation1 tag info
-	var rotation1 =tempIni[0].children[2];
+	var rotation1 = tempIni[0].children[2];
 	this.initials['rot1'] = [];
 	this.initials['rot1']['axis'] = this.reader.getString(rotation1, 'axis', true);
 	this.initials['rot1']['angle'] = this.reader.getFloat(rotation1, 'angle', true);
@@ -231,12 +235,12 @@ MySceneGraph.prototype.parseLights = function(rootElement) {
 
 	var tempLights = rootElement.getElementsByTagName('LIGHTS');
 
-	
+
 
 	if (tempLights == null || tempLights.length == 0) {
 		return "list element is missing.";
 	}
-	
+
 	this.lights = [];
 	var Ids = [];
 	var nlights = tempLights[0].children.length;
@@ -247,7 +251,7 @@ MySceneGraph.prototype.parseLights = function(rootElement) {
 		var luz = tempLights[0].children[i];
 
 		var j = 0;
-		var idExists = false; 
+		var idExists = false;
 		for (j; j < Ids.length; j++) {
 			if (Ids[j] == luz.id)
 				idExists = true;
@@ -294,7 +298,7 @@ MySceneGraph.prototype.parseLights = function(rootElement) {
 			console.log("Light with id " + luz.id + " read from file: {specular: r=" + light.spec.r + ", g=" + light.spec.g + ", b=" + light.spec.b + ", a=" + light.spec.a + " }");
 
 			this.lights[i] = light;
-			console.log("e"+this.lights.length);
+			console.log("e" + this.lights.length);
 		} else
 			console.log("a light with the id:" + luz.id + " already exists!");
 		idExists = false;
@@ -317,7 +321,7 @@ MySceneGraph.prototype.parseTextures = function(rootElement) {
 	this.textures = [];
 	for (var i = 0; i < nrTextures; i++) {
 		console.log(temp_text[0].children[i]);
-		var texture = temp_text[0].children[i]	;
+		var texture = temp_text[0].children[i];
 		var cur_text = nrTextures[i];
 		this.val = [];
 
@@ -340,7 +344,7 @@ MySceneGraph.prototype.parseTextures = function(rootElement) {
 		console.log("Texture with id " + this.val['id'] + " read from file: {amp_factor: s=" + ~this.val['factor']['s'] + ", t=" + this.val['factor']['t'] + " }");
 
 		this.textures[i] = this.val;
-		
+
 
 	}
 };
@@ -348,8 +352,7 @@ MySceneGraph.prototype.parseTextures = function(rootElement) {
 MySceneGraph.prototype.parseMaterials = function(rootElement) {
 
 	var temp_mat = rootElement.getElementsByTagName('MATERIALS');
-	
-	
+
 
 
 	if (temp_mat == null) {
@@ -359,7 +362,7 @@ MySceneGraph.prototype.parseMaterials = function(rootElement) {
 	if (temp_mat.length < 1) {
 		return "Does have any material";
 	}
-	
+
 	var nrMaterials = temp_mat[0].children.length;
 	var IDs = [];
 	this.materials = [];
@@ -369,7 +372,7 @@ MySceneGraph.prototype.parseMaterials = function(rootElement) {
 		this.val = [];
 
 		var id = this.reader.getString(material, 'id', true);
-		
+
 		if (this.idExists(IDs, id) == true) {
 			return "Material already exists (id is already being used.";
 		}
@@ -425,7 +428,7 @@ MySceneGraph.prototype.parseLeaves = function(rootElement) {
 	var temp_leaves = rootElement.getElementsByTagName('LEAVES');
 
 
-	
+
 	if (temp_leaves == null) {
 		return "LEAVES element is missing";
 	}
@@ -439,7 +442,7 @@ MySceneGraph.prototype.parseLeaves = function(rootElement) {
 	this.leaves = [];
 	for (var i = 0; i < nrLeaves; i++) {
 		var leaf = temp_leaves[0].children[i];
-		var cur_leaf = nrLeaves[i];
+		//var cur_leaf = nrLeaves[i];
 		this.val = [];
 
 		var id = this.reader.getString(leaf, 'id', true);
@@ -450,23 +453,23 @@ MySceneGraph.prototype.parseLeaves = function(rootElement) {
 		this.val['id'] = id;
 
 		//gets type tag info
-		this.val['type'] = this.reader.getString(leaf,'type',true);
+		this.val['type'] = this.reader.getString(leaf, 'type', true);
 
 		//gets args tag info
-		var string = this.reader.getString(leaf,'args',true);
+		var string = this.reader.getString(leaf, 'args', true);
 		var nstring = string.split(" ");
 		this.val['args'] = nstring;
-		console.log("Leaf with id "+ this.val['id']+ " read from file: {leaf: type= " +this.val['type']+" args= "+this.val['args']+" }");
+		console.log("Leaf with id " + this.val['id'] + " read from file: {leaf: type= " + this.val['type'] + " args= " + this.val['args'] + " }");
 
 		this.leaves[i] = this.val;
 
 	}
 };
-MySceneGraph.prototype.parseNodes=function(rootElement) {
+MySceneGraph.prototype.parseNodes = function(rootElement) {
 
-	var temp_node =rootElement.getElementsByTagName('NODES');
-	
-	
+	var temp_node = rootElement.getElementsByTagName('NODES');
+
+
 
 	if (temp_node == null) {
 		return "'NODES' element is missing";
@@ -480,98 +483,153 @@ MySceneGraph.prototype.parseNodes=function(rootElement) {
 	this.graphRootID = temp_node[0].children[0].id;
 	var nrNodes = temp_node[0].children.length;
 	var IDs = [];
-	for(var i=1;i<nrNodes;i++){    				//i=1 BECAUSE i=0 is root id
-		var cont=0;
-		var node=temp_node[0].children[i];
-		
+	for (var i = 1; i < nrNodes; i++) { //i=1 BECAUSE i=0 is root id
+		var cont = 0;
+		var node = temp_node[0].children[i];
+
 		if (this.idExists(IDs, node.id) == true) {
 			return "Material already exists (id is already being used.";
 		}
 		IDs.push(node.id);
-		this.nodeInfo=[];
-		this.nodeInfo['id']=node.id;
-		var m =mat4.create();
-	
-		
-		for(var k=0;k<node.children.length;k++){
+		this.nodeInfo = [];
+		this.nodeInfo['id'] = node.id;
+		var m = mat4.create();
+
+
+		for (var k = 0; k < node.children.length; k++) {
 			//gets material tag info
-			if(node.children[k].tagName=='MATERIAL'){
-				var material=node.children[k];
-				this.nodeInfo['material']=this.reader.getString(material,'id',true);
-				console.log("Node with id "+node.id+" read from file: {material: id="+this.nodeInfo['material']+" }");
+			if (node.children[k].tagName == 'MATERIAL') {
+				var material = node.children[k];
+				this.nodeInfo['material'] = this.reader.getString(material, 'id', true);
+				console.log("Node with id " + node.id + " read from file: {material: id=" + this.nodeInfo['material'] + " }");
 			}
 
 			//gets texture tag info
-			if(node.children[k].tagName=='TEXTURE'){
-				var texture=node.children[k];
-				this.nodeInfo['texture']=this.reader.getString(texture,'id',true);
-				console.log("Node with id "+node.id+" read from file: {texture: id="+this.nodeInfo['texture']+" }");
+			if (node.children[k].tagName == 'TEXTURE') {
+				var texture = node.children[k];
+				this.nodeInfo['texture'] = this.reader.getString(texture, 'id', true);
+				console.log("Node with id " + node.id + " read from file: {texture: id=" + this.nodeInfo['texture'] + " }");
 			}
-			
+
 
 			var axis;
-			var tag=node.children[k].tagName	
-			switch(tag){
+			var tag = node.children[k].tagName
+			switch (tag) {
 				case 'TRANSLATION':
 					//gets translation tag info
-					var translation=node.children[k];
-					var x=this.reader.getFloat(translation,'x',true);
-					var y=this.reader.getFloat(translation,'y',true);
-					var z=this.reader.getFloat(translation,'z',true);
-					mat4.translate(m,m,[x,y,z]);
-					this.nodeInfo['translation']=m;
+					var translation = node.children[k];
+					var x = this.reader.getFloat(translation, 'x', true);
+					var y = this.reader.getFloat(translation, 'y', true);
+					var z = this.reader.getFloat(translation, 'z', true);
+					mat4.translate(m, m, [x, y, z]);
+					this.nodeInfo['translation'] = m;
 					break;
 				case 'ROTATION':
 					//gets rotation tag info
-					var rotation=node.children[k];;
-					switch(this.reader.getString(rotation,'axis',true)){
+					var rotation = node.children[k];;
+					switch (this.reader.getString(rotation, 'axis', true)) {
 						case "x":
-							axis=[1,0,0];
+							axis = [1, 0, 0];
 							break;
 						case "y":
-							axis=[0,1,0];
+							axis = [0, 1, 0];
 							break;
 						case "z":
-							axis=[0,0,1];
+							axis = [0, 0, 1];
 							break;
 					}
-					var angle=this.reader.getFloat(rotation,'angle',true);
-					mat4.rotate(m,m,(Math.PI*angle)/180,axis);
-					this.nodeInfo['rotation']=m;
+					var angle = this.reader.getFloat(rotation, 'angle', true);
+					mat4.rotate(m, m, (Math.PI * angle) / 180, axis);
+					this.nodeInfo['rotation'] = m;
 					break;
 				case 'SCALE':
 					//gets scale tag info
-					var scale=node.children[k];
-					var sx=this.reader.getFloat(scale,'sx',true);
-					var sy=this.reader.getFloat(scale,'sy',true);
-					var sz=this.reader.getFloat(scale,'sz',true);
-					mat4.scale(m,m,[this.reader.getFloat(scale,'sx',true),this.reader.getFloat(scale,'sy',true),this.reader.getFloat(scale,'sz',true)]);
-					this.nodeInfo['scale']=m;
+					var scale = node.children[k];
+					var sx = this.reader.getFloat(scale, 'sx', true);
+					var sy = this.reader.getFloat(scale, 'sy', true);
+					var sz = this.reader.getFloat(scale, 'sz', true);
+					mat4.scale(m, m, [this.reader.getFloat(scale, 'sx', true), this.reader.getFloat(scale, 'sy', true), this.reader.getFloat(scale, 'sz', true)]);
+					this.nodeInfo['scale'] = m;
 					break;
 			}
 
-			if(node.children[k].tagName=='DESCENDANTS'){
+			if (node.children[k].tagName == 'DESCENDANTS') {
 				//gets descendants tag info
-				var descendents=node.children[k];
-				this.nodeInfo['descendents']=[];
-				for(var j=0;j<descendents.children.length;j++){
-					var desc=descendents.children[j];
-					this.nodeInfo['descendents'][j]=this.reader.getString(desc,'id',true);
+				var descendents = node.children[k];
+				this.nodeInfo['descendents'] = [];
+				for (var j = 0; j < descendents.children.length; j++) {
+					var desc = descendents.children[j];
+					this.nodeInfo['descendents'][j] = this.reader.getString(desc, 'id', true);
 				}
-				console.log("Node "+node.id+" descendents: "+this.nodeInfo['descendents']);
+				console.log("Node " + node.id + " descendents: " + this.nodeInfo['descendents']);
 			}
 		}
-		this.scene.grafo[node.id]=new Node();
+		this.scene.grafo[node.id] = new Node();
 		this.scene.grafo[node.id].setMatrix(m);
-		this.nodes[i]=this.nodeInfo;
+		this.nodes[i] = this.nodeInfo;
 
-		
+
 	}
 	console.log(this.nodes);
 };
-/*
- * Callback to be executed on any read error
- */
+
+MySceneGraph.prototype.parseAnimation = function(rootElement) {
+		var temp_anim = rootElement.getElementsByTagName('ANIMATIONS');
+
+
+
+		if (temp_anim == null) {
+			return "'ANIMATIONS' element is missing";
+		}
+
+		if (temp_anim.length == 0) {
+			return "there is no ANIMATIONS!!";
+		}
+		this.animation = [];
+		var nrAnims = temp_anim[0].children.length;
+		var IDs = [];
+		for (var i = 0; i < nrAnims; i++) {
+			var animation = temp_anim[0].children[i];
+
+			if (this.idExists(IDs, animation.id) == true) {
+				return "Animation already exists (id is already being used).";
+			}
+			IDs.push(animation.id);
+			this.animInfo = [];
+			this.animInfo['id'] = animation.id;
+
+			this.animInfo['span'] = this.reader.getFloat(animation, 'span', true);
+			this.animInfo['type'] = this.reader.getString(animation, 'type', true);
+			if (this.animInfo['type'] != "linear" && this.animInfo['type'] != "circular")
+				return "Type can only be linear or circular";
+			
+			console.log("TYPE: '"+this.animInfo['type']+"'");
+			if (this.animInfo['type'] == "linear") {
+				for (var j = 0; j < animation.children.length; j++) {
+					var control_point = animation.children[j];
+					this.animInfo[('controlpoint' + j)] = [];
+					this.animInfo[('controlpoint' + j)]['xx'] = this.reader.getFloat(control_point, 'xx', true);
+					this.animInfo[('controlpoint' + j)]['yy'] = this.reader.getFloat(control_point, 'yy', true);
+					this.animInfo[('controlpoint' + j)]['zz'] = this.reader.getFloat(control_point, 'zz', true);
+					console.log("Animation with id " + animation.id + " read from file: {animation: span= " + this.animInfo['span'] + " type= " + this.animInfo['type'] + " }");
+					console.log("Animation with id " + animation.id + " read from file: {controlpoint: xx= " + this.animInfo[('controlpoint' + j)]['xx'] + " yy= " + this.animInfo[('controlpoint' + j)]['yy'] + " zz= " + this.animInfo[('controlpoint' + j)]['zz'] + " }");
+				}
+			}
+			if (this.animInfo['type'] == "circular") {
+				var string = this.reader.getString(animation, 'center', true);
+				var nstring = string.split(" ");
+				this.animInfo['center'] = nstring;
+				this.animInfo['radius']=this.reader.getFloat(animation,'radius',true);
+				this.animInfo['startang']=this.reader.getFloat(animation,'startang',true);
+				this.animInfo['rotang']=this.reader.getFloat(animation,'rotang',true);
+				console.log("Animation with id " + animation.id + " read from file: {animation: span= " + this.animInfo['span'] + " type= " + this.animInfo['type'] + 
+					 " center= " + this.animInfo['center'] +" radius= " + this.animInfo['radius'] +" startang= " + this.animInfo['startang'] +" rotang= " + this.animInfo['rotang'] +" }");
+			}
+		}
+	}
+	/*
+	 * Callback to be executed on any read error
+	 */
 
 MySceneGraph.prototype.onXMLError = function(message) {
 	console.error("XML Loading Error: " + message);
