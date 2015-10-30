@@ -36,7 +36,7 @@ MyInterface.prototype.init = function(application) {
 	
 	var lights=this.gui.addFolder("Lights");
 	lights.open();
-
+	lights.add(this.scene,"a");
 	// add two check boxes to the group. The identifiers must be members variables of the scene initialized in scene.init as boolean
 	// e.g. this.option1=true; this.option2=false;
 	
@@ -44,10 +44,10 @@ MyInterface.prototype.init = function(application) {
 	
 	// add a slider
 	// must be a numeric variable of the scene, initialized in scene.init e.g.
-	// this.speed=3;
+	 this.speed=3;
 	// min and max values can be specified as parameters
 	
-	//this.gui.add(this.scene, 'speed', 0, 3);
+	this.gui.add(this.scene, 'speed', 0, 3);
 	//this.gui.add(this.scene, 'Clock');
 	//this.gui.add(this.scene, 'currRobotAppearance', this.scene.robotAppearanceList);
 
@@ -58,7 +58,7 @@ MyInterface.prototype.init = function(application) {
  * processKeyboard
  * @param event {Event}
  */
-/*MyInterface.prototype.processKeyboard = function(event) {
+MyInterface.prototype.processKeyboard = function(event) {
 	// call CGFinterface default code (omit if you want to override)
 	CGFinterface.prototype.processKeyboard.call(this,event);
 	
@@ -87,7 +87,6 @@ MyInterface.prototype.init = function(application) {
 			break;
 
 		case (87):
-		case (119):
 			console.log("Key 'W' pressed");
 			this.scene.robot.move(1);
 			break;
@@ -97,5 +96,5 @@ MyInterface.prototype.init = function(application) {
 			this.scene.robot.wave();
 			break;
 	};
-};*/
+};
 
