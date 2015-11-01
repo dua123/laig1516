@@ -47,7 +47,7 @@ MyInterface.prototype.init = function(application) {
 	 this.speed=3;
 	// min and max values can be specified as parameters
 	
-	this.gui.add(this.scene, 'speed', 0, 3);
+	this.gui.add(this.scene, 'speed', -3, 3);
 	//this.gui.add(this.scene, 'Clock');
 	//this.gui.add(this.scene, 'currRobotAppearance', this.scene.robotAppearanceList);
 

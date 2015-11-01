@@ -195,7 +195,6 @@
 		<NODE id="tampoBack">
 			<MATERIAL id="null"/>
 			<TEXTURE id="null"/>
-			<ROTATION axis="y" angle="-90"/>
 			<SCALE sx="0.03125" sy="1" sz="1"/>
 			<TRANSLATION x="2" y="0" z="2"/>
 			<DESCENDANTS>
@@ -203,8 +202,8 @@
 			</DESCENDANTS>
 		</NODE>
 		<NODE id="legs">
-			<MATERIAL id="2"/>
-			<TEXTURE id="4"/>
+			<MATERIAL id="1"/>
+			<TEXTURE id="3"/>
 			<TRANSLATION x="5" y="-5" z="0"/>
 			<DESCENDANTS>
 				<DESCENDANT id="leg1"/> 

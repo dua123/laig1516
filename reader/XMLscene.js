@@ -25,9 +25,11 @@ XMLscene.prototype.init = function(application) {
 	this.gl.depthFunc(this.gl.LEQUAL);
 
 	this.axis = new CGFaxis(this);
-	this.quad= new MyDiamond(this,4);
+	//this.quad= new MyDiamond(this,4);
 
 	this.materialDefault = new CGFappearance(this);
+	this.a= false;
+	this.speed=0;
 
 }
 XMLscene.prototype.initLights = function() {
@@ -148,7 +150,7 @@ XMLscene.prototype.onGraphLoaded = function() {
 
 XMLscene.prototype.display = function() {
 	// ---- BEGIN Background, camera and axis setup
-	this.shader.bind();
+	//this.shader.bind();
 
 	// Clear image and depth buffer everytime we update the scene
 	this.gl.viewport(0, 0, this.gl.canvas.width, this.gl.canvas.height);
@@ -183,13 +185,15 @@ XMLscene.prototype.display = function() {
 	this.NodesDiplay(graphRootID);
 
 	};
-	this.shader.unbind();
+	//this.shader.unbind();
 };
 XMLscene.prototype.NodesDiplay = function(id) {
 
 		//actualiza ma matriz e faz pop 
 		//apicacao do material
 		//console.log(this.grafo);
+	this.pushMatrix();
+
 	var mat = this.mats[this.grafo[id].material];
 	if(mat!=undefined ){
 			//guarda o material na stack
@@ -204,11 +208,10 @@ XMLscene.prototype.NodesDiplay = function(id) {
 			//guarda a textura na stack						
 			this.stacktexture.push(tex);
 			//aplicado o textura a imagem
-			this.stacktexture[this.stacktexture.length-1].apply();
-			this.sceneLeaves[id]
-						
+			tex.apply();
+				
 	}
-	this.pushMatrix();
+	
 	//multiplicacao das matrizes
 	this.multMatrix(this.grafo[id].m);  
 	if(this.grafo[id].descendents.length>0){
@@ -219,19 +222,12 @@ XMLscene.prototype.NodesDiplay = function(id) {
             if(isleaf == undefined){
 				this.NodesDiplay(this.grafo[id].descendents[i]);
 			}else{
-				var newtex = this.stacktexture.pop();
-				if(tex!=undefined)      
-			    {		
-			    	
-			    	//isleaf.setAmplif(this.tex_ampfac[this.grafo[id].texture]['s'],this.tex_ampfac[this.grafo[id].texture]['t']);
-			    	this.stacktexture.push(newtex);
-			    }
 				isleaf.display();
 			}
 
 		}
 	}
-	this.popMatrix();
+	
 
 	if(mat!=undefined ){
 		//remove o material da stack 
@@ -240,10 +236,10 @@ XMLscene.prototype.NodesDiplay = function(id) {
 	if(tex!=undefined){
 		//remove a textura do stack
 		this.stacktexture.pop()
-		//tex.apply();	
+		tex.apply();
 
 	}
-
+	this.popMatrix();
 
 }
 
@@ -257,3 +253,10 @@ XMLscene.prototype.popAppearance = function() {
 	mat.apply();
 
 };
+/*
+XMLscene.prototype.update() = function(currTime){
+
+	//correr nos nos com animacao
+
+}*/
+

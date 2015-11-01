@@ -510,6 +510,13 @@ MySceneGraph.prototype.parseNodes = function(rootElement) {
 				this.nodeInfo['texture'] = this.reader.getString(texture, 'id', true);
 				console.log("Node with id " + node.id + " read from file: {texture: id=" + this.nodeInfo['texture'] + " }");
 			}
+			//adicao do animationRrf
+			//gets texture tag info
+			if (node.children[k].tagName == 'ANIMATIONREF') {
+				var animationref = node.children[k];
+				this.nodeInfo['animationref'] = this.reader.getString(animationref, 'id', true);
+				console.log("Node with id " + node.id + " read from file: {animationref: id=" + this.nodeInfo['animationref'] + " }");
+			}
 
 
 			var axis;
