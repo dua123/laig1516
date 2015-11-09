@@ -13,7 +13,7 @@
              this.Cpx = parseFloat(args[3]);
              this.Cpy = parseFloat(args[4]);
              this.Cpz = parseFloat(args[5]);
-             this.animationNode = new CircularAnimation(this.scene,xt,yt,xb,yb);
+             this.animationNode = new LinearAnimation(this.scene,id,span,type,Cpx,Cpy,Cpz);
           break;
           case "circular":
              this.id = args[0];
@@ -25,13 +25,14 @@
              this.radios = parseFloat(args[6]);
              this.startang = parseFloat(args[7]);
              this.rotang = parseFloat(args[8]);
+             this.animationNode = new CircularAnimation(this.scene,id,span,type,Ctx,Cty,Ctz,radios,startang,rotang);
           break;
          default:
              console.log("Identificao de Animationo nao identificada");
              break;
      }
  };
- /*
+
  Animation.prototype = Object.create(CGFobject.prototype);
  Animation.prototype.constructor = Animation;
 
@@ -39,10 +40,6 @@
      this.AnimationV.display();
 
  };
-Animation.prototype.setAmplif = function(ampS, ampT) {
-this.AnimationV.setAmplif(ampS,ampT);
+Animation.prototype.update = function() {
+
 };
-
- 
-
-*/
