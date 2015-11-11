@@ -142,9 +142,13 @@ XMLscene.prototype.onGraphLoaded = function() {
 		this.sceneLeaves[leaveID]= new Element(this, this.allLeaves[n]['type'],this.allLeaves[n]['args']);
 	}
 
-
+	this.animationTest = new Animation(this, "linear",[1,20,"linear",[[1,3,5],[2,4,6],[1,1,1]]]);
 	this.stacktexture=[];	
 	this.stackmaterial=[];
+
+	//alteração do perido de actualizacao em 10
+	this.timer =0;
+	this.setUpdatePeriod(100/6);
 
 };
 
@@ -183,8 +187,10 @@ XMLscene.prototype.display = function() {
 		this.quad.display();
 	this.popMatrix();	*/
 	this.NodesDiplay(graphRootID);
-
+	this.animationTest.update(this.timer);
+	this.timer++;
 	};
+
 	//this.shader.unbind();
 };
 XMLscene.prototype.NodesDiplay = function(id) {
@@ -253,10 +259,5 @@ XMLscene.prototype.popAppearance = function() {
 	mat.apply();
 
 };
-/*
-XMLscene.prototype.update() = function(currTime){
 
-	//correr nos nos com animacao
-
-}*/
 

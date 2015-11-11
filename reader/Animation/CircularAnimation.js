@@ -16,25 +16,27 @@ function CircularAnimation(scene,id,span,type,Ctx,Cty,Ctz,radios,startang,rotang
 	this.Cty=Cty;
 	this.Ctz=Ctz;
 
+	this.matrix = mat4.create();
 
+	this.initBuffers();
+
+
+};
+
+CircularAnimation.prototype = Object.create(CGFobject.prototype);
+CircularAnimation.prototype.constructor = CircularAnimation;
+
+
+CircularAnimation.prototype.initBuffers = function() {
 
 	this.endang = startang + rotang;
 
 	this.ang = startang;
 	this.velang = rotang / span;
 
-
-
-
-
-
-};
-
-//CircularAnimation.prototype = Object.create(CGFobject.prototype);
-//CircularAnimation.prototype.constructor = CircularAnimation;
-
-
-
+	mat4.identity(this.matrix);
+	
+}
 /*
 *actualiza a funcao para movimento da peça 
 *cada vez que hamada a funcao aumenta a funcão
@@ -42,26 +44,15 @@ function CircularAnimation(scene,id,span,type,Ctx,Cty,Ctz,radios,startang,rotang
 *
 */
 
-CircularAnimation.prototype.update = function(temp) {
-	if(this.ang != this.endang){
-		this.ang += this.velang; 
+CircularAnimation.prototype.update = function() {
 
+	if(this.ang!=this.endang){
+		mat4.identity(this.matrix);
+		this.posrot+=this.velang;
+		mat4.translate(this.matrix, this.matrix, [this.Ctx+this.radios, this.Cty, this.Ctz]);
+		mat4.rotate(this.matrix, this.matrix, (Math.PI * angle) / 180,  [0, 1, 0]);
+		
+		return this.matrix;
 	}
 
-
 };
-
-/*
-* aplicase as transvormações de movimento
-*
-*
-*
-*
-*/
-CircularAnimation.prototype.apply= function(temp){
-
-		this.translate(this.Ctx,this.Cty,this.Ctz);
-		this.translate(this.radios*Math.sin(ang), 0,this.radios*Math.cos(ang));
-
-
-}
