@@ -43,7 +43,10 @@
 Animation.prototype.update = function(currTime) {
 
 //actuliza unidade a unidade cada vez 
-if (currTime%100 == 0)
-  this.animationNode.update();
+  this.animationNode.update(currTime);
 
+};
+Animation.prototype.getmatrix = function(Time) {
+
+	return this,animationNode.getmatrix(Time);
 };

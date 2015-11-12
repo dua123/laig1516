@@ -2,17 +2,14 @@
   * Plane
   * @constructor
   */
- function Plane(scene,args) {
+ function Plane(scene,parts) {
      CGFobject.call(this, scene);
-     this.nivel= 3;
-     this.point0 =args[0];
-     this.point1 =args[1];
-     this.point2 =args[2];
-     this.point3 =args[3];
+      
+      this.parts= parts;
+      this.surfaces = [];
+   	  this.translations = [];
 
-     var vecd=[];
-
-     this.initBuffers();
+      this.initBuffers();
  
  };
 
@@ -21,33 +18,45 @@ Plane.prototype.constructor = Plane;
 
 
 Plane.prototype.initBuffers = function() {
-      this.vertices = [
-        this.point0[0], this.point0[1],
-        this.point1[0], this.point1[1],
-        this.point2[0], this.point2[1],
-        this.point3[0], this.point3[1]
-    ];
-    vecd[0]=2;
-    vecd[1]=2;
-    vecd[2]=2;
-}
 
-
-Plane.prototype.recfunc = function(nivel,vec0,vec1,vec2) {
-  
-  if(nivel!=0)
-  {
     
-  }else
-  {
-    nivel -=1;
-    var vectx,vecty,vectz;
-    divide(vectx,vec0,vecd);
-    divide(vecty,vec1,vecd);
-    divide(vectx,vec2,vecd);
-    recfunc(nivel,vectx,vecty,vectz);
-  }
+  this.makeSurface("0", this.parts, // degree on U: 2 control vertexes U
+					 this.parts, // degree on V: 2 control vertexes on V
+					[0, 0, 1, 1], // knots for U
+					[0, 0, 1, 1], // knots for V
+					[	// U = 0
+						[ // V = 0..1;
+							 [0.0, 0.0, 0.0, 1 ],
+							 [0.0,  0.0, -1.0, 1 ]
+							
+						],
+						// U = 1
+						[ // V = 0..1
+							 [ 1.0, 0.0, 0.0, 1 ],
+							 [ 1.0,  0.0, -1.0, 1 ]							 
+						]
+					], // translation of surface 
+					[0,0,0]);
 
-      
-}
 
+};
+Plane.prototype.makeSurface = function (id, degree1, degree2, knots1, knots2, controlvertexes, translation) {
+		
+	var nurbsSurface = new CGFnurbsSurface(degree1, degree2, knots1, knots2, controlvertexes);
+	getSurfacePoint = function(u, v) {
+		return nurbsSurface.getPoint(u, v);
+	};
+
+	var obj = new CGFnurbsObject(this.scene, getSurfacePoint,1,1 );
+	
+	this.surfaces.push(obj);	
+	this.translations.push(translation);
+
+};
+
+Plane.prototype.display = function() {
+  
+	//for (i =0; i<this.surfaces.length; i++) {
+			this.surfaces[0].display();
+	//}
+};

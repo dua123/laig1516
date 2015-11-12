@@ -44,7 +44,7 @@ CircularAnimation.prototype.initBuffers = function() {
 *
 */
 
-CircularAnimation.prototype.update = function() {
+CircularAnimation.prototype.update = function(Time) {
 
 	if(this.ang!=this.endang){
 		mat4.identity(this.matrix);
@@ -55,4 +55,8 @@ CircularAnimation.prototype.update = function() {
 		return this.matrix;
 	}
 
+};
+CircularAnimation.prototype.getmatrix = function(Time) {
+
+	return this.matrix[Time];
 };

@@ -34,7 +34,7 @@ function LinearAnimation(scene,id,span,type,Ctx,Cty,Ctz) {
 	this.dist_entre_pz=[];
 	this.poslocal =0;
 
-	this.matrix = mat4.create();
+	this.matrix =[];
 
 	this.initBuffers();
 
@@ -57,12 +57,46 @@ LinearAnimation.prototype.initBuffers = function() {
 	//distanciar parciais que varia com o tempo
 	for(var i =1;i<this.numPoints;i++)
 	{
-		this.dist_entre_px[i-1]=(this.Ctx[i]-this.Ctx[i-1])/this.distance_total;
-		this.dist_entre_py[i-1]=(this.Cty[i]-this.Cty[i-1])/this.distance_total;
-		this.dist_entre_pz[i-1]=(this.Ctz[i]-this.Ctz[i-1])/this.distance_total;
+		this.dist_entre_px[i-1]=(this.Ctx[i]-this.Ctx[i-1])/this.espacounidade;
+		this.dist_entre_py[i-1]=(this.Cty[i]-this.Cty[i-1])/this.espacounidade;
+		this.dist_entre_pz[i-1]=(this.Ctz[i]-this.Ctz[i-1])/this.espacounidade;
 	}
-	//a matrix fica com igual a identdade
-	mat4.identity(this.matrix);
+	//numero que conta as matrizes a introduzir
+	var numMatrix=0;
+	var pointPos =0;
+	var pointx = this.Ctx[0];
+	var pointy = this.Cty[0];
+	var pointz = this.Ctz[0];
+	var key = false;
+	while(key==false){
+
+		//criação da matriz e igualar a identidade
+		this.matrix[numMatrix]= mat4.create();
+		mat4.identity(this.matrix[numMatrix]);
+	
+		mat4.translate(this.matrix[numMatrix], this.matrix[numMatrix], [pointx, pointy, pointz]);
+		console.log("ponto x =",pointx," e adicionado ",this.dist_entre_px[pointPos]);
+		console.log("ponto y =",pointy," e adicionado ",this.dist_entre_py[pointPos]);
+		console.log("ponto z =",pointx," e adicionado ",this.dist_entre_pz[pointPos]);
+		pointx +=this.dist_entre_px[pointPos];
+		pointy +=this.dist_entre_py[pointPos];
+		pointz +=this.dist_entre_pz[pointPos];
+		numMatrix++;
+			if(pointx >= this.Ctx[pointPos] && pointy >= this.Cty[pointPos] && pointz >= this.Ctz[pointPos])	
+			{
+				pointPos++;		
+				pointx =  this.Ctx[pointPos];
+				pointy =  this.Cty[pointPos];
+				pointz =  this.Ctz[pointPos];
+		
+			}
+			console.log(this.matrix);
+		if((this.numPoints-1)==pointPos){
+			key=true;
+		}
+		
+	}
+
 
 }
 /*
@@ -74,8 +108,11 @@ LinearAnimation.prototype.initBuffers = function() {
 *
 *
 */
-LinearAnimation.prototype.update = function() {
+LinearAnimation.prototype.update = function(Time) {
 
-	this.poslocal++;
-	console.log(this.poslocal);
+	
+};
+LinearAnimation.prototype.getmatrix = function(Time) {
+
+	return this.matrix[Time];
 };
