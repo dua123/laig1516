@@ -22,11 +22,14 @@ Terrain.prototype.constructor = Terrain;
 
 Terrain.prototype.initBuffers = function() {
 
-    this.texCoords = this.nonScaledTexCoords.slice(0);
-
-    this.primitiveType=this.scene.gl.TRIANGLES;
-
-    this.initGLBuffers();
+this.testShaders=[
+		new CGFshader(this.gl, "shaders/flat.vert", "shaders/flat.frag"),
+		new CGFshader(this.gl, "shaders/uScale.vert", "shaders/uScale.frag"),
+		new CGFshader(this.gl, "shaders/varying.vert", "shaders/varying.frag"),
+		new CGFshader(this.gl, "shaders/texture1.vert", "shaders/texture1.frag"),
+		new CGFshader(this.gl, "shaders/texture2.vert", "shaders/texture2.frag"),
+		new CGFshader(this.gl, "shaders/texture3.vert", "shaders/texture3.frag")
+	];
 }
 
 

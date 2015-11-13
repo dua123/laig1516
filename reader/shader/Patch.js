@@ -2,16 +2,20 @@
   * Patch
   * @constructor
   */
- function Patch(scene, order,partsU,partsV,controlPonit) {
+ function Patch(scene, orderU,orderV,partsU,partsV,controlPonit) {
      CGFobject.call(this, scene);
       
-      this.order= order;
+      
+      this.orderU= orderU;
+      this.orderV= orderV;
       this.partU= partsU;
       this.partV= partsV;
       this.controlPonit = controlPonit;
+      this.numberpointcontrol= controlPonit.lenght;
+
+
       this.surfaces = [];
    	  this.translations = [];
-
  this.initBuffers();
  
  };
@@ -19,28 +23,36 @@
 Patch.prototype = Object.create(CGFobject.prototype);
 Patch.prototype.constructor = Patch;
 
+Patch.prototype.CreateKnots=function(parts)
+{
+	var knots;
+	knots =[];
+	for(var i =0 ; i<(parts*2);i++){
+		if(i<parts){
+			knots.push(0);
+		}else
+		{
+			knots.push(1);
+		}
+
+	}
+	return knots;
+};
 
 Patch.prototype.initBuffers = function() {
+//funcao que queria pontos de controlPonit
 
+    var knotsU = this.CreateKnots(this.orderU+1);
+    var knotsV = this.CreateKnots(this.orderV+1);
 
     
-  this.makeSurface(this.order, this.partU, // degree on U: 2 control vertexes U
-					 this.partV, // degree on V: 2 control vertexes on V
-					[0, 0, 1, 1], // knots for U
-					[0, 0, 1, 1], // knots for V
-					[	// U = 0
-						[ // V = 0..1;
-							 [-2.0, -2.0, 0.0, 1 ],
-							 [-2.0,  2.0, 0.0, 1 ]
-							
-						],
-						// U = 1
-						[ // V = 0..1
-							 [ 2.0, -2.0, 0.0, 1 ],
-							 [ 2.0,  2.0, 0.0, 1 ]							 
-						]
-					], // translation of surface 
-					this.controlPonit);
+  this.makeSurface("1", this.orderU, // degree on U: 2 control vertexes U
+					 this.orderV, // degree on V: 2 control vertexes on V
+					knotsU, // knots for U
+					knotsV, // knots for V
+					this.controlPonit
+					, // translation of surface 
+					[7.5,0,0]);
 
 
 }
@@ -50,8 +62,9 @@ Patch.prototype.makeSurface = function (id, degree1, degree2, knots1, knots2, co
 	getSurfacePoint = function(u, v) {
 		return nurbsSurface.getPoint(u, v);
 	};
-
-	var obj = new CGFnurbsObject(this.scene, getSurfacePoint, 20,20 );
+	
+	var obj = new CGFnurbsObject(this.scene, getSurfacePoint, this.partU,this.partV );
+	
 	this.surfaces.push(obj);	
 	this.translations.push(translation);
 
