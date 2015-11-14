@@ -18,6 +18,7 @@ XMLscene.prototype.init = function(application) {
 	this.initLights();
 
 	this.gl.clearColor(0.0, 0.0, 0.0, 1.0);
+	
 
 	this.gl.clearDepth(100.0);
 	this.gl.enable(this.gl.DEPTH_TEST);
@@ -30,18 +31,19 @@ XMLscene.prototype.init = function(application) {
 	this.materialDefault = new CGFappearance(this);
 	this.a= false;
 	this.speed=0;
+	this.selectedExampleShader=0;
 
 }
 XMLscene.prototype.initLights = function() {
 
-	this.shader.bind();
+	//this.shader.bind();
 
 
 	this.lights[0].setPosition(2, 3, 3, 1);
 	this.lights[0].setDiffuse(1.0,1.0,1.0,1.0);
 	this.lights[0].update();
 
-	this.shader.unbind();
+	//this.shader.unbind();
 };
 
 XMLscene.prototype.initCameras = function() {
@@ -142,13 +144,23 @@ XMLscene.prototype.onGraphLoaded = function() {
 		this.sceneLeaves[leaveID]= new Element(this, this.allLeaves[n]['type'],this.allLeaves[n]['args']);
 	}
 
-	this.animationTest = new Animation(this, "linear",[1,20,"linear",[[1,3,5],[2,4,6],[1,1,1]]]);
+	
+	//this.animationTest = new Animation(this, "linear",[1,20,"linear",[[1,3,5],[2,4,6],[1,1,1]]]);
+	
+	this.planeTest = new Plane(this,20);
+	this.planeTest1 = new Patch(this,2,1,20,20,[[[ -1.5, -1.5, 0.0, 1 ],[ -1.5,  1.5, 0.0, 1 ],[ -1.5,  1.5, 0.0, 1 ]],
+											  [[ 0, -1.5, 3.0, 1    ],[ 0,  1.5, 3.0, 1    	 ],[ -1.5,  1.5, 0.0, 1 ]],
+											  [[ 1.5, -1.5, 0.0, 1  ],[ 1.5,  1.5, 0.0, 1    ],[ -1.5,  1.5, 0.0, 1 ]]]);//corrigir mais tarde
+	
+	this.terrainTest = new Terrain(this);
 	this.stacktexture=[];	
 	this.stackmaterial=[];
 
 	//alteração do perido de actualizacao em 10
-	this.timer =0;
 	this.setUpdatePeriod(100/6);
+	this.timer=0;
+//teste Terrain
+
 
 };
 
@@ -157,8 +169,16 @@ XMLscene.prototype.display = function() {
 	//this.shader.bind();
 
 	// Clear image and depth buffer everytime we update the scene
-	this.gl.viewport(0, 0, this.gl.canvas.width, this.gl.canvas.height);
-	this.gl.clear(this.gl.COLOR_BUFFER_BIT | this.gl.DEPTH_BUFFER_BIT);
+	//this.gl.viewport(0, 0, this.gl.canvas.width, this.gl.canvas.height);
+	//this.gl.clear(this.gl.COLOR_BUFFER_BIT | this.gl.DEPTH_BUFFER_BIT);
+
+	// Clear image and depth buffer every time we update the scene
+    this.gl.viewport(0, 0, this.gl.canvas.width, this.gl.canvas.height);
+    this.gl.clear(this.gl.COLOR_BUFFER_BIT | this.gl.DEPTH_BUFFER_BIT);
+    this.gl.clearColor(0.1, 0.1, 0.1, 1.0);
+    this.gl.enable(this.gl.DEPTH_TEST);
+
+	
 
 	// Initialize Model-View matrix as identity (no transformation
 	this.updateProjectionMatrix();
@@ -182,13 +202,18 @@ XMLscene.prototype.display = function() {
 		for(i;i<this.lights.length;i++){
 			this.lights[i].update();
 		}
-		
 	/*this.pushMatrix();
 		this.quad.display();
 	this.popMatrix();	*/
-	this.NodesDiplay(graphRootID);
-	this.animationTest.update(this.timer);
-	this.timer++;
+	//this.NodesDiplay(graphRootID);
+	//	this.planeTest.display();
+	/*	this.pushMatrix();
+		this.tex["3"].apply();
+		this.planeTest1.display();
+		this.popMatrix();*/
+
+		//Terrain
+		this.terrainTest.display();
 	};
 
 	//this.shader.unbind();
@@ -259,5 +284,11 @@ XMLscene.prototype.popAppearance = function() {
 	mat.apply();
 
 };
+//aplica mais tarde a animação
+XMLscene.prototype.update = function(currTime){
+	
+		//console.log(this.timer);
+	//	this.animationTest.update(((currTime-this.timer/1000)%1000));
 
+}
 
