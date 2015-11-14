@@ -147,12 +147,13 @@ XMLscene.prototype.onGraphLoaded = function() {
 	
 	//this.animationTest = new Animation(this, "linear",[1,20,"linear",[[1,3,5],[2,4,6],[1,1,1]]]);
 	
-	this.planeTest = new Plane(this,20);
-	this.planeTest1 = new Patch(this,2,1,20,20,[[[ -1.5, -1.5, 0.0, 1 ],[ -1.5,  1.5, 0.0, 1 ],[ -1.5,  1.5, 0.0, 1 ]],
-											  [[ 0, -1.5, 3.0, 1    ],[ 0,  1.5, 3.0, 1    	 ],[ -1.5,  1.5, 0.0, 1 ]],
-											  [[ 1.5, -1.5, 0.0, 1  ],[ 1.5,  1.5, 0.0, 1    ],[ -1.5,  1.5, 0.0, 1 ]]]);//corrigir mais tarde
+	//this.planeTest = new Plane(this,20);
+	//this.planeTest1 = new Patch(this,2,1,20,20,[[[ -1.5, -1.5, 0.0, 1 ],[ -1.5,  1.5, 0.0, 1 ],[ -1.5,  1.5, 0.0, 1 ]],
+	//										  [[ 0, -1.5, 3.0, 1    ],[ 0,  1.5, 3.0, 1    	 ],[ -1.5,  1.5, 0.0, 1 ]],
+	//										  [[ 1.5, -1.5, 0.0, 1  ],[ 1.5,  1.5, 0.0, 1    ],[ -1.5,  1.5, 0.0, 1 ]]]);//corrigir mais tarde
 	
-	this.terrainTest = new Terrain(this);
+	//this.terrainTest = new Terrain(this);
+	this.vehicle = new Vehicle(this);
 	this.stacktexture=[];	
 	this.stackmaterial=[];
 
@@ -206,14 +207,14 @@ XMLscene.prototype.display = function() {
 		this.quad.display();
 	this.popMatrix();	*/
 	//this.NodesDiplay(graphRootID);
-	//	this.planeTest.display();
-	/*	this.pushMatrix();
-		this.tex["3"].apply();
-		this.planeTest1.display();
-		this.popMatrix();*/
+		//this.planeTest.display();
+		//this.planeTest1.display();
 
 		//Terrain
-		this.terrainTest.display();
+		//this.terrainTest.display();
+		//Vehicle
+		this.vehicle.display();
+
 	};
 
 	//this.shader.unbind();

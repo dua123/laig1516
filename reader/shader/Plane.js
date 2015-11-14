@@ -57,7 +57,6 @@ Plane.prototype.makeSurface = function (id, degree1, degree2, knots1, knots2, co
 Plane.prototype.display = function() {
   
 	//for (i =0; i<this.surfaces.length; i++) {
-	
 			this.surfaces[0].display();
 	//}
 };

@@ -71,6 +71,6 @@ Patch.prototype.makeSurface = function (id, degree1, degree2, knots1, knots2, co
 };
 
 Patch.prototype.display = function() {
-  
+
 				this.surfaces[0].display();
 };
