@@ -48,6 +48,16 @@ MyInterface.prototype.init = function(application) {
 	// min and max values can be specified as parameters
 	
 	this.gui.add(this.scene, 'speed', -3, 3);
+	
+/*	this.gui.add(this.scene, 'selectedExampleShader', {
+			'Flat Shading': 0, 
+			'Passing a scale as uniform': 1, 
+			'Passing a varying parameter from VS -> FS': 2, 
+			'Simple texturing': 3, 
+			'Multiple textures in the FS': 4, 
+			'Multiple textures in VS and FS': 5 
+	}).name('Shader examples');
+*/
 	//this.gui.add(this.scene, 'Clock');
 	//this.gui.add(this.scene, 'currRobotAppearance', this.scene.robotAppearanceList);
 

@@ -592,7 +592,7 @@ MySceneGraph.prototype.parseAnimation = function(rootElement) {
 		if (temp_anim.length == 0) {
 			return "there is no ANIMATIONS!!";
 		}
-		this.animation = [];
+		this.animations = [];
 		var nrAnims = temp_anim[0].children.length;
 		var IDs = [];
 		for (var i = 0; i < nrAnims; i++) {
@@ -602,25 +602,29 @@ MySceneGraph.prototype.parseAnimation = function(rootElement) {
 				return "Animation already exists (id is already being used).";
 			}
 			IDs.push(animation.id);
-			this.animInfo = [];
-			this.animInfo['id'] = animation.id;
+			var id = animation.id;
 
-			this.animInfo['span'] = this.reader.getFloat(animation, 'span', true);
-			this.animInfo['type'] = this.reader.getString(animation, 'type', true);
+			var span = this.reader.getFloat(animation, 'span', true);
+			var type = this.reader.getString(animation, 'type', true);
+
 			if (this.animInfo['type'] != "linear" && this.animInfo['type'] != "circular")
 				return "Type can only be linear or circular";
 			
 			console.log("TYPE: '"+this.animInfo['type']+"'");
 			if (this.animInfo['type'] == "linear") {
+				var controlPoints=[];
 				for (var j = 0; j < animation.children.length; j++) {
 					var control_point = animation.children[j];
 					this.animInfo[('controlpoint' + j)] = [];
-					this.animInfo[('controlpoint' + j)]['xx'] = this.reader.getFloat(control_point, 'xx', true);
-					this.animInfo[('controlpoint' + j)]['yy'] = this.reader.getFloat(control_point, 'yy', true);
-					this.animInfo[('controlpoint' + j)]['zz'] = this.reader.getFloat(control_point, 'zz', true);
+					var x  = this.reader.getFloat(control_point, 'xx', true);
+					var y = this.reader.getFloat(control_point, 'yy', true);
+					var z = this.reader.getFloat(control_point, 'zz', true);
+					controlPoints.push(vec3.fromValues(x,y,z));
+
 					console.log("Animation with id " + animation.id + " read from file: {animation: span= " + this.animInfo['span'] + " type= " + this.animInfo['type'] + " }");
 					console.log("Animation with id " + animation.id + " read from file: {controlpoint: xx= " + this.animInfo[('controlpoint' + j)]['xx'] + " yy= " + this.animInfo[('controlpoint' + j)]['yy'] + " zz= " + this.animInfo[('controlpoint' + j)]['zz'] + " }");
 				}
+				this.animations[id]= new LinearAnimation(id,span,controlPoints);
 			}
 			if (this.animInfo['type'] == "circular") {
 				var string = this.reader.getString(animation, 'center', true);
