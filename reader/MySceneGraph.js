@@ -455,12 +455,49 @@ MySceneGraph.prototype.parseLeaves = function(rootElement) {
 		//gets type tag info
 		this.val['type'] = this.reader.getString(leaf, 'type', true);
 
-		//gets args tag info
-		var string = this.reader.getString(leaf, 'args', true);
-		var nstring = string.split(" ");
-		this.val['args'] = nstring;
-		console.log("Leaf with id " + this.val['id'] + " read from file: {leaf: type= " + this.val['type'] + " args= " + this.val['args'] + " }");
+		switch(this.val['type']) 
+		{
+    		case "plane":
+        		this.val['parts']=parseInt(this.reader.getString(leaf, 'parts', true));
+        	break;
+        	case "vehicle":break;
+        	case "terrain":
+        		this.val['texture']= this.reader.getString(leaf, 'texture', true);
+        		this.val['heightmap']= this.reader.getString(leaf, 'heightmap', true);
+        	break;
+        	case "patch":
+        		this.val['order']=parseInt(this.reader.getString(leaf, 'order', true));
+        		this.val['partsU']=parseInt(this.reader.getString(leaf, 'partsU', true));
+        		this.val['partsV']=parseInt(this.reader.getString(leaf, 'partsV', true));
+        		var insepton =leaf.children;
+        		this.val['controlpoint']=[];
+        		var max=0;
+        		for(var k =0;k<this.val['partsU']+1;k++)
+        		{
+        			var controlU=[];
+        			for(var j =0;j<this.val['partsV']+1;j++,max++)
+        			{
+        				var controlV=[];
+        				var xx =this.reader.getFloat(insepton[max],'x',true);
+        				controlV.push(xx);
+        				var yy =this.reader.getFloat(insepton[max],'y',true);
+        				controlV.push(yy);
+        				var zz =this.reader.getFloat(insepton[max],'z',true);
+        				controlV.push(zz);
+        				controlU.push(controlV);
+        			}
+        			this.val['controlpoint'].push(controlU);
+        		}
+        		console.log(this.val['controlpoint']);
+        	break;
+    		default:
+				//gets args tag info
+				var string = this.reader.getString(leaf, 'args', true);
+				var nstring = string.split(" ");
+				this.val['args'] = nstring;
+				console.log("Leaf with id " + this.val['id'] + " read from file: {leaf: type= " + this.val['type'] + " args= " + this.val['args'] + " }");
 
+			}
 		this.leaves[i] = this.val;
 
 	}
@@ -577,14 +614,14 @@ MySceneGraph.prototype.parseNodes = function(rootElement) {
 
 
 	}
-	console.log(this.nodes);
+	//console.log(this.nodes);
 };
 
 MySceneGraph.prototype.parseAnimation = function(rootElement) {
 		var temp_anim = rootElement.getElementsByTagName('ANIMATIONS');
 
 
-
+		
 		if (temp_anim == null) {
 			return "'ANIMATIONS' element is missing";
 		}
@@ -597,45 +634,50 @@ MySceneGraph.prototype.parseAnimation = function(rootElement) {
 		var IDs = [];
 		for (var i = 0; i < nrAnims; i++) {
 			var animation = temp_anim[0].children[i];
-
+			var animInfo =[];
 			if (this.idExists(IDs, animation.id) == true) {
 				return "Animation already exists (id is already being used).";
 			}
 			IDs.push(animation.id);
 			var id = animation.id;
+			animInfo['id']=id;
 
 			var span = this.reader.getFloat(animation, 'span', true);
+			animInfo['span']=span;
 			var type = this.reader.getString(animation, 'type', true);
-
-			if (this.animInfo['type'] != "linear" && this.animInfo['type'] != "circular")
+			animInfo['type']=type;
+			if (type != 'linear' && type != 'circular') // alterar
 				return "Type can only be linear or circular";
 			
-			console.log("TYPE: '"+this.animInfo['type']+"'");
-			if (this.animInfo['type'] == "linear") {
-				var controlPoints=[];
+			console.log("TYPE: '"+type+"'");
+			if (type == "linear") {
+				animInfo['controlpoint'] = []
 				for (var j = 0; j < animation.children.length; j++) {
 					var control_point = animation.children[j];
-					this.animInfo[('controlpoint' + j)] = [];
 					var x  = this.reader.getFloat(control_point, 'xx', true);
 					var y = this.reader.getFloat(control_point, 'yy', true);
 					var z = this.reader.getFloat(control_point, 'zz', true);
-					controlPoints.push(vec3.fromValues(x,y,z));
+					animInfo['controlpoint'][j]=vec3.fromValues(x,y,z);
 
-					console.log("Animation with id " + animation.id + " read from file: {animation: span= " + this.animInfo['span'] + " type= " + this.animInfo['type'] + " }");
-					console.log("Animation with id " + animation.id + " read from file: {controlpoint: xx= " + this.animInfo[('controlpoint' + j)]['xx'] + " yy= " + this.animInfo[('controlpoint' + j)]['yy'] + " zz= " + this.animInfo[('controlpoint' + j)]['zz'] + " }");
+					console.log("Animation with id " + animation.id + " read from file: {animation: span= " + animInfo['span'] + " type= " + animInfo['type'] + " }");
+					console.log("Animation with id " + animation.id + " read from file: {controlpoint: xx= " +animInfo['controlpoint'][j]);
 				}
-				this.animations[id]= new LinearAnimation(id,span,controlPoints);
+				this.animations[id]= new LinearAnimation(animInfo['id'],animInfo['span'],animInfo['controlPoints']);
 			}
-			if (this.animInfo['type'] == "circular") {
+			if (animInfo['type'] == "circular") {
 				var string = this.reader.getString(animation, 'center', true);
 				var nstring = string.split(" ");
-				this.animInfo['center'] = nstring;
-				this.animInfo['radius']=this.reader.getFloat(animation,'radius',true);
-				this.animInfo['startang']=this.reader.getFloat(animation,'startang',true);
-				this.animInfo['rotang']=this.reader.getFloat(animation,'rotang',true);
-				console.log("Animation with id " + animation.id + " read from file: {animation: span= " + this.animInfo['span'] + " type= " + this.animInfo['type'] + 
-					 " center= " + this.animInfo['center'] +" radius= " + this.animInfo['radius'] +" startang= " + this.animInfo['startang'] +" rotang= " + this.animInfo['rotang'] +" }");
+				animInfo['center'] = nstring;
+				animInfo['radius']=this.reader.getFloat(animation,'radius',true);
+				animInfo['startang']=this.reader.getFloat(animation,'startang',true);
+				animInfo['rotang']=this.reader.getFloat(animation,'rotang',true);
+				console.log("Animation with id " + animation.id + " read from file: {animation: span= " + animInfo['span'] + " type= " + animInfo['type'] + 
+					 " center= " + animInfo['center'] +" radius= " + animInfo['radius'] +" startang= " + animInfo['startang'] +" rotang= " + animInfo['rotang'] +" }");
+			//update das animations
+			//this.animations[id]= new CirculerAnimation(animInfo['id'],animInfo['span'],animInfo['controlPoints']);
 			}
+
+
 		}
 	}
 	/*
